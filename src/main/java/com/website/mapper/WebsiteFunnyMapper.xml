@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteFunnyMapper">
+	<resultMap id="BaseResultMap" type="com.website.entites.WebsiteFunny">
+		<id column="funny_id" property="funnyId" jdbcType="BIGINT" />
+		<result column="funny_url" property="funnyUrl" jdbcType="VARCHAR" />
+		<result column="funny_topic" property="funnyTopic" jdbcType="VARCHAR" />
+		<result column="funny_text" property="funnyText" jdbcType="VARCHAR" />
+		<result column="funny_create_date" property="funnyCreateDate"
+			jdbcType="DATE" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebsiteFunny"
+		extends="BaseResultMap">
+		<result column="funny_img" property="funnyImg" jdbcType="LONGVARBINARY" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		funny_id, funny_url, funny_topic, funny_text, funny_create_date
+	</sql>
+	<sql id="Blob_Column_List">
+		funny_img
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from website_funny
+		where funny_id = #{funnyId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from website_funny
+		where funny_id = #{funnyId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.website.entites.WebsiteFunny">
+		insert into website_funny (funny_id, funny_url, funny_topic,
+		funny_text, funny_create_date, funny_img
+		)
+		values (#{funnyId,jdbcType=BIGINT}, #{funnyUrl,jdbcType=VARCHAR},
+		#{funnyTopic,jdbcType=VARCHAR},
+		#{funnyText,jdbcType=VARCHAR}, #{funnyCreateDate,jdbcType=DATE}, #{funnyImg,jdbcType=LONGVARBINARY}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.website.entites.WebsiteFunny">
+		insert into website_funny
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="funnyId != null">
+				funny_id,
+			</if>
+			<if test="funnyUrl != null">
+				funny_url,
+			</if>
+			<if test="funnyTopic != null">
+				funny_topic,
+			</if>
+			<if test="funnyText != null">
+				funny_text,
+			</if>
+			<if test="funnyCreateDate != null">
+				funny_create_date,
+			</if>
+			<if test="funnyImg != null">
+				funny_img,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="funnyId != null">
+				#{funnyId,jdbcType=BIGINT},
+			</if>
+			<if test="funnyUrl != null">
+				#{funnyUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="funnyTopic != null">
+				#{funnyTopic,jdbcType=VARCHAR},
+			</if>
+			<if test="funnyText != null">
+				#{funnyText,jdbcType=VARCHAR},
+			</if>
+			<if test="funnyCreateDate != null">
+				#{funnyCreateDate,jdbcType=DATE},
+			</if>
+			<if test="funnyImg != null">
+				#{funnyImg,jdbcType=LONGVARBINARY},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteFunny">
+		update website_funny
+		<set>
+			<if test="funnyUrl != null">
+				funny_url = #{funnyUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="funnyTopic != null">
+				funny_topic = #{funnyTopic,jdbcType=VARCHAR},
+			</if>
+			<if test="funnyText != null">
+				funny_text = #{funnyText,jdbcType=VARCHAR},
+			</if>
+			<if test="funnyCreateDate != null">
+				funny_create_date = #{funnyCreateDate,jdbcType=DATE},
+			</if>
+			<if test="funnyImg != null">
+				funny_img = #{funnyImg,jdbcType=LONGVARBINARY},
+			</if>
+		</set>
+		where funny_id = #{funnyId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebsiteFunny">
+		update website_funny
+		set funny_url = #{funnyUrl,jdbcType=VARCHAR},
+		funny_topic = #{funnyTopic,jdbcType=VARCHAR},
+		funny_text = #{funnyText,jdbcType=VARCHAR},
+		funny_create_date = #{funnyCreateDate,jdbcType=DATE},
+		funny_img = #{funnyImg,jdbcType=LONGVARBINARY}
+		where funny_id = #{funnyId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteFunny">
+		update website_funny
+		set funny_url = #{funnyUrl,jdbcType=VARCHAR},
+		funny_topic = #{funnyTopic,jdbcType=VARCHAR},
+		funny_text = #{funnyText,jdbcType=VARCHAR},
+		funny_create_date = #{funnyCreateDate,jdbcType=DATE}
+		where funny_id = #{funnyId,jdbcType=BIGINT}
+	</update>
+
+	<resultMap type="com.website.entites.WebsiteFunny" id="getAllReslutMap">
+		<id column="funny_id" property="funnyId" />
+		<result column="funny_url" property="funnyUrl" />
+		<result column="funny_topic" property="funnyTopic" />
+		<result column="funny_text" property="funnyText" />
+		<result column="funny_create_date" property="funnyCreateDate" />
+		<result column="funny_img" property="funnyImg" />
+	</resultMap>
+
+	<select id="getAll" resultMap="getAllReslutMap">
+		select * from website_funny;
+	</select>
+	
+	<select id="getFunnyNum" resultType="int">
+		select count(*) from website_funny;
+	</select>
+	
+	<select id="selectByPageNum" resultMap="getAllReslutMap">
+		select * from website_funny limit #{0},#{1};
+	</select>
+</mapper>

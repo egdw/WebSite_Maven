@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteBlogMapper" >
+  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteBlog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="click_times" property="clickTimes" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="comment_times" property="commentTimes" jdbcType="INTEGER" />
+    <result column="agree_with_times" property="agreeWithTimes" jdbcType="INTEGER" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebsiteBlog" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, type, click_times, create_time, comment_times, agree_with_times, pic_url
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from website_blog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from website_blog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.website.entites.WebsiteBlog" >
+    insert into website_blog (id, title, type, 
+      click_times, create_time, comment_times, 
+      agree_with_times, pic_url, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{clickTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{commentTimes,jdbcType=INTEGER}, 
+      #{agreeWithTimes,jdbcType=INTEGER}, #{picUrl,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.website.entites.WebsiteBlog" >
+    insert into website_blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="clickTimes != null" >
+        click_times,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="commentTimes != null" >
+        comment_times,
+      </if>
+      <if test="agreeWithTimes != null" >
+        agree_with_times,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="clickTimes != null" >
+        #{clickTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentTimes != null" >
+        #{commentTimes,jdbcType=INTEGER},
+      </if>
+      <if test="agreeWithTimes != null" >
+        #{agreeWithTimes,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteBlog" >
+    update website_blog
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="clickTimes != null" >
+        click_times = #{clickTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentTimes != null" >
+        comment_times = #{commentTimes,jdbcType=INTEGER},
+      </if>
+      <if test="agreeWithTimes != null" >
+        agree_with_times = #{agreeWithTimes,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebsiteBlog" >
+    update website_blog
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      click_times = #{clickTimes,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      comment_times = #{commentTimes,jdbcType=INTEGER},
+      agree_with_times = #{agreeWithTimes,jdbcType=INTEGER},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteBlog" >
+    update website_blog
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      click_times = #{clickTimes,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      comment_times = #{commentTimes,jdbcType=INTEGER},
+      agree_with_times = #{agreeWithTimes,jdbcType=INTEGER},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap type="com.website.entites.WebsiteBlog" id="resultMap">
+  	<id column="id" property="id"/>
+  	<result column="title" property="title"/>
+  	<result column="type" property="type"/>
+  	<result column="click_times" property="clickTimes"/>
+  	<result column="create_time" property="createTime"/>
+  	<result column="comment_times" property="commentTimes"/>
+  	<result column="agree_with_times" property="agreeWithTimes"/>
+  	<result column="pic_url" property="picUrl"/>
+  	<result column="content" property="content"/>
+  </resultMap>
+  
+  
+  <select id="getAll" resultMap="resultMap">
+  		select * from website_blog;
+  </select>
+  
+  <select id="getBLogNum" resultType="int">
+  	select count(*) from website_blog;
+  </select>
+  
+  <select id="selectByPageNum" resultMap="resultMap">
+  	select * from website_blog order by id desc limit #{0},#{1};
+  </select>
+  
+  <select id="selectByPageNumByType" resultMap="resultMap">
+  	select * from website_blog where type = #{2} order by id desc limit #{0},#{1};
+  </select>
+  
+  <select id="getBlogNumByType" resultType="int">
+  	select count(*) from website_blog where type =#{0} order by id desc;
+  </select>
+	
+	<select id="findBlogByName" resultMap="resultMap">
+		select * from website_blog where title like  CONCAT('%',#{0},'%') order by id desc;
+	</select>
+	
+	<select id="selectBlogByNumAndReader" resultMap="resultMap">
+		select  * from website_blog order by click_times desc limit #{0};
+	</select>
+	
+	<select id="selectBlogByNumAndComment" resultMap="resultMap">
+		select * from website_blog order by comment_times desc limit #{0};
+	</select>
+</mapper>

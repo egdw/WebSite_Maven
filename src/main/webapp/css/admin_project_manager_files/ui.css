@@ -1,0 +1,76 @@
+.container .nav>.active>a, .container .nav>.active:hover>a, .container .nav>.active:focus>a {
+	padding-left: 18px;
+	font-weight: 700;
+	color: #563d7c;
+	background-color: transparent;
+	border-left: 2px solid #563d7c;
+}
+.container .nav>li>a {
+	color: #333;
+}
+.bs-callout {
+	padding: 20px;
+	margin: 20px 0;
+	border: 1px solid #DFD8D8;
+	border-left-width: 5px;
+	border-radius: 3px;
+}
+.bs-callout-info {
+	border-left-color: #5bc0de;
+}
+.bs-callout-info h4 {
+	color: #5bc0de;
+}
+.bs-callout-warning {
+	border-left-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+	color: #f0ad4e;
+}
+.bs-callout-danger {
+	border-left-color: #d9534f;
+}
+.bs-callout-danger h4 {
+	color: #d9534f;
+}
+.wrap{ 
+	word-wrap: break-word !important; 
+	word-break: break-all !important; 
+}
+.projects_list table th{
+	text-align: center;
+	padding: 10px;
+}
+.projects_list table td{
+	text-align: center;
+	padding: 10px;
+}
+.pagination > a {
+    background-color: #d7f0d1;
+    border-color: #d7f0d1;
+}
+
+.page-nav {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.pagination > li > a, .pagination > li > span {
+    color: #4b9808;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    border-color: #4b9808;
+    background-color: #4b9808;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+    color: #4b9808;
+    background-color: #eee;
+    border-color: #ddd;
+}
+td{
+	word-wrap: break-word; 
+	word-break: normal; 
+}
+

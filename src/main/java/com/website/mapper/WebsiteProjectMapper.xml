@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteProjectMapper">
+	<resultMap id="BaseResultMap" type="com.website.entites.WebsiteProject">
+		<id column="project_id" property="projectId" jdbcType="BIGINT" />
+		<result column="project_url" property="projectUrl" jdbcType="VARCHAR" />
+		<result column="project_topic" property="projectTopic"
+			jdbcType="VARCHAR" />
+		<result column="project_text" property="projectText" jdbcType="VARCHAR" />
+		<result column="project_create_date" property="projectCreateDate"
+			jdbcType="DATE" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebsiteProject"
+		extends="BaseResultMap">
+		<result column="project_img" property="projectImg" jdbcType="LONGVARBINARY" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		project_id, project_url, project_topic, project_text, project_create_date
+	</sql>
+	<sql id="Blob_Column_List">
+		project_img
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from website_project
+		where project_id = #{projectId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from website_project
+		where project_id = #{projectId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.website.entites.WebsiteProject">
+		insert into website_project (project_id, project_url, project_topic,
+		project_text, project_create_date, project_img
+		)
+		values (#{projectId,jdbcType=BIGINT}, #{projectUrl,jdbcType=VARCHAR},
+		#{projectTopic,jdbcType=VARCHAR},
+		#{projectText,jdbcType=VARCHAR}, #{projectCreateDate,jdbcType=DATE},
+		#{projectImg,jdbcType=LONGVARBINARY}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.website.entites.WebsiteProject">
+		insert into website_project
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				project_id,
+			</if>
+			<if test="projectUrl != null">
+				project_url,
+			</if>
+			<if test="projectTopic != null">
+				project_topic,
+			</if>
+			<if test="projectText != null">
+				project_text,
+			</if>
+			<if test="projectCreateDate != null">
+				project_create_date,
+			</if>
+			<if test="projectImg != null">
+				project_img,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				#{projectId,jdbcType=BIGINT},
+			</if>
+			<if test="projectUrl != null">
+				#{projectUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="projectTopic != null">
+				#{projectTopic,jdbcType=VARCHAR},
+			</if>
+			<if test="projectText != null">
+				#{projectText,jdbcType=VARCHAR},
+			</if>
+			<if test="projectCreateDate != null">
+				#{projectCreateDate,jdbcType=DATE},
+			</if>
+			<if test="projectImg != null">
+				#{projectImg,jdbcType=LONGVARBINARY},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteProject">
+		update website_project
+		<set>
+			<if test="projectUrl != null">
+				project_url = #{projectUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="projectTopic != null">
+				project_topic = #{projectTopic,jdbcType=VARCHAR},
+			</if>
+			<if test="projectText != null">
+				project_text = #{projectText,jdbcType=VARCHAR},
+			</if>
+			<if test="projectCreateDate != null">
+				project_create_date = #{projectCreateDate,jdbcType=DATE},
+			</if>
+			<if test="projectImg != null">
+				project_img = #{projectImg,jdbcType=LONGVARBINARY},
+			</if>
+		</set>
+		where project_id = #{projectId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebsiteProject">
+		update website_project
+		set project_url = #{projectUrl,jdbcType=VARCHAR},
+		project_topic = #{projectTopic,jdbcType=VARCHAR},
+		project_text = #{projectText,jdbcType=VARCHAR},
+		project_create_date = #{projectCreateDate,jdbcType=DATE},
+		project_img = #{projectImg,jdbcType=LONGVARBINARY}
+		where project_id = #{projectId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteProject">
+		update website_project
+		set project_url = #{projectUrl,jdbcType=VARCHAR},
+		project_topic = #{projectTopic,jdbcType=VARCHAR},
+		project_text = #{projectText,jdbcType=VARCHAR},
+		project_create_date = #{projectCreateDate,jdbcType=DATE}
+		where project_id = #{projectId,jdbcType=BIGINT}
+	</update>
+	<!-- 之前一直返回集合.发现怎么回事.怎么一直返回的是空指针.结果发现原来是没有写resultMap.
+		因为数据库当中的字段和我的model类的字段不相同.导致读取的时候出现了问题.
+		这里的column是代表数据库中的字段名.而property代表model中的属性名
+	 -->
+	<resultMap type="com.website.entites.WebsiteProject" id="getAllResultMap">
+		<id column="project_id" property="projectId"/>
+		<result column="project_url" property="projectUrl"/>
+		<result column="project_topic" property="projectTopic"/>
+		<result column="project_text" property="projectText"/>
+		<result column="project_create_date" property="projectCreateDate"/>
+		<result column="project_img" property="projectImg"/>
+	</resultMap>
+	<!-- 然后把完成的resultmap绑定起来就可以用了 -->
+	<select id="getAll" resultMap="getAllResultMap">
+		select * from website_project;
+	</select>
+	
+	<select id="getProjectNum" resultType="int">
+		select count(*) from website_project;
+	</select>
+	
+	<select id="selectByPageNum" resultMap="getAllResultMap">
+		select * from website_project limit #{0},#{1};
+	</select>
+</mapper>

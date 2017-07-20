@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteRolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteRolePermission" >
+    <id column="permission_id" property="permissionId" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="permissions" property="permissions" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    permission_id, role_id, permissions
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from website_role_permission
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from website_role_permission
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.website.entites.WebsiteRolePermission" >
+    insert into website_role_permission (permission_id, role_id, permissions
+      )
+    values (#{permissionId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permissions,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.website.entites.WebsiteRolePermission" >
+    insert into website_role_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="permissionId != null" >
+        permission_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="permissions != null" >
+        permissions,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="permissionId != null" >
+        #{permissionId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="permissions != null" >
+        #{permissions,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteRolePermission" >
+    update website_role_permission
+    <set >
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="permissions != null" >
+        permissions = #{permissions,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteRolePermission" >
+    update website_role_permission
+    set role_id = #{roleId,jdbcType=INTEGER},
+      permissions = #{permissions,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap type="com.website.entites.WebsiteRolePermission" id="resultMap">
+  	<id column="permission_id" property="permissionId"/>
+  	<result column="role_id" property="roleId"/>
+  	<result column="permissions" property="permissions"/>
+  </resultMap>
+  
+  <select id="selectPermissionByRoleId" resultMap="resultMap">
+  	select * from website_role_permission where role_id=#{0};
+  </select>
+</mapper>

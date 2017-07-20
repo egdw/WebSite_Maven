@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteUserMapper">
+	<resultMap id="BaseResultMap" type="com.website.entites.WebsiteUser">
+		<id column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="login_account" property="loginAccount"
+			jdbcType="VARCHAR" />
+		<result column="login_passwd" property="loginPasswd" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_head" property="userHead" jdbcType="VARCHAR" />
+		<result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+		<result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+		<result column="user_sex" property="userSex" jdbcType="VARCHAR" />
+		<result column="user_birthday" property="userBirthday"
+			jdbcType="DATE" />
+		<result column="register_date" property="registerDate"
+			jdbcType="DATE" />
+		<result column="user_phone_verify" property="userPhoneVerify"
+			jdbcType="BIT" />
+		<result column="user_email_verify" property="userEmailVerify"
+			jdbcType="BIT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, login_account, login_passwd, user_name, user_head, user_phone,
+		user_email,
+		user_sex, user_birthday, register_date, user_phone_verify, user_email_verify
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from website_user
+		where user_id = #{userId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from website_user
+		where user_id = #{userId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.website.entites.WebsiteUser">
+		insert into website_user (user_id, login_account, login_passwd,
+		user_name, user_head, user_phone,
+		user_email, user_sex, user_birthday,
+		register_date, user_phone_verify, user_email_verify
+		)
+		values (#{userId,jdbcType=BIGINT}, #{loginAccount,jdbcType=VARCHAR},
+		#{loginPasswd,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR}, #{userHead,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
+		#{userEmail,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR},
+		#{userBirthday,jdbcType=DATE},
+		#{registerDate,jdbcType=DATE}, #{userPhoneVerify,jdbcType=BIT}, #{userEmailVerify,jdbcType=BIT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.website.entites.WebsiteUser">
+		insert into website_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="loginAccount != null">
+				login_account,
+			</if>
+			<if test="loginPasswd != null">
+				login_passwd,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="userHead != null">
+				user_head,
+			</if>
+			<if test="userPhone != null">
+				user_phone,
+			</if>
+			<if test="userEmail != null">
+				user_email,
+			</if>
+			<if test="userSex != null">
+				user_sex,
+			</if>
+			<if test="userBirthday != null">
+				user_birthday,
+			</if>
+			<if test="registerDate != null">
+				register_date,
+			</if>
+			<if test="userPhoneVerify != null">
+				user_phone_verify,
+			</if>
+			<if test="userEmailVerify != null">
+				user_email_verify,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="loginAccount != null">
+				#{loginAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPasswd != null">
+				#{loginPasswd,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userHead != null">
+				#{userHead,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				#{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="userEmail != null">
+				#{userEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="userSex != null">
+				#{userSex,jdbcType=VARCHAR},
+			</if>
+			<if test="userBirthday != null">
+				#{userBirthday,jdbcType=DATE},
+			</if>
+			<if test="registerDate != null">
+				#{registerDate,jdbcType=DATE},
+			</if>
+			<if test="userPhoneVerify != null">
+				#{userPhoneVerify,jdbcType=BIT},
+			</if>
+			<if test="userEmailVerify != null">
+				#{userEmailVerify,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteUser">
+		update website_user
+		<set>
+			<if test="loginAccount != null">
+				login_account = #{loginAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPasswd != null">
+				login_passwd = #{loginPasswd,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userHead != null">
+				user_head = #{userHead,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				user_phone = #{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="userEmail != null">
+				user_email = #{userEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="userSex != null">
+				user_sex = #{userSex,jdbcType=VARCHAR},
+			</if>
+			<if test="userBirthday != null">
+				user_birthday = #{userBirthday,jdbcType=DATE},
+			</if>
+			<if test="registerDate != null">
+				register_date = #{registerDate,jdbcType=DATE},
+			</if>
+			<if test="userPhoneVerify != null">
+				user_phone_verify = #{userPhoneVerify,jdbcType=BIT},
+			</if>
+			<if test="userEmailVerify != null">
+				user_email_verify = #{userEmailVerify,jdbcType=BIT},
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteUser">
+		update website_user
+		set login_account = #{loginAccount,jdbcType=VARCHAR},
+		login_passwd = #{loginPasswd,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		user_head = #{userHead,jdbcType=VARCHAR},
+		user_phone = #{userPhone,jdbcType=VARCHAR},
+		user_email = #{userEmail,jdbcType=VARCHAR},
+		user_sex = #{userSex,jdbcType=VARCHAR},
+		user_birthday = #{userBirthday,jdbcType=DATE},
+		register_date = #{registerDate,jdbcType=DATE},
+		user_phone_verify = #{userPhoneVerify,jdbcType=BIT},
+		user_email_verify = #{userEmailVerify,jdbcType=BIT}
+		where user_id = #{userId,jdbcType=BIGINT}
+	</update>
+
+	<resultMap type="com.website.entites.WebsiteUser" id="getAllResultMap">
+		<id column="user_id" property="userId"/>
+		<result column="login_account" property="loginAccount"/>
+		<result column="login_passwd" property="loginPasswd"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_head" property="userHead"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="user_sex" property="userSex"/>
+		<result column="user_birthday" property="userBirthday"/>
+		<result column="register_date" property="registerDate"/>
+		<result column="user_phone_verify" property="userPhoneVerify"/>
+		<result column="user_email_verify" property="userEmailVerify"/>
+	</resultMap>
+	
+	<select id="getAll" resultMap="getAllResultMap">
+		select * from website_user;
+	</select>
+	
+	<select id="loginByUsernamePasswd" resultMap="getAllResultMap">
+		select * from website_user where login_account=#{0} and login_passwd=#{1};	
+	</select>
+	
+	<select id="getByUsername" resultMap="getAllResultMap">
+		select * from website_user where login_account=#{0};
+	</select>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteTempMapper">
+	<resultMap id="BaseResultMap" type="com.website.entites.WebsiteTemp">
+		<id column="temp_id" property="tempId" jdbcType="BIGINT" />
+		<result column="temp_url" property="tempUrl" jdbcType="VARCHAR" />
+		<result column="temp_topic" property="tempTopic" jdbcType="VARCHAR" />
+		<result column="temp_text" property="tempText" jdbcType="VARCHAR" />
+		<result column="temp_create_date" property="tempCreateDate"
+			jdbcType="DATE" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebsiteTemp"
+		extends="BaseResultMap">
+		<result column="temp_img" property="tempImg" jdbcType="LONGVARBINARY" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		temp_id, temp_url, temp_topic, temp_text, temp_create_date
+	</sql>
+	<sql id="Blob_Column_List">
+		temp_img
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from website_temp
+		where temp_id = #{tempId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from website_temp
+		where temp_id = #{tempId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.website.entites.WebsiteTemp">
+		insert into website_temp (temp_id, temp_url, temp_topic,
+		temp_text, temp_create_date, temp_img
+		)
+		values (#{tempId,jdbcType=BIGINT}, #{tempUrl,jdbcType=VARCHAR},
+		#{tempTopic,jdbcType=VARCHAR},
+		#{tempText,jdbcType=VARCHAR}, #{tempCreateDate,jdbcType=DATE}, #{tempImg,jdbcType=LONGVARBINARY}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.website.entites.WebsiteTemp">
+		insert into website_temp
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="tempId != null">
+				temp_id,
+			</if>
+			<if test="tempUrl != null">
+				temp_url,
+			</if>
+			<if test="tempTopic != null">
+				temp_topic,
+			</if>
+			<if test="tempText != null">
+				temp_text,
+			</if>
+			<if test="tempCreateDate != null">
+				temp_create_date,
+			</if>
+			<if test="tempImg != null">
+				temp_img,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="tempId != null">
+				#{tempId,jdbcType=BIGINT},
+			</if>
+			<if test="tempUrl != null">
+				#{tempUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="tempTopic != null">
+				#{tempTopic,jdbcType=VARCHAR},
+			</if>
+			<if test="tempText != null">
+				#{tempText,jdbcType=VARCHAR},
+			</if>
+			<if test="tempCreateDate != null">
+				#{tempCreateDate,jdbcType=DATE},
+			</if>
+			<if test="tempImg != null">
+				#{tempImg,jdbcType=LONGVARBINARY},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteTemp">
+		update website_temp
+		<set>
+			<if test="tempUrl != null">
+				temp_url = #{tempUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="tempTopic != null">
+				temp_topic = #{tempTopic,jdbcType=VARCHAR},
+			</if>
+			<if test="tempText != null">
+				temp_text = #{tempText,jdbcType=VARCHAR},
+			</if>
+			<if test="tempCreateDate != null">
+				temp_create_date = #{tempCreateDate,jdbcType=DATE},
+			</if>
+			<if test="tempImg != null">
+				temp_img = #{tempImg,jdbcType=LONGVARBINARY},
+			</if>
+		</set>
+		where temp_id = #{tempId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebsiteTemp">
+		update website_temp
+		set temp_url = #{tempUrl,jdbcType=VARCHAR},
+		temp_topic = #{tempTopic,jdbcType=VARCHAR},
+		temp_text = #{tempText,jdbcType=VARCHAR},
+		temp_create_date = #{tempCreateDate,jdbcType=DATE},
+		temp_img = #{tempImg,jdbcType=LONGVARBINARY}
+		where temp_id = #{tempId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteTemp">
+		update website_temp
+		set temp_url = #{tempUrl,jdbcType=VARCHAR},
+		temp_topic = #{tempTopic,jdbcType=VARCHAR},
+		temp_text = #{tempText,jdbcType=VARCHAR},
+		temp_create_date = #{tempCreateDate,jdbcType=DATE}
+		where temp_id = #{tempId,jdbcType=BIGINT}
+	</update>
+
+	<resultMap type="com.website.entites.WebsiteTemp" id="getAllResultMao">
+		<id column="temp_id" property="tempId" />
+		<result column="temp_url" property="tempUrl" />
+		<result column="temp_topic" property="tempTopic" />
+		<result column="temp_text" property="tempText" />
+		<result column="temp_create_date" property="tempCreateDate" />
+		<result column="temp_img" property="tempImg" />
+	</resultMap>
+
+	<select id="getAll" resultMap="getAllResultMao">
+		select * from website_temp;
+	</select>
+
+	<select id="getTempNum" resultType="int">
+		select count(*) from
+		website_temp;
+	</select>
+
+	<select id="selectByPageNum" resultMap="getAllResultMao">
+		select * from
+		website_temp limit #{0},#{1};
+	</select>
+</mapper>
