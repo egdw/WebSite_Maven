@@ -19,7 +19,7 @@ public class ChatInteceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
         System.out.println("拦截到请求");
-        return true;
+        return false;
     }
 
     @Override

@@ -14,12 +14,13 @@
 	<context:annotation-config/>
 	<!-- 开启默认处理器 -->
 	<mvc:default-servlet-handler />
-	<mvc:interceptors >
-		<mvc:interceptor>
-			<mvc:mapping path="/websocket.ws"/>
-			<bean class="com.website.interceptor.ChatInteceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors>
+
+	<!--<mvc:interceptors >-->
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/websocket.ws"/>-->
+			<!--<bean class="com.website.interceptor.ChatInteceptor"/>-->
+		<!--</mvc:interceptor>-->
+	<!--</mvc:interceptors>-->
 	<context:component-scan base-package="com.*"
 		use-default-filters="false">
 		<context:include-filter type="annotation"

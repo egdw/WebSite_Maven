@@ -80,7 +80,7 @@
     <bean id="sessions" class="com.website.utils.ChatConstant"></bean>
     <websocket:handlers allowed-origins="*">
         <!-- 配置消息处理bean和路径的映射关系 -->
-        <websocket:mapping path="/websocket.ws" handler="serviceHandler"/>
+        <websocket:mapping path="/websocket/chat" handler="serviceHandler"/>
         <!-- 配置握手拦截器 -->
         <websocket:handshake-interceptors>
             <bean class="com.website.interceptor.HandShakeInteceptor"></bean>
@@ -133,7 +133,7 @@
                 /ckeditor/** = anon
                 /ckfinder/** = anon
                 /chat/size = anon
-                /websocket.ws = anon
+                /websocket/** = anon
                 /** = authc
             </value>
         </property>

@@ -77,10 +77,6 @@
         <servlet-name>springMVC</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>springMVC</servlet-name>
-        <url-pattern>*.ws</url-pattern>
-    </servlet-mapping>
     <!-- ckfinder文件上传配置 start -->
     <servlet>
         <servlet-name>ConnectorServlet</servlet-name>

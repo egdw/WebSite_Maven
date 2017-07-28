@@ -58,7 +58,7 @@
             if ("WebSocket" in window) {
 //                alert("您的浏览器支持 WebSocket!");
                 // 打开一个 web socket
-                ws = new WebSocket("ws://localhost:8080/websocket.ws");
+                ws = new WebSocket("ws://localhost:8080/websocket/chat");
 
                 ws.onopen = function () {
                     // Web Socket 已连接上，使用 send() 方法发送数据
