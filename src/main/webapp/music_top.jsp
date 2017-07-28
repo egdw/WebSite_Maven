@@ -34,14 +34,12 @@
 					<li class=""><a href="<%=request.getContextPath()%>/music/">音乐首页
 							<span class="sr-only">(current)</span>
 					</a></li>
-					<li class=""><a
-						href="<%=request.getContextPath()%>/music/searchView">MV搜索点击这里!</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">关于 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#" data-toggle="modal"
-								data-target="#about-modal" data-backdrop="false">关于网站作者</a></li>
+								data-target="#about-modal" data-backdrop="false">关于作者</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="#" data-toggle="modal"
 								data-target="#aboutInterface" data-backdrop="false">关于接口</a></li>
@@ -51,7 +49,7 @@
 					action="<%=request.getContextPath()%>/music/search" method="post">
 					<div class="form-group">
 						<input type="text" name="songsName" class="form-control"
-							placeholder="请在这里进行搜索!">
+							placeholder="音乐🎵搜索">
 					</div>
 					<button type="submit" class="btn btn-default">搜索</button>
 				</form>
@@ -91,6 +89,8 @@
 					<h4 class="modal-title" id="myModalLabel">关于接口</h4>
 				</div>
 				<div class="modal-body">
+					<p>高品质音乐解析</p>
+					<p><a href="https://github.com/egdw/NeteaseMusic_api">https://github.com/egdw/NeteaseMusic_api</a></p>
 					<p>获取单独MV信息</p>
 					<p>URL url = new
 						URL("http://music.163.com/api/mv/detail?id=5382080&type=mp4");</p>

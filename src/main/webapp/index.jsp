@@ -80,6 +80,21 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="menu">
+                <ul>
+                    <li class="button"><a href="#">交流<span class="icon">
+							</span><i>1</i></a></li>
+                    <li class="dropdown">
+                        <ul class="icon-navigation">
+                            <li>
+                                <%--<jsp:include page="chat.jsp"></jsp:include>--%>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </div>
 </div>

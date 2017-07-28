@@ -25,7 +25,7 @@
 		<!-- progress bar -->
 		<div id="player">
 			<audio id="audio" controls hidden="hidden">
-				<source src="${requestScope.songs[0].mp3Url}" type="audio/mpeg"
+				<source src="${requestScope.muisc_url}" type="audio/mpeg"
 					codecs="mp3"></source>
 			</audio>
 			<img src="${requestScope.songs[0].album.picUrl}">
@@ -36,9 +36,6 @@
 			<!-- lyrics toggle -->
 			<div class="cover">
 				<div class="controls">
-					<!-- <button id="backward" title="Backward">
-						<i class="fa fa-retweet fa-lg"></i>
-					</button> -->
 					<button id="backward" title="Backward">
 						<i class="fa fa-backward fa-2x"></i>
 					</button>
@@ -48,9 +45,6 @@
 					<button id="forward" title="Forward">
 						<i class="fa fa-forward fa-2x"></i>
 					</button>
-					<!-- <button id="backward" title="Backward">
-						<i class="fa fa-random fa-lg"></i>
-					</button> -->
 					<input id="volume" name="volume" min="0" max="1" step="0.1"
 						type="range" onchange="setVolume()" />
 				</div>
