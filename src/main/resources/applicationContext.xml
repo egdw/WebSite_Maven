@@ -20,7 +20,7 @@
         <property name="driverClass" value="${jdbc.driverClass}"/>
         <property name="minPoolSize" value="5"/>
         <property name="maxPoolSize" value="10"/>
-        <property name="maxStatements" value="500"/>
+        <property name="maxStatements" value="100"/>
         <property name="loginTimeout" value="300"/>
         <property name="initialPoolSize" value="5"></property>
         <property name="checkoutTimeout" value="1000"/>
@@ -119,6 +119,7 @@
                 /login/manager = anon
                 /comment/add = anon
                 /comment/get = anon
+                /comment/getVeriyImage = anon
                 /blog/** = anon
                 /music/** = anon
                 / = anon

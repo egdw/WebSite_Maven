@@ -26,6 +26,11 @@
         });
     });
 </script>
+<script>
+    function loadImage() {
+        document.getElementById("image").src = "/login/getVeriyImage?" + Math.random();
+    }
+</script>
 <center>
     <div class="login-form">
         <div class="close"></div>
@@ -39,9 +44,12 @@
                  alt="" width="100" height="100"/>
         </div>
         <form action="Login.do" method="post">
-            <input type="text" name="username" class="text">
-            <input type="password" name="password">
+            <input type="text" name="username" class="text" placeholder="请在此处输入账户" required="required">
+            <input type="password" name="password" placeholder="请在此处输入密码" required="required">
             <div class="signin">
+                <input type="text" name="verify" placeholder="请输入以下验证码" required="required"><img id="image"
+                                                                                               onclick="javascript:loadImage()"
+                                                                                               src="/login/getVeriyImage"/>
                 <input type="submit" value="登录">
             </div>
         </form>
