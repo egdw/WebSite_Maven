@@ -3,6 +3,7 @@ package com.website.controller;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ public class MyTempController {
 	 */
 	@RequestMapping(value = "temp.do", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("super_admin")
 	public String addProject(WebsiteProject record) {
 		boolean add = service.add(record);
 		if(add){
@@ -54,6 +56,7 @@ public class MyTempController {
 	 */
 	@RequestMapping(value = "temp.do", method = RequestMethod.PUT)
 	@ResponseBody
+	@RequiresRoles("super_admin")
 	public String updateProject(WebsiteProject project) {
 		boolean b = service.update(project);
 		if (b) {
@@ -70,6 +73,7 @@ public class MyTempController {
 	 */
 	@RequestMapping(value = "temp.do", method = RequestMethod.DELETE)
 	@ResponseBody
+	@RequiresRoles("super_admin")
 	public String delProject(Long id) {
 		boolean del = service.del(id);
 		if (del) {

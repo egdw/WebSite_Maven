@@ -47,9 +47,9 @@
             <input type="text" name="username" class="text" placeholder="请在此处输入账户" required="required">
             <input type="password" name="password" placeholder="请在此处输入密码" required="required">
             <div class="signin">
-                <input type="text" name="verify" placeholder="请输入以下验证码" required="required"><img id="image"
-                                                                                               onclick="javascript:loadImage()"
-                                                                                               src="/login/getVeriyImage"/>
+                <input type="text" id="verify" name="verify" placeholder="请输入以下验证码" required="required"><img id="image"
+                                                                                                             onclick="javascript:loadImage()"
+                                                                                                             src="/login/getVeriyImage"/>
                 <input type="submit" value="登录">
             </div>
         </form>

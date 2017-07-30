@@ -62,16 +62,8 @@ public class ViewController {
 	 */
 	@RequestMapping("image")
 	public String entryBlogImage(Map<String, Object> map) {
-//		if (pageNum == null) {
-//			pageNum = 0;
-//		}
-//		ArrayList<WebsiteAlbum> list = albumService.selectAlbumbyPage(pageNum,
-//				16);
 		ArrayList<WebsiteAlbum> list = albumService.getAll();
-//		Integer num = albumService.getPageNum(16);
 		map.put("list", list);
-//		map.put("pageCount", num);
-//		map.put("currentPage", pageNum);
 		return "/blog/blog_album";
 	}
 }

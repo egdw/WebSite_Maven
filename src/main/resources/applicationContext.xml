@@ -108,6 +108,7 @@
                 /AboutMy/** = anon
                 /js/** = anon
                 /login/** = anon
+                /register/** = anon
                 /project/MyProject.do = anon
                 /funnyView.do = anon
                 /tempView.do = anon
@@ -134,7 +135,6 @@
                 /ckeditor/** = anon
                 /ckfinder/** = anon
                 /chat/size = anon
-                /websocket/** = anon
                 /** = authc
             </value>
         </property>

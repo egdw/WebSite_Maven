@@ -156,14 +156,14 @@
             <!-- 第一个div -->
             <div class="panel panel-primary">
                 <a
-                        style="color: gray;font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block"
+                        style="color: gray;font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block;;padding-left: 10px;"
                         href="detail?pageId=${index.blogId}"><i>${index.username}:</i></a>
                 <div style="font-size:15px;padding-top: 10px;padding-bottom: 10px">
 						<span style="padding-left: 10px;line-height:150%"><span
                                 style="color: gray" class="glyphicon glyphicon-user"
                                 aria-hidden="true"></span> ${index.content}</span>
                 </div>
-                <span style="color:gray"> <i><fmt:formatDate
+                <span style="color:gray;padding-left: 10px;"> <i><fmt:formatDate
                         value="${index.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></i>
 					</span>
             </div>

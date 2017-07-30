@@ -71,10 +71,11 @@
             <li class="menu">
                 <ul>
                     <li class="button"><a href="#">简述<span class="icon">
-							</span><i>2</i></a></li>
+							</span><i>3</i></a></li>
                     <li class="dropdown">
                         <ul class="icon-navigation">
-                            <li><a href="<%=request.getContextPath()%>/login/manager">管理</a></li>
+                            <li><a href="<%=request.getContextPath()%>/login/manager">登录</a></li>
+                            <li><a href="<%=request.getContextPath()%>/login/register.jsp">注册</a></li>
                             <li><a href="./AboutMy/index.html">关于我</a></li>
                         </ul>
                     </li>
@@ -88,7 +89,6 @@
                     <li class="dropdown">
                         <ul class="icon-navigation">
                             <li>
-                                <%--<jsp:include page="chat.jsp"></jsp:include>--%>
                             </li>
                         </ul>
                     </li>
@@ -100,6 +100,4 @@
 </div>
 <div class="footer"></div>
 </body>
-<%--<script type="text/javascript" color="255,0,0" opacity='0.9' zIndex="-2" count="100" src="<%=request.getContextPath()%>/js/canvas-nest.min.js"></script>--%>
-<%--<script type="text/javascript" src="js/origami.js"></script>--%>
 </html>

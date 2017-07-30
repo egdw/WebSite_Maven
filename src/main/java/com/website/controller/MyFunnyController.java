@@ -3,6 +3,7 @@ package com.website.controller;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class MyFunnyController {
 	 * @param record
 	 * @return
 	 */
+	@RequiresRoles("super_admin")
 	@RequestMapping(value = "funny.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String addProject(WebsiteFunny record) {
@@ -54,6 +56,7 @@ public class MyFunnyController {
 	 * @param project
 	 * @return
 	 */
+	@RequiresRoles("super_admin")
 	@RequestMapping(value = "funny.do", method = RequestMethod.PUT)
 	@ResponseBody
 	public String updateProject(WebsiteFunny project) {
@@ -71,6 +74,7 @@ public class MyFunnyController {
 	 * @param id
 	 * @return
 	 */
+	@RequiresRoles("super_admin")
 	@RequestMapping(value = "funny.do", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delProject(Long id) {

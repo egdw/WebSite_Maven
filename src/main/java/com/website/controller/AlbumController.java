@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class AlbumController {
 	 */
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("super_admin")
 	public String add(String pic_url, String title) {
 		if (pic_url == null || pic_url.isEmpty() || title == null
 				|| title.isEmpty()) {
@@ -48,6 +50,7 @@ public class AlbumController {
 	 */
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("super_admin")
 	public WebsiteAlbum update(WebsiteAlbum album) {
 		if (album == null) {
 			return null;
@@ -61,6 +64,7 @@ public class AlbumController {
 	 */
 	@RequestMapping(value = "del", method = RequestMethod.POST)
 	@ResponseBody
+	@RequiresRoles("super_admin")
 	public String del(Integer id) {
 		boolean b = service.delAlbum(id);
 		if (b) {

@@ -65,6 +65,7 @@
 							<li><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></li>
 							<li><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></li>
 							<li><a href="<%=request.getContextPath()%>/music">我的音乐</a></li>
+							<li><a href="<%=request.getContextPath()%>/image">我的相册</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a
 								href="<%=request.getContextPath()%>/AboutMy/index.html">关于我</a></li>
@@ -123,8 +124,9 @@
 
 	<!--关于div-->
 	<div class="modal fade" id="about-modal" tabindex="-1" role="dialog"
-		aria-labelledby="modal-label" aria-hidden="true">
-		<div class="modal-dialog">
+		 style="background-color:#FFFFF0" aria-labelledby="modal-label"
+		 aria-hidden="true">
+		<div class="modal-dialog" style="background-color:#FFFFF0">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">
@@ -134,11 +136,41 @@
 				</div>
 				<div class="modal-body">
 					<div
-						style="text-align: center;padding-top:30px;padding-bottom: 10px">
-						<p>关于</p>
-						<img
-							src="http://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
-							width="100px" height="100px" class="img-circle">
+							style="text-align: center;padding-top:30px;padding-bottom: 10px">
+						<div class="row">
+							<div class="col-xs-4 col-md-4">
+								<div class="panel panel-info">
+									<div class="panel-heading">支付宝赞助(点击大图)</div>
+									<div class="panel-body">
+										<a href="/images/alipay_code.jpg"> <img src="/images/alipay_code.jpg" alt="支付宝二维码"
+																				class="img-thumbnail"></a>
+									</div>
+								</div>
+								<br>
+							</div>
+							<div class="col-xs-4 col-md-4">
+								<div class="panel panel-info">
+									<div class="panel-heading">微信赞助(点击大图)</div>
+									<div class="panel-body">
+										<a href="/images/wxpay_code.jpg"> <img src="/images/wxpay_code.jpg" alt="微信二维码" class="img-thumbnail"></a>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-4 col-md-4">
+								<div class="panel panel-info">
+									<div class="panel-heading">QQ赞助(点击大图)</div>
+									<div class="panel-body">
+										<a href="/images/qqpay_code.jpg"> <img src="/images/qqpay_code.jpg" alt="QQ二维码" class="img-thumbnail"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-heading">微信公众号(猿猴家族)</div>
+							<div class="panel-body">
+								<img src="/images/wx_code.jpg" alt="微信公众号二维码" class="img-thumbnail">
+							</div>
+						</div>
 						<div style="padding-top: 20px">
 							<p>个人微信 ：HONGDEYAN1997</p>
 							<p>个人QQ ：378759617</p>
@@ -146,10 +178,9 @@
 							<p>
 								github ：<a href="https://github.com/egdw" target="_blank">https://github.com/egdw</a>
 							</p>
-							<p>好好学习,天天向上</p>
 						</div>
 					</div>
-					<p style="text-align: right">恶搞大王版权所有</p>
+					<p style="text-align: right">恶搞大王制作</p>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					</div>

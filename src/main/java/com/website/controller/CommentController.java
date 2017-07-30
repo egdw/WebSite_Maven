@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.website.utils.AuthCodeGenerator;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,7 @@ public class CommentController {
 
     @RequestMapping(value = "del", method = RequestMethod.GET)
     @ResponseBody
+    @RequiresRoles({"super_admin", "admin"})
     public String del(Integer comentId) {
         WebsiteComment comment = commentService.getCommentById(comentId);
         if (comment == null) {

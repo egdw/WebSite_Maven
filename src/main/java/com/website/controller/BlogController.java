@@ -8,6 +8,7 @@ import com.website.service.WebSiteBlogService;
 import com.website.service.WebSiteCommentService;
 import com.website.utils.ImageUtils;
 import com.website.utils.UUIDUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,6 +96,7 @@ public class BlogController {
      * @return
      */
     @RequestMapping("admin")
+    @RequiresRoles("super_admin")
     public String entryBlogAdmin(Map<String, Object> map,
                                  @RequestParam(required = false) Integer pageNum) {
         if (pageNum == null) {
@@ -145,6 +147,7 @@ public class BlogController {
     @SuppressWarnings("deprecation")
     @RequestMapping("imageUpload")
     @ResponseBody
+    @RequiresRoles("super_admin")
     public String uploadImage(@RequestParam("image") MultipartFile file) {
         if (file == null) {
             // 判断file是否为空,为空就返回空指针的json数据
@@ -195,6 +198,7 @@ public class BlogController {
      */
     @RequestMapping(value = "add", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresRoles("super_admin")
     public String addBlog(String title, Integer type, String pic_url,
                           String content) {
         WebsiteBlog blog = new WebsiteBlog();
@@ -218,6 +222,7 @@ public class BlogController {
      */
     @RequestMapping(value = "del", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresRoles("super_admin")
     public String delBlog(Integer blogId) {
         if (blogId == null) {
             return "error";
@@ -236,6 +241,7 @@ public class BlogController {
      */
     @RequestMapping(value = "update", method = RequestMethod.POST)
     @ResponseBody
+    @RequiresRoles("super_admin")
     public String update(String title, Integer id, Integer type,
                          String pic_url, String content) {
         WebsiteBlog record = null;
@@ -254,13 +260,6 @@ public class BlogController {
         boolean b = service.update(record);
         if (b)
             return "success";
-//		boolean delete = service.delete(id);
-//		if (delete) {
-//			boolean blog = service.addBlog(record);
-//			if (blog) {
-//				return "success";
-//			}
-//		}
         return "error";
     }
 

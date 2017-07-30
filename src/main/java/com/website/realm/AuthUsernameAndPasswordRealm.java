@@ -57,9 +57,11 @@ public class AuthUsernameAndPasswordRealm extends AuthorizingRealm {
 		} 
 		// 根据获取到的添加角色
 		info.addRole(role.getRoleName());
+		System.out.println(role.getRoleName());
 		// 根据roleId获取相应的权限
 		ArrayList<WebsiteRolePermission> list = permissionService
 				.getByRoleId(roleId);
+		System.out.println(list);
 		// 获取到对应的权限信息,加入权限信息
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
@@ -80,8 +82,9 @@ public class AuthUsernameAndPasswordRealm extends AuthorizingRealm {
 			session.setAttribute("currentUser", user);
 			return new SimpleAuthenticationInfo(principal, credentials,
 					getName());
+		}else{
+			throw new AuthenticationException("用户名或密码错误");
 		}
-		return null;
 	}
 
 }
