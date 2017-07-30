@@ -86,14 +86,12 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/login/logout.do"><span
-                    class="glyphicon glyphicon-off"></span> 退出登录</a></li>
+            <li><a href="/login/logout.do"> 退出登录</a></li>
         </ul>
         <ul class="nav navbar-nav">
             <li class="dropdown"><a
                     href="<%=request.getContextPath()%>/AboutMy/index.html"
-                    class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-book"></span> 关于 <b class="caret"></b></a>
+                    class="dropdown-toggle" data-toggle="dropdown"> 关于 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a
                             href="<%=request.getContextPath()%>/AboutMy/index.html"

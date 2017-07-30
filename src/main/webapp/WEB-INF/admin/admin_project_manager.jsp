@@ -5,6 +5,10 @@
 <html>
 <script type="text/javascript"
         src="<%=request.getContextPath()%>/css/admin_project_manager_files/js.js"></script>
+<script src="https://cdn.bootcss.com/remodal/1.1.1/remodal.js"></script>
+<link href="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.js"></script>
+<link href="https://cdn.bootcss.com/remodal/1.1.1/remodal-default-theme.min.css" rel="stylesheet">
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
 <div class="container bs-docs-container">
@@ -142,48 +146,6 @@
                                 class="remodal-confirm">OK
                         </button>
                     </div>
-                    <div class="remodal" data-remodal-id="modalupdate" role="dialog"
-                         aria-labelledby="modal1Title" aria-describedby="modal1Desc">
-                        <button data-remodal-action="close" class="remodal-close"
-                                aria-label="Close"></button>
-                        <div>
-                            <form id="project_update_form">
-                                <input type="hidden" id="project_update_id" name="projectId">
-                                <div class="input-group">
-                                    <span class="input-group-addon">项目标题</span> <input type="text"
-                                                                                       class="form-control"
-                                                                                       id="project_update_topic"
-                                                                                       name="projectTopic"
-                                                                                       placeholder="请输入项目标题"
-                                                                                       required="">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">项目内容</span> <input type="text"
-                                                                                       class="form-control"
-                                                                                       name="projectText"
-                                                                                       id="project_update_text"
-                                                                                       placeholder="请输入项目内容"
-                                                                                       required="">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">项目地址</span> <input type="text"
-                                                                                       class="form-control"
-                                                                                       name="projectUrl"
-                                                                                       id="project_update_url"
-                                                                                       placeholder="例如https://www.baidu.com"
-                                                                                       required="">
-                                </div>
-                            </form>
-                        </div>
-                        <br>
-                        <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
-                        <button data-remodal-action="confirm" id="project_update_accpet_btn"
-                                class="remodal-confirm">OK
-                        </button>
-                    </div>
-                    <br> <br>
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
@@ -262,23 +224,6 @@
                         });
                     });
                 </script>
-                <!-- PAGE3: NEWID2 -->
-                <div class="tab-pane fade" id="newid2" style="display: none;">
-                    <form action="http://love.kfj.cc/setting.php" method="get">
-                        <div class="input-group">
-                            <input type="hidden" name="mod" value="baiduid"> <span
-                                class="input-group-addon">输入BDUSS</span> <input type="text"
-                                                                                class="form-control" name="bduss"
-                                                                                id="bduss_input"> <span
-                                class="input-group-btn"><input type="submit"
-                                                               id="submit_project_btn" class="btn btn-primary"
-                                                               value="点击提交"></span>
-                        </div>
-                    </form>
-
-                    <br> <br> <br>
-                </div>
-                <br> <br> <br> <br> <br>
             </div>
         </div>
     </div>
@@ -287,6 +232,48 @@
     <script>window.jQuery || document.write('<script src="../libs/jquery/dist/jquery.min.js"><\/script>')</script>
     <script
             src="<%=request.getContextPath()%>/css/admin_project_manager_files/dist/remodal.js"></script>
+
+    <div class="remodal" data-remodal-id="modalupdate" role="dialog"
+         aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+        <button data-remodal-action="close" class="remodal-close"
+                aria-label="Close"></button>
+        <div>
+            <form id="project_update_form">
+                <input type="hidden" id="project_update_id" name="projectId">
+                <div class="input-group">
+                    <span class="input-group-addon">项目标题</span> <input type="text"
+                                                                       class="form-control"
+                                                                       id="project_update_topic"
+                                                                       name="projectTopic"
+                                                                       placeholder="请输入项目标题"
+                                                                       required="">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">项目内容</span> <input type="text"
+                                                                       class="form-control"
+                                                                       name="projectText"
+                                                                       id="project_update_text"
+                                                                       placeholder="请输入项目内容"
+                                                                       required="">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">项目地址</span> <input type="text"
+                                                                       class="form-control"
+                                                                       name="projectUrl"
+                                                                       id="project_update_url"
+                                                                       placeholder="例如https://www.baidu.com"
+                                                                       required="">
+                </div>
+            </form>
+        </div>
+        <br>
+        <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
+        <button data-remodal-action="confirm" id="project_update_accpet_btn"
+                class="remodal-confirm">OK
+        </button>
+    </div>
 
     <!-- Events -->
     <script>

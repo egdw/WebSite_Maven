@@ -2,6 +2,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
+<script src="https://cdn.bootcss.com/remodal/1.1.1/remodal.js"></script>
+<link href="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.js"></script>
+<link href="https://cdn.bootcss.com/remodal/1.1.1/remodal-default-theme.min.css" rel="stylesheet">
 <html>
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
