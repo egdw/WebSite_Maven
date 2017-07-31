@@ -1,21 +1,9 @@
-/*
-DONE:
-- play/pause;
-- volume;
-- progress bar.
-
-TODO:
-- backward/forward;
-- repeat/shuffle;
-- lyrics;
-- playlist.
-*/
-
 var audio = document.getElementById('audio');
 var progress = document.getElementById('progress');
 var playpause = document.getElementById("play-pause");
 var volume = document.getElementById("volume");
-
+var context = null;
+var canvas = null;
 audio.controls = false;
 
 audio.addEventListener('timeupdate', function() {
@@ -40,9 +28,11 @@ function setVolume() {
 
 function updateProgress() {
 	var percent = Math.floor((100 / audio.duration) * audio.currentTime);
+	console.log("percent:"+percent);
+	console.log("currentTime:"+audio.currentTime);
 	progress.value = percent;
-	var canvas = document.getElementById('progress');
-	var context = canvas.getContext('2d');
+	canvas = document.getElementById('progress');
+	context = canvas.getContext('2d');
 	var centerX = canvas.width / 2;
 	var centerY = canvas.height / 2;
 	var radius = 150;
@@ -54,12 +44,15 @@ function updateProgress() {
 	context.lineWidth = 10;
 	context.strokeStyle = '#26C5CB';
 	context.stroke();
-	if (audio.ended) resetPlayer();
+	if(audio.ended){
+        resetPlayer();
+    }
 }
 
 function resetPlayer() {
 	  audio.currentTime = 0; context.clearRect(0,0,canvas.width,canvas.height);
-  playpause.title = "Play";
+	  playpause.title = "Play";
 	  playpause.innerHTML = '<i class="fa fa-play fa-3x"></i>';
+	  togglePlayPause();
 }
 
