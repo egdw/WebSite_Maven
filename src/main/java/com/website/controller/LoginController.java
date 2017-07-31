@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import com.website.utils.AuthCodeGenerator;
+import com.website.utils.UserUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
@@ -39,6 +40,7 @@ public class LoginController {
     public String loginByUsernamePasswd(@RequestParam(required = true) String username, @RequestParam(required = true) String password,
                                         Map<String, Object> requests, @RequestParam(required = true) String verify, HttpSession session) {
         String verifyPass = (String) session.getAttribute("loginVeriyPass");
+        session.setAttribute("loginVeriyPass", UserUtils.getRandomText(4));
         if (!(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
             //如果不相同.说明验证码不正确
             return "redirect:/login/login.jsp";
@@ -58,7 +60,7 @@ public class LoginController {
                 subject.checkRole("super_admin");
             } catch (AuthorizationException e) {
                 // 说明不是超级管理员.
-                return "redirect:/login/login.jsp";
+                return "user/user_index";
             }
         }
         WebsiteUser user = service.getByUsername(username);

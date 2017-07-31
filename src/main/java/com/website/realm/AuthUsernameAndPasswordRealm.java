@@ -61,7 +61,6 @@ public class AuthUsernameAndPasswordRealm extends AuthorizingRealm {
 		// 根据roleId获取相应的权限
 		ArrayList<WebsiteRolePermission> list = permissionService
 				.getByRoleId(roleId);
-		System.out.println(list);
 		// 获取到对应的权限信息,加入权限信息
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {

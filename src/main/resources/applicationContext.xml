@@ -6,7 +6,7 @@
 
 
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
-    <context:component-scan base-package="com.*">
+    <context:component-scan base-package="com.website.*">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     <!-- 从配置文件读取数据库信息 -->
@@ -63,15 +63,15 @@
     <!-- 不太清楚,但是应该都是必须要配(好像叫生命周期处理器) -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
-    <!-- 开启安全注解需要的bean -->
-    <bean
-            class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-            depends-on="lifecycleBeanPostProcessor"/>
-    <!-- 开启安全注解需要的bean -->
-    <bean
-            class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
+    <!--&lt;!&ndash; 开启安全注解需要的bean &ndash;&gt;-->
+    <!--<bean-->
+            <!--class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"-->
+            <!--depends-on="lifecycleBeanPostProcessor"/>-->
+    <!--&lt;!&ndash; 开启安全注解需要的bean &ndash;&gt;-->
+    <!--<bean-->
+            <!--class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
+        <!--<property name="securityManager" ref="securityManager"/>-->
+    <!--</bean>-->
 
     <!-- websocket消息处理bean -->
     <bean id="handShakeInteceptor" class="com.website.interceptor.HandShakeInteceptor"></bean>
@@ -132,6 +132,7 @@
                 /*.jar = anon
                 /assets/** = anon
                 /404.jsp=anon
+                /401.jsp=anon
                 /ckeditor/** = anon
                 /ckfinder/** = anon
                 /chat/size = anon
@@ -141,7 +142,7 @@
     </bean>
 
 
-    <!-- <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-     <property name="configLocation" value="classpath:mybatis_ehcache.xml" />  
-   </bean> -->
+    <!--<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+        <!--<property name="configLocation" value="classpath:mybatis_ehcache.xml"/>-->
+    <!--</bean>-->
 </beans>

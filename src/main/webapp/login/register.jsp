@@ -46,6 +46,9 @@
             async: true,
             url: '/register/register',
             data: $("#registerForm").serialize(),
+            beforeSend: function (xhr) {
+                $("#addUser").attr('disabled', "true");
+            },
             success: function (data) {
                 var obj = eval("(" + data + ")");
                 var message = obj.message;
@@ -60,7 +63,7 @@
                     $("#tip").text("用户名已经存在");
                 } else if (message == 'success') {
                     //说明注册成功
-                    window.location.replace("/");
+                    window.location.replace("/login/login.jsp");
                 } else if (message == 'username_short') {
                     $("#tip").text("用户名太短");
                 } else {
@@ -70,8 +73,12 @@
                 $("#myModal").modal("show");
                 loadImage();
             },
+            complete: function () {
+                $("#addUser").removeAttr("disabled");
+            },
             error: function (e) {
                 alert("网络错误，请重试！！");
+                $("#addUser").removeAttr("disabled");
             }
         });
     }

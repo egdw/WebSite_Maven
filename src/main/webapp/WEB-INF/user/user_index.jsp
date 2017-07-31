@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,16 +15,7 @@
                 <ul class="nav bs-sidenav">
                     <li></li>
                     <li class="active"><a
-                            href="<%=request.getContextPath()%>/login/manager"> 管理首页</a></li>
-                    <li><a
-                            href="<%=request.getContextPath()%>/manager/manager_person_setting.do"> 个人设置</a></li>
-                    <li><a
-                            href="<%=request.getContextPath()%>/manager/manager_project_manager.do"> 项目管理</a></li>
-                    <li><a
-                            href="<%=request.getContextPath()%>/manager/manager_funny_manager.do"> 趣味管理</a></li>
-                    <li><a href="<%=request.getContextPath()%>/manager/manager_temp_manager.do"> 临时管理</a></li>
-                    <li><a href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
-                    <li><a href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
+                            href="<%=request.getContextPath()%>/login/manager"> 用户首页</a></li>
                 </ul>
             </div>
         </div>
@@ -36,7 +28,7 @@
                 <div class="panel-body">
 						<span id="avatar" style="float:right;"><img
                                 src="http://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
-                                class="img-rounded" height="80px" width="80px"></span>欢迎来到后台管理! <br> 此程序作者为 <a
+                                class="img-rounded" height="80px" width="80px"></span>欢迎来到个人中心! <br> 此程序作者为 <a
                         href="<%=request.getContextPath()%>/AboutMy/index.html"
                         target="_blank">恶搞大王</a> <br> 恶搞大王保留所有权利
                 </div>
@@ -49,7 +41,7 @@
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item"><span
-                            class="glyphicon glyphicon-user"></span> <b>用户组：</b> 管理员
+                            class="glyphicon glyphicon-user"></span> <b>用户组：</b> <shiro:user></shiro:user>
                     </li>
                     <li class="list-group-item"><c:if
                             test="${not empty requestScope.user.userEmail}">

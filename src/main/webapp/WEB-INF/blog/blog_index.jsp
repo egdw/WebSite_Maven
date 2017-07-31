@@ -7,7 +7,8 @@
 <head>
     <title>恶搞大王的个人博客</title>
 </head>
-<body style="background-color: #ececec">
+<body>
+<%--<body style="background-image: url(/images/blog_bg.png);>--%>
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <!--正文开始-->
 <div class="panel panel-default">

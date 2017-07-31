@@ -10,7 +10,6 @@
 </head>
 <body>
 <div class="wrap">
-	<h1>恶搞大王的个人网站</h1>
 	<div class="banner">
 		<a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/css/404/images/banner.png" alt="" /></a>
 	</div>

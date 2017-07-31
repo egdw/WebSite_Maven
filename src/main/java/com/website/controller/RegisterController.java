@@ -5,6 +5,7 @@ import com.website.entites.WebsiteUser;
 import com.website.model.Message;
 import com.website.service.WebSiteUserService;
 import com.website.utils.AuthCodeGenerator;
+import com.website.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by hdy on 2017/7/30.
@@ -35,7 +37,10 @@ public class RegisterController {
     @ResponseBody
     public String register(@RequestParam(required = true) String username, @RequestParam(required = true) String password, @RequestParam(required = true) String password2, @RequestParam(required = true) String verify, HttpSession session) {
         //noinspection Since15
-        if(username.isEmpty()){
+        String registerVeriyPass = (String) session.getAttribute("registerVeriyPass");
+        //立即重置验证码
+        session.setAttribute("registerVeriyPass", UserUtils.getRandomText(4));
+        if (username.isEmpty()) {
             Message message = new Message(200, "username_short", null, null, null);
             return JSON.toJSONString(message);
         }
@@ -51,7 +56,6 @@ public class RegisterController {
                     return JSON.toJSONString(message);
                 } else {
                     //密码通过
-                    String registerVeriyPass = (String) session.getAttribute("registerVeriyPass");
                     if (verify.equals(verify)) {
                         //如果与验证码相同.说明可以注册了
                         WebsiteUser websiteUser = new WebsiteUser();
@@ -98,4 +102,5 @@ public class RegisterController {
             e.printStackTrace();
         }
     }
+
 }

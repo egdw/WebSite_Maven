@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.website.entites.WebsiteUser;
 import com.website.mapper.WebsiteUserMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户操作Service
@@ -15,6 +16,7 @@ import com.website.mapper.WebsiteUserMapper;
  * 
  */
 @Service
+@Transactional
 public class WebSiteUserService {
 	@Autowired
 	private WebsiteUserMapper mapper;

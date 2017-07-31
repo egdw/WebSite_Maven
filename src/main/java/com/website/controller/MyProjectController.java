@@ -3,6 +3,7 @@ package com.website.controller;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,8 @@ public class MyProjectController {
 	@RequestMapping(value = "project.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String addProject(WebsiteProject record) {
+		boolean super_admin = SecurityUtils.getSubject().hasRole("super_admin");
+		System.out.println(super_admin);
 		boolean add = service.add(record);
 		if(add){
 			return "success";
