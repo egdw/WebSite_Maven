@@ -7,10 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.website.entites.WebsiteProject;
 import com.website.service.WebSiteProjectService;
@@ -20,6 +17,12 @@ import com.website.service.WebSiteProjectService;
 public class MyTempController {
     @Autowired
     private WebSiteProjectService service;
+
+
+    @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+    public String shiroException2() {
+        return "redirect:/401.jsp";
+    }
 
     /**
      * 添加工程

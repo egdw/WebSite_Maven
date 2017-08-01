@@ -9,10 +9,7 @@ import com.website.utils.AuthCodeGenerator;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.website.entites.WebsiteComment;
 import com.website.service.WebSiteBlogService;
@@ -30,6 +27,11 @@ public class CommentController {
     private WebSiteCommentService commentService;
     @Autowired
     private WebSiteBlogService blogService;
+
+    @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+    public String shiroException2() {
+        return "redirect:/401.jsp";
+    }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     @ResponseBody

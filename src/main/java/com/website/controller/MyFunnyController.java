@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,11 @@ import com.website.service.WebSiteFunnyService;
 public class MyFunnyController {
 	@Autowired
 	private WebSiteFunnyService service;
+
+	@ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+	public String shiroException2() {
+		return "redirect:/401.jsp";
+	}
 
 	/**
 	 * 添加工程

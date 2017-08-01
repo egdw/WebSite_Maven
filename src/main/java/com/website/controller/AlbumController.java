@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,12 @@ import com.website.service.WebSiteAlbumService;
 public class AlbumController {
 	@Autowired
 	private WebSiteAlbumService service;
+
+	@ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+	public String shiroException2() {
+		return "redirect:/401.jsp";
+	}
+
 	/**
 	 * 添加图片的方法
 	 */
@@ -86,6 +93,7 @@ public class AlbumController {
 	/**
 	 * 根据页码获取文章
 	 */
+	@RequiresRoles("super_admin")
 	@RequestMapping(value = "album", method = RequestMethod.GET)
 	public String selectByPageNum(Integer pageNum, Map<String, Object> map) {
 		if (pageNum == null) {

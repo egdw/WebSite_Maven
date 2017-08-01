@@ -131,6 +131,8 @@
                 /login.jsp = anon
                 /*.jar = anon
                 /assets/** = anon
+                /layui/** = anon
+                /user_top.jsp = anon
                 /404.jsp=anon
                 /401.jsp=anon
                 /ckeditor/** = anon

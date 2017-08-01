@@ -20,8 +20,8 @@ public class ShiroExceptionHandler {
         return "redirect:/401.jsp";
     }
 //
-//    @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
-//    public String shiroException2() {
-//        return "401.jsp";
-//    }
+    @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+    public String shiroException2() {
+        return "401.jsp";
+    }
 }

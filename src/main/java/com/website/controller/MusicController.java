@@ -6,12 +6,13 @@ import com.website.entites.NeteaseMusic;
 import com.website.entites.NeteaseMusicMVCode;
 import com.website.entites.NeteaseMusicMvModel;
 import com.website.entites.NeteaseMusicResult;
+import com.website.model.MusicSong;
 import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
@@ -19,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -202,6 +204,96 @@ public class MusicController {
 
 
     /**
+     * 根据音乐id获取真实地址
+     * <p>
+     * 未登录用户不能使用
+     *
+     * @param params id值
+     * @param rate   码率
+     * @return
+     */
+    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
+    @RequestMapping(value = "getUrlFormMusicId", method = RequestMethod.GET)
+    @ResponseBody
+    public String getUrlFormMusicId(@RequestParam(required = true) String params, Integer rate) {
+        String rateParam = null;
+        if (rate == null) {
+            //判断码率
+            rateParam = "320000";
+        } else if (rate == 128000) {
+            rateParam = "128000";
+        } else if (rate == 192000) {
+            rateParam = "192000";
+        } else {
+            rateParam = "320000";
+        }
+        String first_param = "{\"ids\":\"[" + params + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
+        String realSongUrl = null;
+        try {
+            realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
+                    + Netease_AES.get_encSecKey());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = (JSONObject) JSON.parseObject(realSongUrl).getJSONArray("data").get(0);
+        String url = (String) data.get("url");
+        return url;
+    }
+
+    /**
+     * 根据歌曲id获取歌词
+     *
+     * @param params 歌曲id
+     * @return 歌词
+     */
+    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
+    @RequestMapping(value = "getLrcByMusicId", method = RequestMethod.GET)
+    @ResponseBody
+    public String getLrcByMusicId(@RequestParam(required = true) String params) {
+        String lyric = NeteaseMusicUtils.getLyricsById(params);
+        return lyric;
+    }
+
+
+    /**
+     * 获取用户的表单
+     *
+     * @return
+     */
+    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
+    @RequestMapping(value = "/getSongsTable", method = RequestMethod.GET)
+    @ResponseBody
+    public String getUserSongsTable() {
+        NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(31234186 + "", 31234186 + "");
+        MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(),  musicResult.getSongs().get(0).getArtists().get(0).getName(),"/music/getUrlFormMusicId?params=31234186", musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=31234186");
+        NeteaseMusicResult musicResult2 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36270426 + "", 36270426 + "");
+        MusicSong song2 = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(),"/music/getUrlFormMusicId?params=36270426",  musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36270426");
+        NeteaseMusicResult musicResult3 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36103237 + "", 36103237 + "");
+        MusicSong song3 = new MusicSong(musicResult.getSongs().get(0).getName(),  musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=36103237",musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36103237");
+        NeteaseMusicResult musicResult4 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(29450548 + "", 29450548 + "");
+        MusicSong song4 = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=29450548" ,musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=29450548");
+        List<MusicSong> lists = new ArrayList<MusicSong>();
+        lists.add(song);
+        lists.add(song2);
+        lists.add(song3);
+        lists.add(song4);
+        return JSON.toJSONString(lists);
+    }
+
+
+    /**
+     * 往自己表单里提交歌曲
+     *
+     * @return
+     */
+    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
+    @RequestMapping(value = "addUserSongsTable", method = RequestMethod.POST)
+    @ResponseBody
+    public String addUserSongsTable(@RequestParam(required = true) String param) {
+        return null;
+    }
+
+    /**
      * 音乐下载请求
      *
      * @param id
@@ -262,4 +354,10 @@ public class MusicController {
         inputStream.close();
         return sb.toString();
     }
+
+    @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+    public String shiroException2() {
+        return "redirect:/401.jsp";
+    }
+
 }

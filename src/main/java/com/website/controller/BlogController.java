@@ -11,10 +11,7 @@ import com.website.utils.UUIDUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +31,11 @@ public class BlogController {
     private WebSiteAlbumService albumService;
     @Autowired
     private WebSiteCommentService commentService;
+
+    @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
+    public String shiroException2() {
+        return "redirect:/401.jsp";
+    }
 
     /**
      * 进入博客主页
