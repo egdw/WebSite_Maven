@@ -63,16 +63,6 @@
     <!-- 不太清楚,但是应该都是必须要配(好像叫生命周期处理器) -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
-    <!--&lt;!&ndash; 开启安全注解需要的bean &ndash;&gt;-->
-    <!--<bean-->
-            <!--class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"-->
-            <!--depends-on="lifecycleBeanPostProcessor"/>-->
-    <!--&lt;!&ndash; 开启安全注解需要的bean &ndash;&gt;-->
-    <!--<bean-->
-            <!--class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
-        <!--<property name="securityManager" ref="securityManager"/>-->
-    <!--</bean>-->
-
     <!-- websocket消息处理bean -->
     <bean id="handShakeInteceptor" class="com.website.interceptor.HandShakeInteceptor"></bean>
     <bean id="serviceHandler" class="com.website.interceptor.WebServiceHandler"></bean>

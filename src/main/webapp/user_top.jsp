@@ -70,26 +70,14 @@
     </div>
     <fieldset class="layui-elem-field layui-field-title">
         <legend>音乐播放器</legend>
-        <div id="player1" class="aplayer">
-            <pre class="aplayer-lrc-content">
-                [00:00.00]平凡之路 - 朴树
-                [00:04.01]作词：韩寒 朴树
-                [00:08.02]作曲：朴树 编曲：朴树
-                [00:12.02]徘徊着的 在路上的
-                [00:17.37]你要走吗
-                [00:23.20]易碎的 骄傲着
-                        <!-- ... -->
-             </pre>
-        </div>
     </fieldset>
 </fieldset>
 <script>
-
     var ap5 = new APlayer({
         element: document.getElementById('player1'),
         narrow: false,
         autoplay: false,
-        showlrc: 2,
+        showlrc: 1,
         mutex: true,
         theme: '#ad7a86',
         mode: 'random',
@@ -100,25 +88,24 @@
                 author: '七森中☆ごらく部',
                 url: 'http://devtest.qiniudn.com/あっちゅ～ま青春!.mp3',
                 pic: 'http://devtest.qiniudn.com/あっちゅ～ま青春!.jpg',
-                lrc: 'あっちゅ～ま青春!.lrc'
+                lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
             },
             {
                 title: 'secret base~君がくれたもの~',
                 author: '茅野愛衣',
                 url: 'http://devtest.qiniudn.com/secret base~.mp3',
                 pic: 'http://devtest.qiniudn.com/secret base~.jpg',
-                lrc: 'secret base~君がくれたもの~.lrc'
+                lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
             },
             {
                 title: '回レ！雪月花',
                 author: '小倉唯',
                 url: 'http://devtest.qiniudn.com/回レ！雪月花.mp3',
                 pic: 'http://devtest.qiniudn.com/回レ！雪月花.jpg',
-                lrc: '回レ！雪月花.lrc'
+                lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
             }
         ]
     });
-
 
      function getUserTable() {
          $.ajax({
@@ -148,17 +135,6 @@
              }
          })
      }
-
-    function json_array(data){
-        var len=eval(data).length;
-        var arr=[];
-        for(var i=0;i<len;i++){
-            arr[i] =[]; //js中二维数组必须进行重复的声明，否则会undefind
-            arr[i]['url']=data[i].url;
-            arr[i]['oldname']=data[i].oldname;
-        }
-        return arr;
-    }
 </script>
 </body>
 </html>

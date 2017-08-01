@@ -125,7 +125,8 @@ public class LoginController {
             os = response.getOutputStream();
             ImageIO.write(image, "PNG", os);
         } catch (IOException e) {
-            e.printStackTrace();
+            //有异常说明是用户主动中断了
+//            e.printStackTrace();
         }
     }
 
