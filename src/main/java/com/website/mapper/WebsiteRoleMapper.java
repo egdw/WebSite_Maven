@@ -2,6 +2,8 @@ package com.website.mapper;
 
 import com.website.entites.WebsiteRole;
 
+import java.util.ArrayList;
+
 public interface WebsiteRoleMapper {
     int deleteByPrimaryKey(Integer roleId);
 
@@ -16,4 +18,9 @@ public interface WebsiteRoleMapper {
     int updateByPrimaryKey(WebsiteRole record);
     
     WebsiteRole getByRoleId(Integer id);
+
+    ArrayList<WebsiteRole> getAll();
+
+
+    WebsiteRole findRoleByName(String name);
 }

@@ -46,12 +46,12 @@
                     <li class=""><a
                             href="http://love.kfj.cc/index.php?mod=baiduid#adminid"
                             data-toggle="tab"
-                            onclick="$(&#39;#newid2&#39;).css(&#39;display&#39;,&#39;none&#39;);$(&#39;#newid&#39;).css(&#39;display&#39;,&#39;none&#39;);$(&#39;#adminid&#39;).css(&#39;display&#39;,&#39;&#39;);"
+                            onclick="$(&;#39;#newid2&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#newid&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#adminid&;#39;).css(&;#39;display&;#39;,&#39;&#39;)"
                             aria-expanded="false">增加项目</a></li>
                     <li class="active"><a
                             href="http://love.kfj.cc/index.php?mod=baiduid#newid"
                             data-toggle="tab"
-                            onclick="$(&#39;#newid&#39;).css(&#39;display&#39;,&#39;&#39;);$(&#39;#adminid&#39;).css(&#39;display&#39;,&#39;none&#39;);$(&#39;#newid2&#39;).css(&#39;display&#39;,&#39;none&#39;);"
+                            onclick="$(&;#39;#newid&;#39;).css(&;#39;display&;#39;,&#39;&#39;)$(&;#39;#adminid&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#newid2&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)"
                             aria-expanded="true">管理项目</a></li>
                 </ul>
                 <br>

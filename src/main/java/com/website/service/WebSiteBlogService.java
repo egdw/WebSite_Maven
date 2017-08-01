@@ -21,11 +21,7 @@ public class WebSiteBlogService {
 		record.setClickTimes(0);
 		record.setCommentTimes(0);
 		int insert = mapper.insert(record);
-		if (insert > 0) {
-			return true;
-		} else {
-			return false;
-		}
+        return insert > 0;
 	}
 
 	public WebsiteBlog getBlogById(Integer id) {
@@ -36,21 +32,13 @@ public class WebSiteBlogService {
 	@Transactional
 	public boolean update(WebsiteBlog record) {
 		int i = mapper.updateByPrimaryKey(record);
-		if (i > 0) {
-			return true;
-		} else {
-			return false;
-		}
+        return i > 0;
 	}
 
 	@Transactional
 	public boolean delete(Integer id) {
 		int i = mapper.deleteByPrimaryKey(id);
-		if (i > 0) {
-			return true;
-		} else {
-			return false;
-		}
+        return i > 0;
 	}
 
 	public WebsiteBlog query(Integer id) {

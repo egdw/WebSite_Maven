@@ -52,7 +52,7 @@
             success: function (data) {
                 var obj = eval("(" + data + ")");
                 var message = obj.message;
-                console.log(message)
+                console.log(message);
                 if (message == 'password_short') {
                     $("#tip").text("密码太短");
                 } else if (message == 'code_fail') {
@@ -100,10 +100,10 @@
             <input type="password" name="password" placeholder="请输入您的密码" required="required">
             <input type="password" id="password2" name="password2" placeholder="请确认您的密码" required="required">
             <input type="text" name="verify" id="verify" placeholder="请输入以下验证码" required="required"><br><img id="image"
-                                                                                                             onclick="javascript:loadImage()"
+                                                                                                             onclick="loadImage()"
                                                                                                              src="/register/getVeriyImage"/>
             <div class="signin">
-                <button id="addUser" onclick="javascript:addUser2()">注册</button>
+                <button id="addUser" onclick="addUser2()">注册</button>
             </div>
         </form>
     </div>

@@ -90,5 +90,12 @@
   <select id="getByRoleId" resultMap="webSiteResultMap">
   	select * from website_role where role_id = #{0};
   </select>
-  
+
+  <select id="getAll" resultMap="webSiteResultMap">
+      select * from website_role;
+  </select>
+
+  <select id="findRoleByName" resultMap="webSiteResultMap">
+    select * FROM website_role where role_name = #{0}
+  </select>
 </mapper>

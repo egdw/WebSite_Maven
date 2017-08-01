@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.website.entites.WebsiteUserRoleKey;
 import com.website.mapper.WebsiteUserRoleMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class WebSiteUserRoleService {
 	@Autowired
 	private WebsiteUserRoleMapper mapper;
@@ -15,5 +17,9 @@ public class WebSiteUserRoleService {
 		WebsiteUserRoleKey key = mapper.selectByUserId(id);
 		return key;
 	}
-	
+
+	public void addUserRole(WebsiteUserRoleKey key){
+		mapper.insert(key);
+	}
+
 }

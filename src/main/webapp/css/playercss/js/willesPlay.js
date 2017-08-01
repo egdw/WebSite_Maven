@@ -44,8 +44,8 @@ $(function() {
 			$('#willesPlay .playControll').css({
 				'bottom': -48
 			}).removeClass('fullControll');
-			};
-		event.preventDefault();
+            }
+        event.preventDefault();
 	});
 	
 	

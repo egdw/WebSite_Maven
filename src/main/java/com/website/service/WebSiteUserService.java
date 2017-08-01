@@ -103,11 +103,8 @@ public class WebSiteUserService {
 	 */
 	public boolean updateUser(WebsiteUser user) {
 		int key = mapper.updateByPrimaryKey(user);
-		if(key>0){
-			return true;
-		}
-		return false;
-	}
+        return key > 0;
+    }
 
 	/**
 	 * 判断用户名账号密码是否正确

@@ -18,29 +18,20 @@ public class WebSiteAlbumService {
 	@Transactional
 	public boolean addAlbum(WebsiteAlbum album) {
 		int i = mapper.insert(album);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	@Transactional
 	public boolean delAlbum(Integer id) {
 		int i = mapper.deleteByPrimaryKey(id);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	@Transactional
 	public boolean updateAlbum(WebsiteAlbum album) {
 		int i = mapper.updateByPrimaryKey(album);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	public WebsiteAlbum getAlbum(Integer id) {
 		WebsiteAlbum album = mapper.selectByPrimaryKey(id);

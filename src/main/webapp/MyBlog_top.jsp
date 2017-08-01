@@ -67,6 +67,7 @@
                         <li><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></li>
                         <li><a href="<%=request.getContextPath()%>/music">我的音乐</a></li>
                         <li><a href="<%=request.getContextPath()%>/image">我的相册</a></li>
+                        <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a
                                 href="<%=request.getContextPath()%>/AboutMy/index.html">关于我</a></li>

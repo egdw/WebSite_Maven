@@ -1,8 +1,12 @@
 package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.website.entites.WebsiteRole;
 import com.website.entites.WebsiteUser;
+import com.website.entites.WebsiteUserRoleKey;
 import com.website.model.Message;
+import com.website.service.WebSiteRoleService;
+import com.website.service.WebSiteUserRoleService;
 import com.website.service.WebSiteUserService;
 import com.website.utils.AuthCodeGenerator;
 import com.website.utils.UserUtils;
@@ -31,7 +35,10 @@ import java.util.Random;
 public class RegisterController {
     @Autowired
     private WebSiteUserService userService;
-
+    @Autowired
+    private WebSiteUserRoleService userRoleService;
+    @Autowired
+    private WebSiteRoleService roleService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
@@ -64,6 +71,10 @@ public class RegisterController {
                         websiteUser.setRegisterDate(new Date());
                         userService.addUser(websiteUser);
                         user = userService.getByUsername(username);
+                        WebsiteUserRoleKey websiteUserRoleKey = new WebsiteUserRoleKey();
+                        websiteUserRoleKey.setRoleId(roleService.findRoleByName("normal").getRoleId());
+                        websiteUserRoleKey.setUserId(user.getUserId());
+                        userRoleService.addUserRole(websiteUserRoleKey);
                         return JSON.toJSONString(new Message(200, "success", null, null, null));
                     } else {
                         //验证码验证失败

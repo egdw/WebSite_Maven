@@ -47,10 +47,7 @@ public class ChatConstant {
     //判断name是否已经存在
     public static boolean isExist(String name) {
         WebSocketSession session = sessions.get(name);
-        if (session == null) {
-            return false;
-        }
-        return true;
+        return session != null;
     }
 
     //删除session对象

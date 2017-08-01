@@ -106,7 +106,6 @@ public class NeteaseMusicUtils {
 		String url = UrlConstants.CLOUD_MUSIC_API_MUSICINGO + "id=" + id
 				+ "&ids=%5B" + ids + "%5D";
 		String request = InternetUtil.request(url);
-		System.out.println(request);
 		if (request != null) {
 			NeteaseMusicResult parseObject = JSON.parseObject(request,
 					NeteaseMusicResult.class);

@@ -157,7 +157,7 @@ function FullPage(options) {
 		solve : function(x, epsilon) {
 	    	return this.sampleCurveY( this.solveCurveX(x, epsilon) );
 		}
-	}
+	};
 
 	init = function() {
 		
@@ -166,11 +166,11 @@ function FullPage(options) {
 		pageRange = {
 			X : document.documentElement.clientWidth || window.innerWidth,
 			Y : document.documentElement.clientHeight || window.innerHeight
-		}
+		};
 
 		pageContain.style.height = pageRange.Y + 'px';
 
-	}
+	};
 
 	setCubic = function(a, b, c, d) {
 
@@ -178,7 +178,7 @@ function FullPage(options) {
 		cubicCurve.B = b;
 		cubicCurve.C = c;
 		cubicCurve.D = d;
-	}
+	};
 
 	if (typeof options.easing === 'string') {
 
@@ -276,7 +276,7 @@ function FullPage(options) {
 
 					_t = 'left:'  + (cx + dx * pos) 
 								  + 'px;top:' + (cy + dy * pos) 
-								  + 'px;'
+								  + 'px;';
 					if (e) {
 						_t += 'filter:alpha(opacity=' + 100 * ( e[1] * pos - e[0] * (1 - pos) )+ ');'
 					}
@@ -308,7 +308,7 @@ function FullPage(options) {
 				rangeNow = {
 					X : to > from ? pageRange.X : - pageRange.X, 
 					Y : to > from ? pageRange.Y : - pageRange.Y
-				}
+				};
 				trans(page[to], rangeNow.X, rangeNow.Y, 0, o);
 				break;
 
@@ -328,7 +328,7 @@ function FullPage(options) {
 				s.opacity = o[1];
 			}, 70);
 		}
-	}
+	};
 
 	if (browser.addEventListener && browser.touch) {
 		if (navigator.userAgent.indexOf('Firefox')) {
@@ -379,7 +379,7 @@ function FullPage(options) {
 			}
 		}
 
-	}
+	};
 
 	if (_isNav) {
 		navChange = function(from, to) {
@@ -433,7 +433,7 @@ function FullPage(options) {
 			_isLocked = false;
 		}, sTime + _fix + 120);
 
-	}
+	};
 	
 	init();
 	// Tag first page
@@ -468,7 +468,7 @@ function FullPage(options) {
 					direct = direct < 0 ? -1 : 1;
 
 					goPage(indexNow + direct);
-				}
+				};
 				if (browser.addEventListener) {
 					document.addEventListener('DOMMouseScroll', wheelScroll, false);
 				}
@@ -517,7 +517,7 @@ function FullPage(options) {
 								next[browser.cssCore + 'TransformOrigin'] = '50% 0%';
 								page[indexNow + 1].className += ' swipe';
 							}
-						}
+						};
 						move = function (o) {
 							
 							var pos = Math.abs(o.y / pageRange.Y),
@@ -532,7 +532,7 @@ function FullPage(options) {
 								next.opacity = (opacityStart + opacityDiff * pos);
 								next[browser.cssCore + 'Transform'] = 'translate(0,' + (pageRange.Y + o.y) + 'px) translateZ(0)' + _t;
 							}
-						}
+						};
 						reset = function(s, n) {
 
 							var _t = sTime >> 1;
@@ -546,7 +546,7 @@ function FullPage(options) {
 									_isLocked = false;
 								}, 50);
 							}, _t);
-						}
+						};
 						validReset = function(s, n) {
 
 							var to = indexNow + n,
@@ -601,7 +601,7 @@ function FullPage(options) {
 								next[browser.cssCore + 'TransformOrigin'] = '0 50%';
 								page[indexNow + 1].className += ' swipe';
 							}
-						}
+						};
 						move = function (o) {
 							
 							var pos = Math.abs(o.x / pageRange.X),
@@ -609,7 +609,7 @@ function FullPage(options) {
 								   + ') rotate(' + (rotateStart + rotateDiff * pos) + 'deg)';
 							
 							if (prev && o.x > 0) {
-								console.log()
+								console.log();
 								prev.opacity = (opacityStart + opacityDiff * pos);
 								prev[browser.cssCore + 'Transform'] = 'translate(' + (o.x - pageRange.X) + 'px,0) translateZ(0)' + _t;
 							}
@@ -617,7 +617,7 @@ function FullPage(options) {
 								next.opacity = (opacityStart + opacityDiff * pos);
 								next[browser.cssCore + 'Transform'] = 'translate(' + (pageRange.X + o.x) + 'px,0) translateZ(0)' + _t;
 							}
-						}
+						};
 						reset = function(s, n) {
 
 							var _t = sTime >> 1;
@@ -631,7 +631,7 @@ function FullPage(options) {
 									_isLocked = false;
 								}, 50);
 							}, _t);
-						}
+						};
 						validReset = function(s, n) {
 
 							var to = indexNow + n,
@@ -683,7 +683,7 @@ function FullPage(options) {
 								x : touches.pageX,
 								y : touches.pageY,
 								time : +new Date
-							}
+							};
 
 							// reset
 							delta = {};
@@ -700,12 +700,12 @@ function FullPage(options) {
 
 							e.preventDefault();
 							// ensure swiping with one touch and not pinching
-      						if ( event.touches.length > 1 || event.scale && event.scale !== 1) return
+      						if ( event.touches.length > 1 || event.scale && event.scale !== 1) return;
 
 							delta = {
 								x : touches.pageX - start.x,
 								y : touches.pageY - start.y
-							}
+							};
 							if (!isValidMove) {
 								_t = Math.abs(delta.x) > Math.abs(delta.y) ? 'X' : 'Y';
 								_t = _t === options.effect.transform['translate'] ? true : false;
@@ -725,11 +725,11 @@ function FullPage(options) {
 							delta = {
 								x : touches.pageX - start.x,
 								y : touches.pageY - start.y
-							}
+							};
 							abs = {
 								x : Math.abs(delta.x),
 								y : Math.abs(delta.y)
-							}
+							};
 
 							switch (options.effect.transform['translate']) {
 								case 'Y' :
@@ -773,7 +773,7 @@ function FullPage(options) {
 
 						}
 
-					}
+					};
 
 					pageContain.addEventListener('touchstart', touchEvent.start, false);
 				}());
@@ -817,7 +817,7 @@ function FullPage(options) {
 						}
 
 						goPage( + e.getAttribute('data-page') ); 
-					}
+					};
 					// bind event to navObj
 					onTap(navObj, gotoPage, 1);
 				}());

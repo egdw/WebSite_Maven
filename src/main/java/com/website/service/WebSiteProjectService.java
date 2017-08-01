@@ -24,11 +24,8 @@ public class WebSiteProjectService {
 	public boolean del(Long id) {
 		if (id != null) {
 			int i = mapper.deleteByPrimaryKey(id);
-			if (i > 0) {
-				return true;
-			}
-			return false;
-		} else {
+            return i > 0;
+        } else {
 			return false;
 		}
 	}
@@ -37,11 +34,7 @@ public class WebSiteProjectService {
 	public boolean update(WebsiteProject record) {
 		if (record != null) {
 			int i = mapper.updateByPrimaryKey(record);
-			if (i > 0) {
-				return true;
-			} else {
-				return false;
-			}
+            return i > 0;
 		}
 		return false;
 	}
@@ -50,11 +43,7 @@ public class WebSiteProjectService {
 	public boolean add(WebsiteProject record) {
 		if (record != null) {
 			int i = mapper.insert(record);
-			if (i > 0) {
-				return true;
-			} else {
-				return false;
-			}
+            return i > 0;
 		}
 		return false;
 	}

@@ -33,8 +33,8 @@
 					<div class="playContent">
 						<div class="turnoff">
 							<ul>
-								<li><a href="javascript:;" title="关灯"
-									class="btnLight on glyphicon glyphicon-sunglasses"></a></li>
+								<li><a href="javascript:" title="关灯"
+                                       class="btnLight on glyphicon glyphicon-sunglasses"></a></li>
 							</ul>
 						</div>
 						<video width="100%" height="100%" id="playVideo">

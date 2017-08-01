@@ -29,29 +29,20 @@ public class WebSiteFunnyService {
 	@Transactional
 	public boolean insertFunny(WebsiteFunny record) {
 		int i = mapper.insert(record);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	@Transactional
 	public boolean updateFunny(WebsiteFunny record) {
 		int i = mapper.updateByPrimaryKey(record);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	@Transactional
 	public boolean delFunny(Long id) {
 		int i = mapper.deleteByPrimaryKey(id);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	public WebsiteFunny getById(Long id) {
 		WebsiteFunny key = mapper.selectByPrimaryKey(id);

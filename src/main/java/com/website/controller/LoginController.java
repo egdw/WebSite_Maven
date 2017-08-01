@@ -3,8 +3,12 @@ package com.website.controller;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
+import com.website.entites.WebsiteRole;
+import com.website.service.WebSiteRoleService;
 import com.website.utils.AuthCodeGenerator;
 import com.website.utils.UserUtils;
 import org.apache.shiro.SecurityUtils;
@@ -29,6 +33,8 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
     @Autowired
     private WebSiteUserService service;
+    @Autowired
+    private WebSiteRoleService roleService;
 
     /**
      * 用户登录操作
@@ -56,26 +62,12 @@ public class LoginController {
         }
         if (subject.isAuthenticated()) {
             // 判断是否验证成功
-            try {
-                subject.checkRole("super_admin");
-            } catch (AuthorizationException e) {
-                // 说明不是超级管理员.
-                return "user/user_index";
-            }
+            WebsiteUser user = service.getByUsername(username);
+            requests.put("user", user);
+            return "redirect:/login/manager";
+        } else {
+            return "redirect:/login/login.jsp";
         }
-        WebsiteUser user = service.getByUsername(username);
-        requests.put("user", user);
-        return "admin/admin_index";
-    }
-
-    /**
-     * 用户注册操作
-     *
-     * @param user 需要注册的用户
-     */
-    @RequestMapping(value = "register.do", method = RequestMethod.POST)
-    public void register(WebsiteUser user) {
-
     }
 
     /**
@@ -95,16 +87,42 @@ public class LoginController {
     public String OpenManagerView(Map<String, Object> map) {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
-            try {
-                subject.checkRole("super_admin");
+            //获取所有的角色列表
+//            ArrayList<WebsiteRole> all = roleService.getAll();
+//            //转换成为为String类型的列表
+//            ArrayList<String> roles = new ArrayList<String>();
+//            Iterator<WebsiteRole> iterator = all.iterator();
+//            while (iterator.hasNext()) {
+//                WebsiteRole next = iterator.next();
+//                roles.add(next.getRoleName());
+//            }
+//            //得到角色信息
+//            boolean[] hasRoles = subject.hasRoles(roles);
+//            boolean isNotLogin = false;
+//            for (int i = 0; i < 0; i++) {
+//                if (hasRoles[i] == true) {
+//                    isNotLogin = true;
+//                    break;
+//                }
+//            }
+            boolean superAdmin = subject.hasRole("super_admin");
+            if (superAdmin) {
+                try {
+                    WebsiteUser user = service.getByUsername((String) subject
+                            .getPrincipal());
+                    map.put("user", user);
+                    return "/admin/admin_index";
+                } catch (AuthorizationException e) {
+                    // 说明不是超级管理员.
+                    return "redirect:/login/login.jsp";
+                }
+            } else {
+                //说明是其他用戶。统一跳转到用户界面
                 WebsiteUser user = service.getByUsername((String) subject
                         .getPrincipal());
-                map.put("user", user);
-                return "/admin/admin_index";
-            } catch (AuthorizationException e) {
-                // 说明不是超级管理员.
-                return "redirect:/login/login.jsp";
+                return "/user/user_index";
             }
+
         }
         return "redirect:/login/login.jsp";
     }

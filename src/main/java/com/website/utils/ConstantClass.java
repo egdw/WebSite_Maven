@@ -7,4 +7,5 @@ package com.website.utils;
  */
 public class ConstantClass {
 	public static int EVERT_PROJECT_GET_NUM = 12;
+
 }

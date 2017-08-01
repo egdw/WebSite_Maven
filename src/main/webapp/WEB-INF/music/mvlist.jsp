@@ -16,7 +16,7 @@
 <body>
 	<jsp:include page="/music_top.jsp"></jsp:include>
 	<c:if test="${empty requestScope.errorMessage}">
-		<div class="alert alert-success" role="alert">查询成功!一共有${requestScope.songCount}条数据,您当前处于${requestScope.pageCount+1}页.</div>
+		<div class="alert alert-success" role="alert">查询成功!一共有${requestScope.songCount}条数据,您当前处于${requestScope.pageNum+1}页.</div>
 	</c:if>
 	<c:if test="${not empty requestScope.errorMessage}">
 		<div class="alert alert-danger" role="alert">${requestScope.errorMessage}</div>

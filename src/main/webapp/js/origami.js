@@ -354,13 +354,13 @@ window.requestAnimFrame = (function(){
 			}
 			
 			this.interpolate( 0.15 * this.speed );
-		}
+		};
 		
 		this.interpolate = function( v ) {
 			for( var property in this.interpolations ) {
 				this[ property ] += ( this.interpolations[ property ] - this[ property ] ) * v;
 			}
-		}
+		};
 		
 		this.reset = function() {
 			this.progress = 0;
@@ -384,7 +384,7 @@ window.requestAnimFrame = (function(){
 			this.l = 50;
 			
 			return this;
-		}
+		};
 		
 		this.toString = function() {
 			return 'hsl('+this.h+','+this.s+'%,'+this.l+'%)'
@@ -416,4 +416,4 @@ window.requestAnimFrame = (function(){
 		this.reset();
 	}
 	
-})()
+})();

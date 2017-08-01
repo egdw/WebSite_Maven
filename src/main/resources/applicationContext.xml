@@ -113,6 +113,7 @@
                 /comment/getVeriyImage = anon
                 /blog/** = anon
                 /music/** = anon
+                /layer/** = anon
                 / = anon
                 /login/Login.do = anon
                 /music = anon

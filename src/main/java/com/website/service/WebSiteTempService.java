@@ -28,31 +28,22 @@ public class WebSiteTempService {
 	@Transactional
 	public boolean insertTemp(WebsiteTemp temp) {
 		int i = mapper.insert(temp);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	@Transactional
 	public boolean updateTemp(WebsiteTemp temp) {
 		int i = mapper.updateByPrimaryKey(temp);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 
 	@SuppressWarnings("deprecation")
 	@Transactional
 	public boolean delTemp(long id) {
 		delTempFileById(id);
 		int i = mapper.deleteByPrimaryKey(id);
-		if (i > 0) {
-			return true;
-		}
-		return false;
-	}
+        return i > 0;
+    }
 	
 	/**
 	 * 用户主动删除或者出现异常时自动删除上传到服务器的文件

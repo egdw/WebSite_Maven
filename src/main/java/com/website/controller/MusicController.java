@@ -2,10 +2,12 @@ package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.net.httpserver.HttpsConfigurator;
 import com.website.entites.NeteaseMusic;
 import com.website.entites.NeteaseMusicMVCode;
 import com.website.entites.NeteaseMusicMvModel;
 import com.website.entites.NeteaseMusicResult;
+import com.website.model.Message;
 import com.website.model.MusicSong;
 import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
@@ -14,16 +16,17 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("music")
@@ -67,7 +70,7 @@ public class MusicController {
     @RequestMapping(value = "mvsearch")
     public String searchMV(Integer pageNum, String songsName,
                            Map<String, Object> map) {
-        if (songsName == null || songsName.isEmpty()) {
+        if (songsName == null || "".equals(songsName)) {
             map.put("errorMessage", "查询失败:没有找到参数");
             return "/music/mvlist";
         }
@@ -91,7 +94,7 @@ public class MusicController {
             }
             map.put("lists", code.getResult().getMvs());
             map.put("songCount", code.getResult().getMvCount());
-            map.put("pageCount", pageNum);
+            map.put("pageNum", pageNum);
             map.put("songsName", songsName);
         } else {
             map.put("errorMessage", "查询为空!");
@@ -107,7 +110,7 @@ public class MusicController {
     @RequestMapping(value = "search")
     public String search(Integer pageNum, String songsName,
                          Map<String, Object> map) throws UnsupportedEncodingException {
-        if (songsName == null || songsName.isEmpty()) {
+        if (songsName == null || "".equals(songsName)) {
             map.put("errorMessage", "查询失败:没有找到参数");
             return "/music/list";
         }
@@ -129,7 +132,7 @@ public class MusicController {
             if (code == 200) {
                 map.put("lists", searchMusic.getResult().getSongs());
                 map.put("songCount", searchMusic.getResult().getSongCount());
-                map.put("pageCount", pageNum);
+                map.put("pageNum", pageNum);
                 map.put("songsName", songsName);
             } else {
                 map.put("errorMessage", "查询失败:" + code);
@@ -193,7 +196,7 @@ public class MusicController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (lyricsById != null && !lyricsById.isEmpty()) {
+        if (lyricsById != null && !"".equals(lyricsById)) {
             String[] split = lyricsById.split("\n");
             List<String> asList = Arrays.asList(split);
             map.put("lyricsList", asList);
@@ -240,6 +243,58 @@ public class MusicController {
         return url;
     }
 
+    //    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
+    @RequestMapping(value = "getUrlFormMusicId", method = RequestMethod.GET)
+    @ResponseBody
+    public void getMusicTest(HttpServletResponse response, @RequestParam(required = true) String params, Integer rate) throws IOException {
+        String rateParam = null;
+        if (rate == null) {
+            //判断码率
+            rateParam = "320000";
+        } else if (rate == 128000) {
+            rateParam = "128000";
+        } else if (rate == 192000) {
+            rateParam = "192000";
+        } else {
+            rateParam = "320000";
+        }
+        String first_param = "{\"ids\":\"[" + params + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
+        String realSongUrl = null;
+        try {
+            realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
+                    + Netease_AES.get_encSecKey());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = (JSONObject) JSON.parseObject(realSongUrl).getJSONArray("data").get(0);
+        String url = (String) data.get("url");
+        response.setContentType("audio/mp3");
+        ServletOutputStream outputStream = response.getOutputStream();
+        URL musicUrl = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) musicUrl.openConnection();
+        BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+        int len = -1;
+        byte[] bytes = new byte[1024];
+        while ((len = bis.read(bytes)) != -1) {
+            outputStream.write(bytes, 0, len);
+//            outputStream.flush();
+        }
+        bis.close();
+        outputStream.close();
+    }
+
+    @RequestMapping(value = "getLrcByMusicId", method = RequestMethod.GET)
+    public void getLrcTest(@RequestParam(required = true) String params, HttpServletResponse response) {
+        String lyric = NeteaseMusicUtils.getLyricsById(params);
+        response.setContentType("text/plain");
+        try {
+            ServletOutputStream outputStream = response.getOutputStream();
+            outputStream.write(lyric.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 根据歌曲id获取歌词
      *
@@ -260,24 +315,41 @@ public class MusicController {
      *
      * @return
      */
-//    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
+    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
     @RequestMapping(value = "/getSongsTable", method = RequestMethod.GET)
     @ResponseBody
-    public String getUserSongsTable() {
-        NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(31234186 + "", 31234186 + "");
-        MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(),  musicResult.getSongs().get(0).getArtists().get(0).getName(), getUrlFormMusicId(31234186+"",null), musicResult.getSongs().get(0).getAlbum().getPicUrl(), getLrcByMusicId(31234186+""));
-        NeteaseMusicResult musicResult2 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36270426 + "", 36270426 + "");
-        MusicSong song2 = new MusicSong(musicResult2.getSongs().get(0).getName(), musicResult2.getSongs().get(0).getArtists().get(0).getName(),getUrlFormMusicId(36270426+"",null),  musicResult2.getSongs().get(0).getAlbum().getPicUrl(), getLrcByMusicId(36270426+""));
-        NeteaseMusicResult musicResult3 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36103237 + "", 36103237 + "");
-        MusicSong song3 = new MusicSong(musicResult3.getSongs().get(0).getName(),  musicResult3.getSongs().get(0).getArtists().get(0).getName(), getUrlFormMusicId(36103237+"",null),musicResult3.getSongs().get(0).getAlbum().getPicUrl(), getLrcByMusicId(36103237+""));
-        NeteaseMusicResult musicResult4 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(29450548 + "", 29450548 + "");
-        MusicSong song4 = new MusicSong(musicResult4.getSongs().get(0).getName(), musicResult4.getSongs().get(0).getArtists().get(0).getName(), getUrlFormMusicId(29450548+"",null) ,musicResult4.getSongs().get(0).getAlbum().getPicUrl(), getLrcByMusicId(29450548+""));
+    public String getUserSongsTable(HttpSession HttpSession) {
+        LinkedList<String> list = (LinkedList<String>) HttpSession.getAttribute("songs_list");
+        if (list == null) {
+            list = new LinkedList<String>();
+        }
         List<MusicSong> lists = new ArrayList<MusicSong>();
-        lists.add(song);
-        lists.add(song2);
-        lists.add(song3);
-        lists.add(song4);
-        return JSON.toJSONString(lists);
+        if (list.size() > 0) {
+            //说明添加了新歌曲
+            Iterator<String> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                String param = iterator.next();
+                NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(param, param);
+                MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=" + param, musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=" + param);
+                lists.add(song);
+            }
+            return JSON.toJSONString(lists);
+        } else {
+            //没添加。给固定的几首歌
+            NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(31234186 + "", 31234186 + "");
+            MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=31234186", musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=31234186");
+            NeteaseMusicResult musicResult2 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36270426 + "", 36270426 + "");
+            MusicSong song2 = new MusicSong(musicResult2.getSongs().get(0).getName(), musicResult2.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=36270426", musicResult2.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36270426");
+            NeteaseMusicResult musicResult3 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36103237 + "", 36103237 + "");
+            MusicSong song3 = new MusicSong(musicResult3.getSongs().get(0).getName(), musicResult3.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=36103237", musicResult3.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36103237");
+            NeteaseMusicResult musicResult4 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(29450548 + "", 29450548 + "");
+            MusicSong song4 = new MusicSong(musicResult4.getSongs().get(0).getName(), musicResult4.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=29450548", musicResult4.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=29450548");
+            lists.add(song);
+            lists.add(song2);
+            lists.add(song3);
+            lists.add(song4);
+            return JSON.toJSONString(lists);
+        }
     }
 
 
@@ -286,11 +358,17 @@ public class MusicController {
      *
      * @return
      */
-//    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
+    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
     @RequestMapping(value = "addUserSongsTable", method = RequestMethod.POST)
     @ResponseBody
-    public String addUserSongsTable(@RequestParam(required = true) String param) {
-        return null;
+    public String addUserSongsTable(@RequestParam(required = true) String param, HttpSession session) {
+        LinkedList<String> lists = (LinkedList<String>) session.getAttribute("songs_list");
+        if (lists == null) {
+            lists = new LinkedList<String>();
+        }
+        lists.addFirst(param);
+        session.setAttribute("songs_list", lists);
+        return JSON.toJSONString(new Message(200, "addsuccess", null, null, null));
     }
 
     /**

@@ -62,7 +62,7 @@
 
                 ws.onopen = function () {
                     // Web Socket 已连接上，使用 send() 方法发送数据
-                    $('#content').text("服务器已连接!")
+                    $('#content').text("服务器已连接!");
                     timerStart();
 //                    ws.send("发送数据");
                 };
@@ -71,7 +71,7 @@
                     var received_msg = evt.data;
                     console.info(received_msg);
                     var obj = eval("(" + received_msg + ")");
-                    var code = obj.code
+                    var code = obj.code;
                     if (code == 301) {
                         //说明是获取到用户名
                         $('#username').text("您的用户名:" + obj.message);
@@ -99,7 +99,7 @@
 
 
 </head>
-<body onload="javascript:WebSocketTest()">
+<body onload="WebSocketTest()">
 
 <div id="sse">
     <nav class="navbar navbar-default">

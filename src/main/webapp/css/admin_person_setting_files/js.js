@@ -35,7 +35,7 @@ function view_status(e) {
 
     var rotateLeft = function(lValue, iShiftBits) {
         return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
-    }
+    };
 
     var addUnsigned = function(lX, lY) {
         var lX4, lY4, lX8, lY8, lResult;
@@ -51,23 +51,23 @@ function view_status(e) {
         } else {
             return (lResult ^ lX8 ^ lY8);
         }
-    }
+    };
 
     var F = function(x, y, z) {
         return (x & y) | ((~ x) & z);
-    }
+    };
 
     var G = function(x, y, z) {
         return (x & z) | (y & (~ z));
-    }
+    };
 
     var H = function(x, y, z) {
         return (x ^ y ^ z);
-    }
+    };
 
     var I = function(x, y, z) {
         return (y ^ (x | (~ z)));
-    }
+    };
 
     var FF = function(a, b, c, d, x, s, ac) {
         a = addUnsigned(a, addUnsigned(addUnsigned(F(b, c, d), x), ac));
