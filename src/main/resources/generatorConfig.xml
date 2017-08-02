@@ -1,48 +1,29 @@
-<?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
+	<classPathEntry location="/Users/hdy/git/myGit/WebSite/WebRoot/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar"/>
 	<context id="mybatis_generator">
+		<!-- optional，旨在创建class时，对注释进行控制 -->
 		<commentGenerator>
-			<property name="suppressDate" value="true" />
-			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true"/>
+			<property name="suppressAllComments" value="true"/>
 		</commentGenerator>
-		<jdbcConnection driverClass="org.gjt.mm.mysql.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/website" userId="root"
-			password="hzkjzyjsxy" />
-		<javaModelGenerator targetPackage="com.website.entites"
-			targetProject="WebSite" />
-		<sqlMapGenerator targetPackage="com.website.mapper"
-			targetProject="WebSite" />
-		<javaClientGenerator targetPackage="com.website.mapper"
-			targetProject="WebSite" type="XMLMAPPER" />
 
-		<!-- <table tableName="website_project" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+						connectionURL="jdbc:mysql://localhost:3306/website"
+						userId="root" password="hzkjzyjsxy"/>
+		<javaModelGenerator targetPackage="com.website.entites" targetProject="src/main/java"/>
+		<sqlMapGenerator targetPackage="com.website.mapper" targetProject="src/main/java"/>
+		<javaClientGenerator targetPackage="com.website.mapper" targetProject="src/main/java"
+							 type="XMLMAPPER"/>
+
+		<!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
+               是否生成 example类   -->
+		<table schema="website" tableName="website_music" domainObjectName="WebSiteMusic"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false">
 		</table>
-		<table tableName="website_role" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table> -->
-		<table tableName="website_album" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<!-- <table tableName="website_blog" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="website_comment" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table> -->
-		<!-- <table tableName="website_user" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="website_user_role" enableCountByExample="false"
-			enableUpdateByExample="false" enableDeleteByExample="false"
-			enableSelectByExample="false" selectByExampleQueryId="false">
-		</table> -->
 	</context>
-</generatorConfiguration>  
+</generatorConfiguration>

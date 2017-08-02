@@ -18,7 +18,7 @@
             crossorigin="anonymous"></script>
     <script src="/js/jquery.min.js"></script>
 </head>
-<body onload="getGithubData()">
+<body onload="getGithubData();getGithubData2()">
 <jsp:include page="/project_top.jsp"></jsp:include>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -42,8 +42,15 @@
     <div id="githubBody" class="panel-body">
     </div>
 </div>
-
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">收藏项目</h3>
+    </div>
+    <div id="githubBody2" class="panel-body">
+    </div>
+</div>
 <script>
+    //获取自己的项目
     function getGithubData() {
         $.ajax({
             url: 'https://api.github.com/users/egdw/repos',
@@ -52,13 +59,27 @@
             timeout: 5000, //超时时间
             dataType: 'json',
             success: function (data) {
-                console.log(data);
-                $.each(data,function (index,content) {
-                        $("#githubBody").append(" <a href='"+content.html_url}+"' class='list-group-item' target='_blank'> ");
-                $("#githubBody").append(" <h4 class='list-group-item-heading'> ");
-                $("#githubBody").append(" <h4 class='list-group-item-heading'> "+content.name+"</h4>");
-                $("#githubBody").append(" <p class='list-group-item-text'>"+content.description+"</p></a> ");
-            });
+                $.each(data, function (index, content) {
+                    $("#githubBody").append(" <a href='" + content.html_url + "' class='list-group-item' target='_blank'> " + " <h4 class='list-group-item-heading'> " + " <h4 class='list-group-item-heading'> " + content.name + "</h4>" + " <p class='list-group-item-text'>" + content.description + "</p></a> ");
+                });
+            },
+            error: function (xhr, textStatus) {
+                console.log('错误')
+            }
+        })
+    }
+    //获取星级项目
+    function getGithubData2() {
+        $.ajax({
+            url: 'https://api.github.com/users/egdw/starred',
+            type: 'GET', //GET
+            async: true,  //或false,是否异步
+            timeout: 5000, //超时时间
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (index, content) {
+                    $("#githubBody2").append(" <a href='" + content.html_url + "' class='list-group-item' target='_blank'> " + " <h4 class='list-group-item-heading'> " + " <h4 class='list-group-item-heading'> " + content.name + "</h4>" + " <p class='list-group-item-text'>" + content.description + "</p></a> ");
+                });
             },
             error: function (xhr, textStatus) {
                 console.log('错误')

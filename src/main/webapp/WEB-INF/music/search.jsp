@@ -44,15 +44,6 @@
         <a href="playMusic?id=4466775" class="list-group-item" target="_blank">lostrivers</a>
     </div>
 </center>
-<!--警告信息-->
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container">
-        <center>
-            <div class="alert alert-info" role="alert" style="margin: 0px auto">本站所有源码均开源.转载请标注源作者!!</div>
-        </center>
-    </div>
-</nav>
-<!--警告信息结束-->
 </body>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>

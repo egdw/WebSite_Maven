@@ -2,17 +2,14 @@ package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.net.httpserver.HttpsConfigurator;
-import com.website.entites.NeteaseMusic;
-import com.website.entites.NeteaseMusicMVCode;
-import com.website.entites.NeteaseMusicMvModel;
-import com.website.entites.NeteaseMusicResult;
+import com.website.entites.*;
 import com.website.model.Message;
 import com.website.model.MusicSong;
 import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +28,9 @@ import java.util.*;
 @Controller
 @RequestMapping("music")
 public class MusicController {
+//
+//    @Autowired
+//    private WebSiteMusicService musicService;
 
     /**
      * 进入搜索界面
@@ -366,9 +366,18 @@ public class MusicController {
         if (lists == null) {
             lists = new LinkedList<String>();
         }
-        lists.addFirst(param);
+        lists.addLast(param);
         session.setAttribute("songs_list", lists);
+//        WebsiteUser user = (WebsiteUser) session.getAttribute("current_user");
+//        WebsiteMusic music = new WebsiteMusic();
+//        music.setWebsiteUserId(user.getUserId());
+//        music.setWebsiteMusicId(Long.valueOf(param));
+//        boolean b = musicService.addWebSiteMusic(music);
+//        if(b){
         return JSON.toJSONString(new Message(200, "addsuccess", null, null, null));
+//        }else{
+//            return JSON.toJSONString(new Message(500, "addfail", null, null, null));
+//        }
     }
 
     /**

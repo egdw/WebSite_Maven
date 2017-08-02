@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -73,8 +74,13 @@
                     <li class="button"><a href="#">简述<span class="icon">
 							</span><i>3</i></a></li>
                     <li class="dropdown">
-                        <ul class="icon-navigation">
-                            <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
+                    <ul class="icon-navigation">
+                            <shiro:authenticated>
+                                <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
+                            </shiro:authenticated>
+                            <shiro:notAuthenticated>
+                                <li><a href="<%=request.getContextPath()%>/login/manager">登录</a></li>
+                            </shiro:notAuthenticated>
                             <li><a href="<%=request.getContextPath()%>/login/register.jsp">注册</a></li>
                             <li><a href="./AboutMy/index.html">关于我</a></li>
                         </ul>
@@ -83,16 +89,16 @@
             </li>
 
             <%--<li class="menu">--%>
-                <%--<ul>--%>
-                    <%--<li class="button"><a href="#">交流<span class="icon">--%>
-							<%--</span><i>1</i></a></li>--%>
-                    <%--<li class="dropdown">--%>
-                        <%--<ul class="icon-navigation">--%>
-                            <%--<li>--%>
-                            <%--</li>--%>
-                        <%--</ul>--%>
-                    <%--</li>--%>
-                <%--</ul>--%>
+            <%--<ul>--%>
+            <%--<li class="button"><a href="#">交流<span class="icon">--%>
+            <%--</span><i>1</i></a></li>--%>
+            <%--<li class="dropdown">--%>
+            <%--<ul class="icon-navigation">--%>
+            <%--<li>--%>
+            <%--</li>--%>
+            <%--</ul>--%>
+            <%--</li>--%>
+            <%--</ul>--%>
             <%--</li>--%>
 
         </ul>

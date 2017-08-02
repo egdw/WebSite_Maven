@@ -17,10 +17,9 @@
 </head>
 <body style="background-color: #c2c2c2" onload="getUserTable()">
 <ul class="layui-nav" lay-filter="" style="width: 100%">
-    <li class="layui-nav-item layui-this"><a href="#">个人中心</a></li>
     <li class="layui-nav-item">
         <a href="javascript:">功能菜单</a>
-        <dl class="layui-nav-child"> <!-- 二级菜单 -->
+        <dl class="layui-nav-child">
             <dd><a href="<%=request.getContextPath()%>/">首页</a></dd>
             <dd><a href="<%=request.getContextPath()%>/blog/">我的博客</a></dd>
             <dd><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></dd>
@@ -31,7 +30,7 @@
     </li>
     <li class="layui-nav-item">
         <a href="javascript:">关于</a>
-        <dl class="layui-nav-child"> <!-- 二级菜单 -->
+        <dl class="layui-nav-child">
             <dd><a href="<%=request.getContextPath()%>/AboutMy/index.html">关于我</a></dd>
         </dl>
     </li>
@@ -56,7 +55,7 @@
                             <blockquote class="layui-elem-quote">用户名:<shiro:principal></shiro:principal></blockquote>
                         </div>
                         <div class="layui-field-box">
-                            <blockquote class="layui-elem-quote">用户组:<shiro:user></shiro:user></blockquote>
+                            <blockquote class="layui-elem-quote">用户组:</blockquote>
                         </div>
                         <div class="layui-field-box">
                             <blockquote class="layui-elem-quote">引用区域的文字</blockquote>
@@ -66,7 +65,43 @@
                         </div>
                     </div>
                     <div class="layui-tab-item">
-                        不要瞎点了!啥都没有!
+                        <div class="layui-btn-group" style="margin-left: 3px">
+                            <button class="layui-btn" onclick="loadMusicInfoWebSite();">搜歌<i
+                                    class="layui-icon">&#xe615;</i></button>
+                            <button class="layui-btn" onclick="ap5.play()"><i class="layui-icon">&#xe652;</i></button>
+                            <button class="layui-btn" onclick="ap5.pause()"><i class="layui-icon">&#xe651;</i></button>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"><i class="layui-icon">&#xe603;</i>
+                            </button>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex+1)"><i class="layui-icon">&#xe602;</i>
+                            </button>
+                        </div>
+                        <table class="layui-table" lay-skin="nob>
+                            <colgroup>
+                                <col width="1">
+                                <col width="50">
+                                <col width="100">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                                <th>id</th>
+                                <th>歌名</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="" lay-skin="primary"></td>
+                                <td>贤心</td>
+                                <td>2016-11-29</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="" lay-skin="primary"></td>
+                                <td>贤心</td>
+                                <td>2016-11-29</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="layui-tab-item"><textarea id="demo" style="display: none;"></textarea>
                         <button style="float:right;" class="layui-btn" onclick="layer.msg('别提交了!还没写呢');">提交</button>
@@ -83,67 +118,80 @@
     </fieldset>
 </fieldset>
 <script>
-    function getUserTable() {
-        var ap5 = new APlayer({
-            element: document.getElementById('player1'),
-            narrow: false,
-            autoplay: false,
-            showlrc: 3,
-            mutex: true,
-            theme: '#ad7a86',
-            mode: 'random',
-            listmaxheight: '180px',
-            music: [
-                {
-                    title: 'あっちゅ～ま青春!',
-                    author: '七森中☆ごらく部',
-                    url: 'http://devtest.qiniudn.com/あっちゅ～ま青春!.mp3',
-                    pic: 'http://devtest.qiniudn.com/あっちゅ～ま青春!.jpg',
-                    lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
-                },
-                {
-                    title: 'secret base~君がくれたもの~',
-                    author: '茅野愛衣',
-                    url: 'http://devtest.qiniudn.com/secret base~.mp3',
-                    pic: 'http://devtest.qiniudn.com/secret base~.jpg',
-                    lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
-                },
-                {
-                    title: '回レ！雪月花',
-                    author: '小倉唯',
-                    url: 'http://devtest.qiniudn.com/回レ！雪月花.mp3',
-                    pic: 'http://devtest.qiniudn.com/回レ！雪月花.jpg',
-                    lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
+    var ap5 = null;
+    var currentindex = null;
+    var currentTime = null;
+    function loadMusicInfoWebSite() {
+        ap5.pause();
+        currentTime = ap5.audio.currentTime;
+        currentindex = ap5.playIndex;
+        layui.code
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            //iframe窗
+            var open = layer.open({
+                type: 2,
+                title: '尽情选择你喜欢的歌曲吧!',
+                shadeClose: true,
+                shade: true,
+                maxmin: true, //开启最大化最小化按钮
+//                area: ['600px', '600px'],
+                area: [document.body.clientWidth - 40 + "px", '500px'],
+                content: '/music/searchView',
+                end: function () {
+                    updateUserTable();
                 }
-            ]
+            });
         });
+    }
 
+    function getUserTable() {
         $.ajax({
             url: '/music/getSongsTable',
             type: 'GET', //GET
             async: true,    //或false,是否异步
             timeout: 5000,    //超时时间
             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-            beforeSend: function (xhr) {
-                console.log(xhr);
-                console.log('发送前')
-            },
             success: function (data, textStatus, jqXHR) {
                 console.log(data);
-                ap5.addMusic(data);
-                console.log(textStatus);
-                console.log(jqXHR)
+//                ap5.addMusic(data);
+                ap5 = new APlayer({
+                    element: document.getElementById('player1'),
+                    narrow: false,
+                    autoplay: false,
+                    showlrc: 3,
+                    mutex: true,
+                    theme: '#ad7a86',
+                    mode: 'random',
+                    listmaxheight: '180px',
+                    music: data
+                });
             },
             error: function (xhr, textStatus) {
                 console.log('错误');
-                console.log(xhr);
-                console.log(textStatus)
             },
-            complete: function () {
-                console.log('结束')
-            }
         })
     }
+
+    function updateUserTable() {
+        ap5.destroy();
+        getUserTable();
+        ap5.setMusic(currentindex);
+        ap5.play(currentTime);
+    }
+
+    layui.use('form', function(){
+        var $ = layui.jquery, form = layui.form();
+        //全选
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+
+    });
 </script>
 </body>
 </html>
