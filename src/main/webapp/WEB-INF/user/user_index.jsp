@@ -68,40 +68,51 @@
                         <div class="layui-btn-group" style="margin-left: 3px">
                             <button class="layui-btn" onclick="loadMusicInfoWebSite();">搜歌<i
                                     class="layui-icon">&#xe615;</i></button>
-                            <button class="layui-btn" onclick="ap5.play()"><i class="layui-icon">&#xe652;</i></button>
-                            <button class="layui-btn" onclick="ap5.pause()"><i class="layui-icon">&#xe651;</i></button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"><i class="layui-icon">&#xe603;</i>
+                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('播放', this);"><i class="layui-icon">&#xe652;</i></button>
+                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('暂停', this)";><i class="layui-icon">&#xe651;</i></button>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)" onmouseenter="layer.tips('上一首', this)"><i class="layui-icon">&#xe603;</i>
                             </button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex+1)"><i class="layui-icon">&#xe602;</i>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex+1)" onmouseenter="layer.tips('下一首', this)"><i class="layui-icon">&#xe602;</i>
                             </button>
                         </div>
-                        <table class="layui-table" lay-skin="nob>
-                            <colgroup>
-                                <col width="1">
-                                <col width="50">
-                                <col width="100">
-                                <col>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
-                                <th>id</th>
-                                <th>歌名</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td><input type="checkbox" name="" lay-skin="primary"></td>
-                                <td>贤心</td>
-                                <td>2016-11-29</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" name="" lay-skin="primary"></td>
-                                <td>贤心</td>
-                                <td>2016-11-29</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <br>
+                        <br>
+                        <div class="layui-btn-group" style="margin-left: 3px">
+                            <button class="layui-btn" onclick="updateUserTable()">刷新<i class="layui-icon">&#x1002;</i></button>
+                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('编辑', this)"><i class="layui-icon">&#xe642;</i></button>
+                            <button class="layui-btn" onclick="loadMusicInfoWebSite();" onmouseenter="layer.tips('删除', this)"><i
+                                    class="layui-icon">&#xe640;</i></button>
+                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('下载', this)"><i class="layui-icon">&#xe601;</i></button>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)" onmouseenter="layer.tips('设置', this)"><i class="layui-icon">&#xe620;</i>
+                            </button>
+                        </div>
+                        <%--<table class="layui-table" lay-skin="nob>--%>
+                            <%--<colgroup>--%>
+                                <%--<col width="1">--%>
+                                <%--<col width="50">--%>
+                                <%--<col width="100">--%>
+                                <%--<col>--%>
+                            <%--</colgroup>--%>
+                            <%--<thead>--%>
+                            <%--<tr>--%>
+                                <%--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>--%>
+                                <%--<th>id</th>--%>
+                                <%--<th>歌名</th>--%>
+                            <%--</tr>--%>
+                            <%--</thead>--%>
+                            <%--<tbody>--%>
+                            <%--<tr>--%>
+                                <%--<td><input type="checkbox" name="" lay-skin="primary"></td>--%>
+                                <%--<td>贤心</td>--%>
+                                <%--<td>2016-11-29</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<td><input type="checkbox" name="" lay-skin="primary"></td>--%>
+                                <%--<td>贤心</td>--%>
+                                <%--<td>2016-11-29</td>--%>
+                            <%--</tr>--%>
+                            <%--</tbody>--%>
+                        <%--</table>--%>
                     </div>
                     <div class="layui-tab-item"><textarea id="demo" style="display: none;"></textarea>
                         <button style="float:right;" class="layui-btn" onclick="layer.msg('别提交了!还没写呢');">提交</button>
@@ -122,7 +133,7 @@
     var currentindex = null;
     var currentTime = null;
     function loadMusicInfoWebSite() {
-        ap5.pause();
+//        ap5.pause();
         currentTime = ap5.audio.currentTime;
         currentindex = ap5.playIndex;
         layui.code
@@ -192,6 +203,7 @@
         });
 
     });
+
 </script>
 </body>
 </html>
