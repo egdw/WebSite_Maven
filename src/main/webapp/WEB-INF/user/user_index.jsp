@@ -55,7 +55,7 @@
                             <blockquote class="layui-elem-quote">用户名:<shiro:principal></shiro:principal></blockquote>
                         </div>
                         <div class="layui-field-box">
-                            <blockquote class="layui-elem-quote">用户组:</blockquote>
+                            <blockquote class="layui-elem-quote">用户组:普通用户</blockquote>
                         </div>
                         <div class="layui-field-box">
                             <blockquote class="layui-elem-quote">引用区域的文字</blockquote>
@@ -86,33 +86,6 @@
                             <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)" onmouseenter="layer.tips('设置', this)"><i class="layui-icon">&#xe620;</i>
                             </button>
                         </div>
-                        <%--<table class="layui-table" lay-skin="nob>--%>
-                            <%--<colgroup>--%>
-                                <%--<col width="1">--%>
-                                <%--<col width="50">--%>
-                                <%--<col width="100">--%>
-                                <%--<col>--%>
-                            <%--</colgroup>--%>
-                            <%--<thead>--%>
-                            <%--<tr>--%>
-                                <%--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>--%>
-                                <%--<th>id</th>--%>
-                                <%--<th>歌名</th>--%>
-                            <%--</tr>--%>
-                            <%--</thead>--%>
-                            <%--<tbody>--%>
-                            <%--<tr>--%>
-                                <%--<td><input type="checkbox" name="" lay-skin="primary"></td>--%>
-                                <%--<td>贤心</td>--%>
-                                <%--<td>2016-11-29</td>--%>
-                            <%--</tr>--%>
-                            <%--<tr>--%>
-                                <%--<td><input type="checkbox" name="" lay-skin="primary"></td>--%>
-                                <%--<td>贤心</td>--%>
-                                <%--<td>2016-11-29</td>--%>
-                            <%--</tr>--%>
-                            <%--</tbody>--%>
-                        <%--</table>--%>
                     </div>
                     <div class="layui-tab-item"><textarea id="demo" style="display: none;"></textarea>
                         <button style="float:right;" class="layui-btn" onclick="layer.msg('别提交了!还没写呢');">提交</button>

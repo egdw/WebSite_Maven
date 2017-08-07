@@ -56,7 +56,7 @@
             <li class="menu">
                 <ul>
                     <li class="button"><a href="#">信息<span class="icon stat">
-							</span><i>6</i></a></li>
+							</span><i>7</i></a></li>
                     <li class="dropdown">
                         <ul class="icon-navigation">
                             <li><a href="project/MyProject.do">我的作品</a></li>
@@ -65,6 +65,7 @@
                             <li><a href="funnyView.do">趣味网页</a></li>
                             <li><a href="tempView.do">临时网页</a></li>
                             <li><a href="music">我的音乐</a></li>
+                            <li><a href="read/index.html">我的闲读</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -74,7 +75,7 @@
                     <li class="button"><a href="#">简述<span class="icon">
 							</span><i>3</i></a></li>
                     <li class="dropdown">
-                    <ul class="icon-navigation">
+                        <ul class="icon-navigation">
                             <shiro:authenticated>
                                 <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
                             </shiro:authenticated>
@@ -87,20 +88,6 @@
                     </li>
                 </ul>
             </li>
-
-            <%--<li class="menu">--%>
-            <%--<ul>--%>
-            <%--<li class="button"><a href="#">交流<span class="icon">--%>
-            <%--</span><i>1</i></a></li>--%>
-            <%--<li class="dropdown">--%>
-            <%--<ul class="icon-navigation">--%>
-            <%--<li>--%>
-            <%--</li>--%>
-            <%--</ul>--%>
-            <%--</li>--%>
-            <%--</ul>--%>
-            <%--</li>--%>
-
         </ul>
     </div>
 </div>

@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,13 @@
                 </li>
                 <li><a href="##" data-toggle="modal"
                        data-target="#about-modal">关于</a></li>
-                <li><a href="<%=request.getContextPath()%>/login/manager">管理</a></li>
+
+                <shiro:authenticated>
+                    <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
+                </shiro:authenticated>
+                <shiro:notAuthenticated>
+                    <li><a href="<%=request.getContextPath()%>/login/manager">登录</a></li>
+                </shiro:notAuthenticated>
             </ul>
             <form class="navbar-form navbar-left" action="blogFind" method="post">
                 <div class="form-group">
