@@ -54,6 +54,7 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username,
                 password);
+        token.setRememberMe(true);
         try {
             subject.login(token);
         } catch (Exception e) {
@@ -88,23 +89,6 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             //获取所有的角色列表
-//            ArrayList<WebsiteRole> all = roleService.getAll();
-//            //转换成为为String类型的列表
-//            ArrayList<String> roles = new ArrayList<String>();
-//            Iterator<WebsiteRole> iterator = all.iterator();
-//            while (iterator.hasNext()) {
-//                WebsiteRole next = iterator.next();
-//                roles.add(next.getRoleName());
-//            }
-//            //得到角色信息
-//            boolean[] hasRoles = subject.hasRoles(roles);
-//            boolean isNotLogin = false;
-//            for (int i = 0; i < 0; i++) {
-//                if (hasRoles[i] == true) {
-//                    isNotLogin = true;
-//                    break;
-//                }
-//            }
             boolean superAdmin = subject.hasRole("super_admin");
             if (superAdmin) {
                 try {

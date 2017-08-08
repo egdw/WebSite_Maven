@@ -8,7 +8,7 @@
     <title>博客文章</title>
 </head>
 
-<body>
+<body onload="addImageClass()">
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <!-- 下面是举例的文章内容 -->
 <div class="container table_box">
@@ -48,16 +48,14 @@
             value="${index.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></label>
     </div>
     <hr>
-    <div style="padding-top: 4px;padding-left: 10px;padding-right: 10px;">
+    <div id="main_page" style="padding-top: 4px;padding-left: 10px;padding-right: 10px;" class="container">
         ${requestScope.blog.content}</div>
     <!-- 从这里往下是评论区 -->
-    <div>
-        <h1 style="padding-bottom: 10px;text-align: center">文章已经到底了!</h1>
-    </div>
     <hr style="border: 1px solid silver;">
     <c:if test="${requestScope.comments ==null}">
         <h3>暂无评论</h3>
     </c:if>
+
     <div style="padding-top: 10px;padding-left: 10px;padding-right: 10px">
         <c:forEach items="${requestScope.comments}" var="index" varStatus="i">
             <span style="color:black;width: 40px">${i.index+1}楼</span>
@@ -68,14 +66,14 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span class="glyphicon glyphicon-envelope"
                   style="color: gray;width:300px" aria-hidden="true">&nbsp;${index.email}</span>
+            <shiro:hasRole name="super_admin">
+                <input type="button" class="delBtn btn btn-default" name="${index.id}" value="删除"/>
+            </shiro:hasRole>
             <div style="font-size:16px;padding: 20px 50px 10px 45px;">${index.content}</div>
             <div style="color:gray;float: right">
                 <i>评论于 <fmt:formatDate value="${index.createTime}"
                                        pattern="yyyy-MM-dd HH:mm:ss"/></i>
             </div>
-            <shiro:hasRole name="super_admin">
-                <input type="button" class="delBtn" name="${index.id}" value="删除"/>
-            </shiro:hasRole>
             <hr>
         </c:forEach>
     </div>
@@ -86,50 +84,69 @@
     </script>
     <form id="comment_id" method="post">
         <fieldset>
-            <legend>评论</legend>
             <input value="${requestScope.blog.id}" type="hidden" name="blogId">
-            <div class="form-inline">
-                <div class="form-group col-lg-offset-1">
-                    <label style="font-size: 15px;width: 60px;">* 姓 名：</label> <input
-                        style="width:200px;font-size: 15px" type="text" minlength="2"
-                        maxlength="30" class="form-control" name="username" required>
+            <div class="form-inline" style="padding-top: 20px">
+                <div class="input-group form-group  col-lg-offset-1">
+                    <span class="input-group-addon" id="sizing-addon1">* 姓 名：</span>
+                    <input name="username" required maxlength="30" class="form-control" placeholder="请输入你的名称"
+                           aria-describedby="sizing-addon1" type="text" minlength="2">
                 </div>
             </div>
-            <div class="form-inline">
-                <div class="form-group  col-lg-offset-1">
-                    <label style="font-size: 15px;width: 60px;padding-top: 20px">*
-                        邮 箱：</label> <input style="width:200px;font-size: 15px" type="email"
-                                            class="form-control" name="email" required>
+            <div class="form-inline" style="padding-top: 20px">
+                <div class="input-group form-group  col-lg-offset-1">
+                    <span class="input-group-addon">* 邮 箱：</span>
+                    <input type="email" name="email" required maxlength="30" class="form-control" placeholder="请输入你的邮箱"
+                           aria-describedby="sizing-addon1" type="text" minlength="2">
                 </div>
             </div>
             <div class="form-inline" style="padding-top: 20px">
                 <div class="form-group  col-lg-offset-1">
                     <label style="font-size: 15px;width: 60px">* 内 容：</label>
-                    <textarea name="content" style="width: 500px" class="form-control"
-                              rows="4"></textarea>
+                    <textarea id="demo" required name="content" style="display: none;"></textarea>
                 </div>
             </div>
             <div class="form-inline">
-                <div class="form-group  col-lg-offset-1">
-                    <label style="font-size: 15px;width: 60px;padding-top: 20px">*
-                        验证：</label> <input style="width:200px;font-size: 15px" type="text"
-                                           class="form-control" name="verify" required><img id="verify"
-                                                                                            src="/comment/getVeriyImage"
-                                                                                            alt="验证码"
-                                                                                            onclick="loadImage()">
+                <div class="input-group form-group  col-lg-offset-1">
+                    <span class="input-group-addon">*验证：</span>
+                    <input name="verify" required maxlength="30" class="form-control" placeholder="请输入验证码"
+                           aria-describedby="sizing-addon1" type="text" minlength="2">
                 </div>
+                <img id="verify"
+                     src="/comment/getVeriyImage"
+                     alt="验证码"
+                     onclick="loadImage()">
+                <button type="button" style="width: 113px;text-align: center"
+                        id="submitBtn" class="btn btn-info" onclick="return false;">评论
+                </button>
             </div>
             <div class="col-lg-offset-1"
                  style="padding-top: 20px;padding-left: 60px;padding-bottom: 15px">
-                <button type="button" style="width: 200px;text-align: center"
-                        id="submitBtn" class="btn btn-info" onclick="return false;">评论
-                </button>
+
             </div>
         </fieldset>
     </form>
 
-
     <script type="text/javascript">
+
+        var layedit = null;
+        var index = null;
+        layui.use('layedit', function () {
+            layedit = layui.layedit;
+            index = layedit.build('demo', {
+                tool: [
+                    'strong' //加粗
+                    , 'italic' //斜体
+                    , 'underline' //下划线
+                    , 'del' //删除线
+                    , '|' //分割线
+                    , 'left' //左对齐
+                    , 'center' //居中对齐
+                    , 'right' //右对齐
+                    , 'face' //表情
+                ]
+            });
+        });
+
         $(document).ready(function () {
             $(".delBtn").click(function () {
                 var x = $(this).attr("name");
@@ -151,6 +168,7 @@
             });
 
             $("#submitBtn").click(function () {
+                layedit.sync(index);
                 $.ajax({
                     type: 'post',
                     url: '<%=request.getContextPath()%>/comment/add',
@@ -176,6 +194,10 @@
     <script
             src="<%=request.getContextPath()%>/css/admin_project_manager_files/jquery.min.js"></script>
 </div>
-
+<script>
+    function addImageClass() {
+        $("#main_page img").addClass("img-responsive");
+    }
+</script>
 </body>
 </html>

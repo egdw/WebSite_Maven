@@ -37,6 +37,11 @@ public class CommentController {
     @ResponseBody
     public String add(Integer blogId, String content, String email,
                       String username, @RequestParam(required = true) String verify, HttpSession session) {
+        System.out.println(blogId);
+        System.out.println(content);
+        System.out.println(email);
+        System.out.println(username);
+        System.out.println(verify);
         String verifyPass = (String) session.getAttribute("CommentVeriyPass");
         if (!(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
             //如果不相同.说明验证码不正确
