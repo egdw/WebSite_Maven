@@ -35,20 +35,15 @@
 
                 <!-- NAVI -->
                 <ul class="nav nav-tabs" id="PageTab">
-                    <li class=""><a
-                            href="http://love.kfj.cc/index.php?mod=baiduid#adminid"
-                            data-toggle="tab"
-                            onclick="$(&;#39;#newid2&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#newid&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#adminid&;#39;).css(&;#39;display&;#39;,&#39;&#39;)"
-                            aria-expanded="false">增加项目</a></li>
                     <li class="active"><a
                             href="http://love.kfj.cc/index.php?mod=baiduid#newid"
                             data-toggle="tab"
-                            onclick="$(&;#39;#newid&;#39;).css(&;#39;display&;#39;,&#39;&#39;)$(&;#39;#adminid&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#newid2&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)"
                             aria-expanded="true">管理项目</a></li>
                 </ul>
                 <br>
                 <!-- END NAVI -->
-
+                <a data-toggle="modal" data-target="#addModal"
+                   class="btn btn-info btn-sm">添加</a><br/>
                 <div class="tab-pane fade active in" id="newid">
                     <a name="#adminid"></a>
                     <div class="projects_list">
@@ -99,53 +94,70 @@
                     </div>
                 </div>
                 <!-- END PAGE1 -->
+                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">添加工程</h4>
+                            </div>
+                            <div class="modal-body">
+                                <a name="#newid"></a>
+                                <div class="alert alert-warning" role="alert" id="addbdid_msg">
+                                    项目请输入完整的路径,例如https://www.baidu.com<br/>
+                                </div>
+                                <form method="post" id="addbdid_form"
+                                      action="manager_project_add.do">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">项目标题</span> <input type="text"
+                                                                                           class="form-control"
+                                                                                           id="project_topic"
+                                                                                           name="project_topic"
+                                                                                           placeholder="请输入项目标题"
+                                                                                           required="">
+                                    </div>
+                                    <br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">项目内容</span> <input type="text"
+                                                                                           class="form-control"
+                                                                                           name="project_text"
+                                                                                           id="project_text"
+                                                                                           placeholder="请输入项目内容"
+                                                                                           required="">
+                                    </div>
+                                    <br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">项目地址</span> <input type="text"
+                                                                                           class="form-control"
+                                                                                           name="project_url"
+                                                                                           id="project_url"
+                                                                                           placeholder="例如https://www.baidu.com"
+                                                                                           required="">
+                                    </div>
+                                    <br/> <a href="#modal"> <input type="button"
+                                                                   class="btn btn-primary" value="提交">
+                                </a><br>
+                                </form>
+                                <div class="remodal" data-remodal-id="modal" role="dialog"
+                                     aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+                                    <button data-remodal-action="close" class="remodal-close"
+                                            aria-label="Close"></button>
+                                    <div>
+                                        <h2 id="modal1Title">项目提交</h2>
+                                        <p id="modal1Desc">确定要提交项目吗?</p>
+                                    </div>
+                                    <br>
+                                    <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
+                                    <button data-remodal-action="confirm" id="project_add_accpet_btn"
+                                            class="remodal-confirm">OK
+                                    </button>
+                                </div>
 
-                <div class="tab-pane fade" id="adminid" style="display: none;">
-                    <a name="#newid"></a>
-                    <div class="alert alert-warning" role="alert" id="addbdid_msg">
-                        项目请输入完整的路径,例如https://www.baidu.com<br/>
-                    </div>
-                    <form method="post" id="addbdid_form"
-                          action="manager_project_add.do">
-                        <div class="input-group">
-                            <span class="input-group-addon">项目标题</span> <input type="text"
-                                                                               class="form-control" id="project_topic"
-                                                                               name="project_topic"
-                                                                               placeholder="请输入项目标题" required="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">项目内容</span> <input type="text"
-                                                                               class="form-control" name="project_text"
-                                                                               id="project_text"
-                                                                               placeholder="请输入项目内容" required="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">项目地址</span> <input type="text"
-                                                                               class="form-control" name="project_url"
-                                                                               id="project_url"
-                                                                               placeholder="例如https://www.baidu.com"
-                                                                               required="">
-                        </div>
-                        <br/> <a href="#modal"> <input type="button"
-                                                       class="btn btn-primary" value="提交">
-                    </a><br>
-                    </form>
-                    <div class="remodal" data-remodal-id="modal" role="dialog"
-                         aria-labelledby="modal1Title" aria-describedby="modal1Desc">
-                        <button data-remodal-action="close" class="remodal-close"
-                                aria-label="Close"></button>
-                        <div>
-                            <h2 id="modal1Title">项目提交</h2>
-                            <p id="modal1Desc">确定要提交项目吗?</p>
-                        </div>
-                        <br>
-                        <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
-                        <button data-remodal-action="confirm" id="project_add_accpet_btn"
-                                class="remodal-confirm">OK
-                        </button>
-                    </div>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {

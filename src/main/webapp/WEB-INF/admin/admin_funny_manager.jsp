@@ -103,95 +103,117 @@
                 </div>
                 <!-- END PAGE1 -->
 
-                <div  class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <a name="#newid"></a>
-                    <div class="alert alert-warning" role="alert" id="addbdid_msg">
-                        项目请输入完整的路径,例如https://www.baidu.com<br/>
-                    </div>
-                    <form method="post" id="addbdid_form" enctype="multipart/form-data"
-                          action="manager_funny_add.do">
-                        <div class="input-group">
-                            <span class="input-group-addon">项目标题</span> <input type="text"
-                                                                               class="form-control" id="project_topic"
-                                                                               name="project_topic"
-                                                                               placeholder="请输入项目标题" required="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">项目简称</span> <input type="text"
-                                                                               class="form-control" name="project_text"
-                                                                               id="project_text"
-                                                                               placeholder="请输入项目内容" required="">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">首页地址</span> <input type="text"
-                                                                               class="form-control" name="project_name"
-                                                                               id="project_name"
-                                                                               placeholder="例如https://www.baidu.com"
-                                                                               required="">
-                        </div>
-                        <br/>
-                        <div class="input-group">
-                            <span class="input-group-addon">文件附件</span> <input type="file"
-                                                                               class="form-control" name="project_file"
-                                                                               id="project_file"
-                                                                               placeholder="请上传格式为zip的压缩文件" required=""
-                                                                               accept=".zip">
-                        </div>
-                        <br/> <a href="#modal"> <input type="button"
-                                                       class="btn btn-primary" value="提交">
-                    </a><br>
-                    </form>
-                    <div class="remodal" data-remodal-id="modal" role="dialog"
-                         aria-labelledby="modal1Title" aria-describedby="modal1Desc">
-                        <button data-remodal-action="close" class="remodal-close"
-                                aria-label="Close"></button>
-                        <div>
-                            <h2 id="modal1Title">项目提交</h2>
-                            <p id="modal1Desc">确定要提交项目吗?</p>
-                        </div>
-                        <br>
-                        <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
-                        <button data-remodal-action="confirm" id="project_add_accpet_btn"
-                                class="remodal-confirm">OK
-                        </button>
-                    </div>
-                    <div class="remodal" data-remodal-id="modalupdate" role="dialog"
-                         aria-labelledby="modal1Title" aria-describedby="modal1Desc">
-                        <button data-remodal-action="close" class="remodal-close"
-                                aria-label="Close"></button>
-                        <div>
-                            <form id="project_update_form">
-                                <input type="hidden" id="project_update_id" name="projectId">
-                                <div class="input-group">
-                                    <span class="input-group-addon">项目标题</span> <input type="text"
-                                                                                       class="form-control"
-                                                                                       id="project_update_topic"
-                                                                                       name="projectTopic"
-                                                                                       placeholder="请输入项目标题"
-                                                                                       required="">
+                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">添加趣味</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-warning" role="alert" id="addbdid_msg">
+                                    项目请输入完整的路径,例如https://www.baidu.com<br/>
                                 </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon">项目内容</span> <input type="text"
-                                                                                       class="form-control"
-                                                                                       name="projectText"
-                                                                                       id="project_update_text"
-                                                                                       placeholder="请输入项目内容"
-                                                                                       required="">
-                                </div>
-                                <br>
-                            </form>
-                        </div>
-                        <br>
-                        <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
-                        <button data-remodal-action="confirm" id="project_update_accpet_btn"
-                                class="remodal-confirm">OK
-                        </button>
-                    </div>
-                    <br> <br>
+                                <form method="post" id="addbdid_form" enctype="multipart/form-data"
+                                      action="manager_funny_add.do">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">项目标题</span> <input type="text"
+                                                                                           class="form-control"
+                                                                                           id="project_topic"
+                                                                                           name="project_topic"
+                                                                                           placeholder="请输入项目标题"
+                                                                                           required="">
+                                    </div>
+                                    <br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">项目简称</span> <input type="text"
+                                                                                           class="form-control"
+                                                                                           name="project_text"
+                                                                                           id="project_text"
+                                                                                           placeholder="请输入项目内容"
+                                                                                           required="">
+                                    </div>
+                                    <br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">首页地址</span> <input type="text"
+                                                                                           class="form-control"
+                                                                                           name="project_name"
+                                                                                           id="project_name"
+                                                                                           placeholder="例如https://www.baidu.com"
+                                                                                           required="">
+                                    </div>
+                                    <br/>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">文件附件</span> <input type="file"
+                                                                                           class="form-control"
+                                                                                           name="project_file"
+                                                                                           id="project_file"
+                                                                                           placeholder="请上传格式为zip的压缩文件"
+                                                                                           required=""
+                                                                                           accept=".zip">
+                                    </div>
+                                    <br/> <a href="#modal"> <input type="button"
+                                                                   class="btn btn-primary" value="提交">
+                                </a><br>
+                                </form>
+                                <br> <br>
+
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
                 </div>
+
+
+                <div class="remodal" data-remodal-id="modal" role="dialog"
+                     aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+                    <button data-remodal-action="close" class="remodal-close"
+                            aria-label="Close"></button>
+                    <div>
+                        <h2 id="modal1Title">项目提交</h2>
+                        <p id="modal1Desc">确定要提交项目吗?</p>
+                    </div>
+                    <br>
+                    <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
+                    <button data-remodal-action="confirm" id="project_add_accpet_btn"
+                            class="remodal-confirm">OK
+                    </button>
+                </div>
+                <div class="remodal" data-remodal-id="modalupdate" role="dialog"
+                     aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+                    <button data-remodal-action="close" class="remodal-close"
+                            aria-label="Close"></button>
+                    <div>
+                        <form id="project_update_form">
+                            <input type="hidden" id="project_update_id" name="projectId">
+                            <div class="input-group">
+                                <span class="input-group-addon">项目标题</span> <input type="text"
+                                                                                   class="form-control"
+                                                                                   id="project_update_topic"
+                                                                                   name="projectTopic"
+                                                                                   placeholder="请输入项目标题"
+                                                                                   required="">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <span class="input-group-addon">项目内容</span> <input type="text"
+                                                                                   class="form-control"
+                                                                                   name="projectText"
+                                                                                   id="project_update_text"
+                                                                                   placeholder="请输入项目内容"
+                                                                                   required="">
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                    <br>
+                    <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
+                    <button data-remodal-action="confirm" id="project_update_accpet_btn"
+                            class="remodal-confirm">OK
+                    </button>
+                </div>
+
                 <script type="text/javascript">
                     $(document).ready(function () {
                         $("#project_add_accpet_btn").click(function () {
@@ -254,22 +276,6 @@
                         });
                     });
                 </script>
-                <!-- PAGE3: NEWID2 -->
-                <div class="tab-pane fade" id="newid2" style="display: none;">
-                    <form action="http://love.kfj.cc/setting.php" method="get">
-                        <div class="input-group">
-                            <input type="hidden" name="mod" value="baiduid"> <span
-                                class="input-group-addon">输入BDUSS</span> <input type="text"
-                                                                                class="form-control" name="bduss"
-                                                                                id="bduss_input"> <span
-                                class="input-group-btn"><input type="submit"
-                                                               id="submit_project_btn" class="btn btn-primary"
-                                                               value="点击提交"></span>
-                        </div>
-                    </form>
-
-                    <br> <br> <br>
-                </div>
                 <br> <br> <br> <br> <br>
             </div>
         </div>

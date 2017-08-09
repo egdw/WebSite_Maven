@@ -207,55 +207,6 @@
                 <!-- 第二个分组结束 -->
                 <div class="container col-lg-2 col-md-1"></div>
 
-                <!-- 隐藏添加图片窗体 -->
-                <div class="modal fade" id="add-image-modal" tabindex="-1"
-                     role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
-                                </button>
-                                <h4 class="modal-title">添加</h4>
-                            </div>
-
-                            <form id="addImageForm"
-                                  action="<%=request.getContextPath()%>/blog/add" method="post">
-                                <div class="modal-body">
-                                    <div>
-                                        <label style="font-size: 15px">标题:</label> <input
-                                            style="display: inline;font-size:15px;width:250px;"
-                                            name="title" type="text" class="form-control"
-                                            placeholder="请输入标题"/>
-                                    </div>
-                                    <div id="pic_div" style="padding-top: 5px;">
-                                        <label style="font-size: 15px">图片: </label>
-                                        <div id="show"></div>
-                                        <!-- 存储图片地址，并显示图片 -->
-                                        <input type="hidden" name="pic_url" id="pictureSrc2">
-                                    </div>
-                                    <img alt="" id="displayImg2" width="100px" height="100px"
-                                         src="">
-                                    <div style="padding-top: 5px">
-                                        <input type="file" name="image" id="imageFile2">
-                                    </div>
-                                    <div style="padding-top: 5px">
-                                        <button id="upload2" onclick="return false;">上传</button>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="userType" value="1">
-                                <div class="modal-footer">
-                                    <button type="button" id="addImageBtn" class="btn btn-success"
-                                            onclick="return false;">添加
-                                    </button>
-                                    <button type="button" id="addImageBtnCancle"
-                                            class="btn btn-default" data-dismiss="modal">取消
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                 <!-- 隐藏博客添加窗体 -->
                 <div class="modal fade" id="add-blog-modal" tabindex="-1"
                      role="dialog" aria-labelledby="modal-label" aria-hidden="true">
