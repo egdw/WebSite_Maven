@@ -300,7 +300,7 @@
                             success: function (data) {
                                 $('#title').val(data.title);
                                 //放入img的src
-                                $('#blog_update_image').attr('src', '/WebSite/' + data.url);
+                                $('#blog_update_image').attr('src', '/' + data.url);
                                 $('#update_blog_image').val(data.url);
                             },
                         });

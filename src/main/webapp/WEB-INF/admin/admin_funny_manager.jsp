@@ -43,21 +43,16 @@
             <div class="col-md-9" role="main">
                 <!-- NAVI -->
                 <ul class="nav nav-tabs" id="PageTab">
-                    <li class=""><a
-                            href="http://love.kfj.cc/index.php?mod=baiduid#adminid"
-                            data-toggle="tab"
-                            onclick="$(&;#39;#newid2&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#newid&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#adminid&;#39;).css(&;#39;display&;#39;,&#39;&#39;)"
-                            aria-expanded="false">增加项目</a></li>
                     <li class="active"><a
                             href="http://love.kfj.cc/index.php?mod=baiduid#newid"
                             data-toggle="tab"
-                            onclick="$(&;#39;#newid&;#39;).css(&;#39;display&;#39;,&#39;&#39;)$(&;#39;#adminid&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)$(&;#39;#newid2&;#39;).css(&;#39;display&;#39;,&#39;none&;#39;)"
                             aria-expanded="true">管理项目</a></li>
                 </ul>
                 <br>
                 <!-- END NAVI -->
-
                 <div class="tab-pane fade active in" id="newid">
+                    <a data-toggle="modal" data-target="#addModal"
+                       class="btn btn-info btn-sm">添加</a><br/>
                     <a name="#adminid"></a>
                     <div class="projects_list">
                         <table border="1">
@@ -108,7 +103,7 @@
                 </div>
                 <!-- END PAGE1 -->
 
-                <div class="tab-pane fade" id="adminid" style="display: none;">
+                <div  class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <a name="#newid"></a>
                     <div class="alert alert-warning" role="alert" id="addbdid_msg">
                         项目请输入完整的路径,例如https://www.baidu.com<br/>
