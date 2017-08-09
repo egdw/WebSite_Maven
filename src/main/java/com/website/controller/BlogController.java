@@ -8,6 +8,8 @@ import com.website.service.WebSiteBlogService;
 import com.website.service.WebSiteCommentService;
 import com.website.utils.ImageUtils;
 import com.website.utils.UUIDUtils;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -165,22 +169,33 @@ public class BlogController {
             path = new File(request.getRealPath("upload" + File.separator
                     + "image" + File.separator)
                     + File.separator + UUIDUtils.getUUID() + string);
-            if(!path.exists()){
+            if (!path.exists()) {
                 path.getParentFile().mkdirs();
             }
+            try {
+                file.transferTo(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            byte[] bytes = file.getBytes();
-            BufferedOutputStream bos = new BufferedOutputStream(
-                    new FileOutputStream(path));
-            bos.write(bytes);
-            bos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            byte[] bytes = file.getBytes();
+//            BufferedOutputStream bos = new BufferedOutputStream(
+//                    new FileOutputStream(path));
+//            bos.write(bytes);
+//            bos.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         if (path.exists()) {
+            try {
+                BufferedImage bufferedImage = ImageIO.read(path);
+                Thumbnails.of(bufferedImage).outputQuality(0.8f).toFile(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             // 这里进行返回相应的图片的地址.
             String absolutePath = path.getAbsolutePath();
             System.out.println(absolutePath);
