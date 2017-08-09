@@ -28,6 +28,7 @@
 				<article class="thumb">
 					<a href="<%=request.getContextPath()%>/${index.url}" class="image"><img
 						src="<%=request.getContextPath()%>/${index.urlThumb}" alt="" /></a>
+					<%--src="<%=request.getContextPath()%>/${index.urlThumb}" alt="" /></a>--%>
 					<h2>${index.title}</h2>
 					<p>${index.title}</p>
 				</article>

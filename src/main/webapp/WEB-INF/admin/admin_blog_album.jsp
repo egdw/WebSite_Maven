@@ -19,26 +19,19 @@
                  role="complementary">
                 <ul class="nav bs-sidenav">
                     <li class=""><a
-                            href="<%=request.getContextPath()%>/login/manager"><span
-                            class="glyphicon glyphicon-home"></span> 管理首页</a></li>
+                            href="<%=request.getContextPath()%>/login/manager"> 管理首页</a></li>
                     <li class=""><a
-                            href="<%=request.getContextPath()%>/manager/manager_person_setting.do"><span
-                            class="glyphicon glyphicon-wrench"></span> 个人设置</a></li>
+                            href="<%=request.getContextPath()%>/manager/manager_person_setting.do"> 个人设置</a></li>
                     <li class=""><a
-                            href="<%=request.getContextPath()%>/manager/manager_project_manager.do"><span
-                            class="glyphicon glyphicon-link"></span> 项目管理</a></li>
+                            href="<%=request.getContextPath()%>/manager/manager_project_manager.do"> 项目管理</a></li>
                     <li class=""><a
-                            href="<%=request.getContextPath()%>/manager/manager_funny_manager.do"><span
-                            class="glyphicon glyphicon-calendar"></span> 趣味管理</a></li>
+                            href="<%=request.getContextPath()%>/manager/manager_funny_manager.do"> 趣味管理</a></li>
                     <li><a
-                            href="<%=request.getContextPath()%>/manager/manager_temp_manager.do"><span
-                            class="glyphicon glyphicon-exclamation-sign"></span> 临时管理</a></li>
+                            href="<%=request.getContextPath()%>/manager/manager_temp_manager.do"> 临时管理</a></li>
                     <li class=""><a
-                            href="<%=request.getContextPath()%>/blog/admin"><span
-                            class="glyphicon glyphicon-ban-circle"></span> 博客管理</a></li>
+                            href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li class="active"><a
-                            href="<%=request.getContextPath()%>/album/album"><span
-                            class="glyphicon glyphicon-cloud-upload"></span> 相册管理</a></li>
+                            href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
 
                 </ul>
             </div>
@@ -354,7 +347,7 @@
                                 dataType: 'text',
                                 success: function (data) {
                                     if (data != 'null') {
-                                        $('#displayImg').attr("src", "/WebSite/" + data);
+                                        $('#displayImg').attr("src", "/" + data);
                                         $('#pictureSrc').attr("value", data);
                                     } else {
                                         $('#displayImg').attr("src", "");

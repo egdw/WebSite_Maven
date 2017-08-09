@@ -172,35 +172,25 @@ public class BlogController {
             if (!path.exists()) {
                 path.getParentFile().mkdirs();
             }
-            try {
-                file.transferTo(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-//        try {
-//            byte[] bytes = file.getBytes();
-//            BufferedOutputStream bos = new BufferedOutputStream(
-//                    new FileOutputStream(path));
-//            bos.write(bytes);
-//            bos.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+            Thumbnails.of(bufferedImage).size(bufferedImage.getWidth(), bufferedImage.getHeight()).outputQuality(0.3f).toFile(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (path.exists()) {
-            try {
-                BufferedImage bufferedImage = ImageIO.read(path);
-                Thumbnails.of(bufferedImage).outputQuality(0.8f).toFile(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             // 这里进行返回相应的图片的地址.
             String absolutePath = path.getAbsolutePath();
             System.out.println(absolutePath);
             //生成缓存文件
-            ImageUtils.thumbnailImage(absolutePath, 100, 150);
+            try {
+                BufferedImage bufferedImage = ImageIO.read(path);
+                Thumbnails.of(bufferedImage).size(bufferedImage.getWidth(), bufferedImage.getHeight()).outputQuality(0.1f).toFile(new File(path.getParentFile().getAbsolutePath(), "thumb_" + path.getName()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            ImageUtils.thumbnailImage(absolutePath, 100, 150);
             int indexOf = absolutePath.indexOf("upload" + File.separator
                     + "image" + File.separator);
             String substring = absolutePath.substring(indexOf);

@@ -48,8 +48,7 @@
                     <h3 class="panel-title">用户信息</h3>
                 </div>
                 <ul class="list-group">
-                    <li class="list-group-item"><span
-                            class="glyphicon glyphicon-user"></span> <b>用户组：</b> 管理员
+                    <li class="list-group-item"> <b>用户组：</b> 管理员
                     </li>
                     <li class="list-group-item"><c:if
                             test="${not empty requestScope.user.userEmail}">
