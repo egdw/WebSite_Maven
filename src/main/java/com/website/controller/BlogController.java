@@ -54,12 +54,12 @@ public class BlogController {
         Integer pageCount = service.getPageNum(null);
         // 从数据库中获取最新的前五张图片
         ArrayList<WebsiteAlbum> albumbyPage = albumService.selectAlbumbyPage(0,
-                5);
+                10);
         ArrayList<WebsiteComment> comments = commentService.getCommentByNum(5);
         ArrayList<WebsiteBlog> selectBlogByNumAndComment = service
-                .selectBlogByNumAndComment(5);
+                .selectBlogByNumAndComment(10);
         ArrayList<WebsiteBlog> selectBlogByNumAndReader = service
-                .selectBlogByNumAndReader(5);
+                .selectBlogByNumAndReader(10);
         map.put("list", list);
         map.put("pageCount", pageCount);
         map.put("currentPage", pageNum);

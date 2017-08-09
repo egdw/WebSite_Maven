@@ -47,7 +47,7 @@
                     <li class="layui-this">个人信息</li>
                     <li>我的音乐</li>
                     <li>宝贵建议</li>
-                    <li>暂定</li>
+                    <li>设置</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
@@ -68,22 +68,31 @@
                         <div class="layui-btn-group" style="margin-left: 3px">
                             <button class="layui-btn" onclick="loadMusicInfoWebSite();">搜歌<i
                                     class="layui-icon">&#xe615;</i></button>
-                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('播放', this);"><i class="layui-icon">&#xe652;</i></button>
-                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('暂停', this)";><i class="layui-icon">&#xe651;</i></button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)" onmouseenter="layer.tips('上一首', this)"><i class="layui-icon">&#xe603;</i>
+                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('播放', this);"><i
+                                    class="layui-icon">&#xe652;</i></button>
+                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('暂停', this)" ;><i
+                                    class="layui-icon">&#xe651;</i></button>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"
+                                    onmouseenter="layer.tips('上一首', this)"><i class="layui-icon">&#xe603;</i>
                             </button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex+1)" onmouseenter="layer.tips('下一首', this)"><i class="layui-icon">&#xe602;</i>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex+1)"
+                                    onmouseenter="layer.tips('下一首', this)"><i class="layui-icon">&#xe602;</i>
                             </button>
                         </div>
                         <br>
                         <br>
                         <div class="layui-btn-group" style="margin-left: 3px">
-                            <button class="layui-btn" onclick="updateUserTable()">刷新<i class="layui-icon">&#x1002;</i></button>
-                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('编辑', this)"><i class="layui-icon">&#xe642;</i></button>
-                            <button class="layui-btn" onclick="loadMusicInfoWebSite();" onmouseenter="layer.tips('删除', this)"><i
+                            <button class="layui-btn" onclick="updateUserTable()">刷新<i class="layui-icon">&#x1002;</i>
+                            </button>
+                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('编辑', this)"><i
+                                    class="layui-icon">&#xe642;</i></button>
+                            <button class="layui-btn" onclick="loadMusicInfoWebSite();"
+                                    onmouseenter="layer.tips('删除', this)"><i
                                     class="layui-icon">&#xe640;</i></button>
-                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('下载', this)"><i class="layui-icon">&#xe601;</i></button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)" onmouseenter="layer.tips('设置', this)"><i class="layui-icon">&#xe620;</i>
+                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('下载', this)"><i
+                                    class="layui-icon">&#xe601;</i></button>
+                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"
+                                    onmouseenter="layer.tips('设置', this)"><i class="layui-icon">&#xe620;</i>
                             </button>
                         </div>
                     </div>
@@ -137,8 +146,6 @@
             timeout: 5000,    //超时时间
             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
             success: function (data, textStatus, jqXHR) {
-                console.log(data);
-//                ap5.addMusic(data);
                 ap5 = new APlayer({
                     element: document.getElementById('player1'),
                     narrow: false,
@@ -157,6 +164,23 @@
         })
     }
 
+    layui.use('layedit', function () {
+        layedit = layui.layedit;
+        index = layedit.build('demo', {
+            tool: [
+                'strong' //加粗
+                , 'italic' //斜体
+                , 'underline' //下划线
+                , 'del' //删除线
+                , '|' //分割线
+                , 'left' //左对齐
+                , 'center' //居中对齐
+                , 'right' //右对齐
+                , 'face' //表情
+            ]
+        });
+    });
+
     function updateUserTable() {
         ap5.destroy();
         getUserTable();
@@ -164,12 +188,12 @@
         ap5.play(currentTime);
     }
 
-    layui.use('form', function(){
+    layui.use('form', function () {
         var $ = layui.jquery, form = layui.form();
         //全选
-        form.on('checkbox(allChoose)', function(data){
+        form.on('checkbox(allChoose)', function (data) {
             var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
-            child.each(function(index, item){
+            child.each(function (index, item) {
                 item.checked = data.elem.checked;
             });
             form.render('checkbox');

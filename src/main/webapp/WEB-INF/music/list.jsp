@@ -17,7 +17,9 @@
 <body>
 <jsp:include page="/music_top.jsp"></jsp:include>
 <c:if test="${empty requestScope.errorMessage}">
-    <div class="alert alert-success" role="alert">查询成功!一共有${requestScope.songCount}条数据,您当前处于第${requestScope.pageNum+1}页.</div>
+    <div class="alert alert-success" role="alert">
+        查询成功!一共有${requestScope.songCount}条数据,您当前处于第${requestScope.pageNum+1}页.
+    </div>
 </c:if>
 <c:if test="${not empty requestScope.errorMessage}">
     <div class="alert alert-danger" role="alert">${requestScope.errorMessage}</div>
@@ -45,7 +47,8 @@
                                    class="btn btn-primary" role="button">播放</a>
                                 <shiro:authenticated>
                                     <button onclick="addSong(${index.id})"
-                                   class="btn btn-primary" role="button">添加到播放列表</button>
+                                            class="btn btn-primary" role="button">添加到播放列表
+                                    </button>
                                 </shiro:authenticated>
                                 <div class="btn-group">
 
@@ -104,31 +107,37 @@
             url: '/music/addUserSongsTable',
             type: 'POST', //GET
             async: true,    //或false,是否异步
-            data:{
-                param:songId
+            data: {
+                param: songId
             },
             timeout: 5000,    //超时时间
             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-            success: function (data, textStatus, jqXHR) {
-                    Toast('添加成功。请到个人中心查看',1000);
+            success: function (data) {
+                if (data.code == 200) {
+                    Toast('添加成功。请到个人中心查看', 1000);
+                } else {
+                    Toast('添加失败,请重试', 1000);
+                }
             },
-            error: function (xhr, textStatus) {
-                    Toast('添加错误',1000);
+            error: function (xhr,) {
+                Toast('添加错误', 1000);
             }
         })
     }
 
-    function Toast(msg,duration){
-        duration=isNaN(duration)?3000:duration;
+    function Toast(msg, duration) {
+        duration = isNaN(duration) ? 3000 : duration;
         var m = document.createElement('div');
         m.innerHTML = msg;
-        m.style.cssText="width: 60%;min-width: 150px;opacity: 0.7;height: 30px;color: rgb(255, 255, 255);line-height: 30px;text-align: center;border-radius: 5px;position: fixed;top: 40%;left: 20%;z-index: 999999;background: rgb(0, 0, 0);font-size: 12px;";
+        m.style.cssText = "width: 60%;min-width: 150px;opacity: 0.7;height: 30px;color: rgb(255, 255, 255);line-height: 30px;text-align: center;border-radius: 5px;position: fixed;top: 40%;left: 20%;z-index: 999999;background: rgb(0, 0, 0);font-size: 12px;";
         document.body.appendChild(m);
-        setTimeout(function() {
+        setTimeout(function () {
             var d = 0.5;
             m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
             m.style.opacity = '0';
-            setTimeout(function() { document.body.removeChild(m) }, d * 1000);
+            setTimeout(function () {
+                document.body.removeChild(m)
+            }, d * 1000);
         }, duration);
     }
 </script>

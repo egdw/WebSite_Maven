@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.website.entites.*;
 import com.website.model.Message;
 import com.website.model.MusicSong;
+import com.website.service.WebSiteMusicService;
 import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
 import org.apache.shiro.authz.annotation.Logical;
@@ -28,9 +29,8 @@ import java.util.*;
 @Controller
 @RequestMapping("music")
 public class MusicController {
-//
-//    @Autowired
-//    private WebSiteMusicService musicService;
+    @Autowired
+    private WebSiteMusicService musicService;
 
     /**
      * 进入搜索界面
@@ -318,22 +318,26 @@ public class MusicController {
     @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
     @RequestMapping(value = "/getSongsTable", method = RequestMethod.GET)
     @ResponseBody
-    public String getUserSongsTable(HttpSession HttpSession) {
-        LinkedList<String> list = (LinkedList<String>) HttpSession.getAttribute("songs_list");
-        if (list == null) {
-            list = new LinkedList<String>();
+    public String getUserSongsTable(Integer page, HttpSession session) {
+        WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
+        ArrayList<WebSiteMusic> list = null;
+        if (page == null) {
+            //那就说明是要获取全部的歌曲
+            list = musicService.findAll(user.getUserId());
+        } else {
+            //说明获取分页歌曲
+            list = musicService.find(page, user.getUserId());
         }
-        List<MusicSong> lists = new ArrayList<MusicSong>();
-        if (list.size() > 0) {
+        ArrayList<MusicSong> lists = new ArrayList<MusicSong>();
+        if (list != null && list.size() > 0) {
             //说明添加了新歌曲
-            Iterator<String> iterator = list.iterator();
+            Iterator<WebSiteMusic> iterator = list.iterator();
             while (iterator.hasNext()) {
-                String param = iterator.next();
-                NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(param, param);
-                MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=" + param, musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=" + param);
+                WebSiteMusic param = iterator.next();
+                NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(param.getWebsiteMusicId() + "", param.getWebsiteMusicId() + "");
+                MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=" + param.getWebsiteMusicId(), musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=" + param.getWebsiteMusicId());
                 lists.add(song);
             }
-            return JSON.toJSONString(lists);
         } else {
             //没添加。给固定的几首歌
             NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(31234186 + "", 31234186 + "");
@@ -348,8 +352,8 @@ public class MusicController {
             lists.add(song2);
             lists.add(song3);
             lists.add(song4);
-            return JSON.toJSONString(lists);
         }
+        return JSON.toJSONString(lists);
     }
 
 
@@ -362,22 +366,16 @@ public class MusicController {
     @RequestMapping(value = "addUserSongsTable", method = RequestMethod.POST)
     @ResponseBody
     public String addUserSongsTable(@RequestParam(required = true) String param, HttpSession session) {
-        LinkedList<String> lists = (LinkedList<String>) session.getAttribute("songs_list");
-        if (lists == null) {
-            lists = new LinkedList<String>();
+        WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
+        WebSiteMusic music = new WebSiteMusic();
+        music.setWebsiteUserId(user.getUserId());
+        music.setWebsiteMusicId(Long.valueOf(param));
+        boolean b = musicService.addMusic(music);
+        if (b) {
+            return JSON.toJSONString(new Message(200, "addsuccess", null, null, null));
+        } else {
+            return JSON.toJSONString(new Message(500, "addfail", null, null, null));
         }
-        lists.addLast(param);
-        session.setAttribute("songs_list", lists);
-//        WebsiteUser user = (WebsiteUser) session.getAttribute("current_user");
-//        WebsiteMusic music = new WebsiteMusic();
-//        music.setWebsiteUserId(user.getUserId());
-//        music.setWebsiteMusicId(Long.valueOf(param));
-//        boolean b = musicService.addWebSiteMusic(music);
-//        if(b){
-        return JSON.toJSONString(new Message(200, "addsuccess", null, null, null));
-//        }else{
-//            return JSON.toJSONString(new Message(500, "addfail", null, null, null));
-//        }
     }
 
     /**
