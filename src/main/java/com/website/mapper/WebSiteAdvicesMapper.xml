@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebSiteAdvicesMapper" >
+  <resultMap id="BaseResultMap" type="com.website.entites.WebSiteAdvices" >
+    <id column="website_advices_id" property="websiteAdvicesId" jdbcType="BIGINT" />
+    <result column="website_user_id" property="websiteUserId" jdbcType="BIGINT" />
+    <result column="website_date" property="websiteDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebSiteAdvices" extends="BaseResultMap" >
+    <result column="website_text" property="websiteText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    website_advices_id, website_user_id, website_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    website_text
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from website_advices
+    where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from website_advices
+    where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.website.entites.WebSiteAdvices" >
+    insert into website_advices (website_advices_id, website_user_id, website_date, 
+      website_text)
+    values (#{websiteAdvicesId,jdbcType=BIGINT}, #{websiteUserId,jdbcType=BIGINT}, #{websiteDate,jdbcType=TIMESTAMP}, 
+      #{websiteText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.website.entites.WebSiteAdvices" >
+    insert into website_advices
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="websiteAdvicesId != null" >
+        website_advices_id,
+      </if>
+      <if test="websiteUserId != null" >
+        website_user_id,
+      </if>
+      <if test="websiteDate != null" >
+        website_date,
+      </if>
+      <if test="websiteText != null" >
+        website_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="websiteAdvicesId != null" >
+        #{websiteAdvicesId,jdbcType=BIGINT},
+      </if>
+      <if test="websiteUserId != null" >
+        #{websiteUserId,jdbcType=BIGINT},
+      </if>
+      <if test="websiteDate != null" >
+        #{websiteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="websiteText != null" >
+        #{websiteText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebSiteAdvices" >
+    update website_advices
+    <set >
+      <if test="websiteUserId != null" >
+        website_user_id = #{websiteUserId,jdbcType=BIGINT},
+      </if>
+      <if test="websiteDate != null" >
+        website_date = #{websiteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="websiteText != null" >
+        website_text = #{websiteText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebSiteAdvices" >
+    update website_advices
+    set website_user_id = #{websiteUserId,jdbcType=BIGINT},
+      website_date = #{websiteDate,jdbcType=TIMESTAMP},
+      website_text = #{websiteText,jdbcType=LONGVARCHAR}
+    where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebSiteAdvices" >
+    update website_advices
+    set website_user_id = #{websiteUserId,jdbcType=BIGINT},
+      website_date = #{websiteDate,jdbcType=TIMESTAMP}
+    where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
+  </update>
+</mapper>

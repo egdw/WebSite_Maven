@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebSiteMusicMapper">
+    <resultMap id="BaseResultMap" type="com.website.entites.WebSiteMusic">
+        <id column="website_music_user_id" property="websiteMusicUserId" jdbcType="BIGINT"/>
+        <result column="website_user_id" property="websiteUserId" jdbcType="BIGINT"/>
+        <result column="website_music_id" property="websiteMusicId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    website_music_user_id, website_user_id, website_music_id
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from website_music
+        where website_music_user_id = #{websiteMusicUserId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from website_music
+    where website_music_user_id = #{websiteMusicUserId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.website.entites.WebSiteMusic">
+    insert into website_music (website_music_user_id, website_user_id, 
+      website_music_id)
+    values (#{websiteMusicUserId,jdbcType=BIGINT}, #{websiteUserId,jdbcType=BIGINT}, 
+      #{websiteMusicId,jdbcType=BIGINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.website.entites.WebSiteMusic">
+        insert into website_music
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="websiteMusicUserId != null">
+                website_music_user_id,
+            </if>
+            <if test="websiteUserId != null">
+                website_user_id,
+            </if>
+            <if test="websiteMusicId != null">
+                website_music_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="websiteMusicUserId != null">
+                #{websiteMusicUserId,jdbcType=BIGINT},
+            </if>
+            <if test="websiteUserId != null">
+                #{websiteUserId,jdbcType=BIGINT},
+            </if>
+            <if test="websiteMusicId != null">
+                #{websiteMusicId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebSiteMusic">
+        update website_music
+        <set>
+            <if test="websiteUserId != null">
+                website_user_id = #{websiteUserId,jdbcType=BIGINT},
+            </if>
+            <if test="websiteMusicId != null">
+                website_music_id = #{websiteMusicId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where website_music_user_id = #{websiteMusicUserId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.website.entites.WebSiteMusic">
+    update website_music
+    set website_user_id = #{websiteUserId,jdbcType=BIGINT},
+      website_music_id = #{websiteMusicId,jdbcType=BIGINT}
+    where website_music_user_id = #{websiteMusicUserId,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectByPageNum" resultMap="BaseResultMap">
+    	select * from website_music WHERE website_user_id = #{3} order by website_music_user_id desc limit #{0},#{1};
+  </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from website_music WHERE website_user_id = #{0} order by website_music_user_id desc;
+    </select>
+</mapper>
