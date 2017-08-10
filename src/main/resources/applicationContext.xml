@@ -109,6 +109,8 @@
                 /css/** = anon
                 /images/** = anon
                 /AboutMy/** = anon
+                /ZhiHu/** = anon
+                /pageController/** = anon
                 /js/** = anon
                 /login/** = anon
                 /register/** = anon

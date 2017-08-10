@@ -42,9 +42,30 @@ public class InternetUtil {
 	}
 
 	/**
-	 * 请示方式 post 进行post请求
+	 * 请示方式 get 进行get请求
 	 */
-	public static void post() {
-
+	public static String get(String path) {
+		try {
+			URL url = new URL(path);
+			HttpURLConnection openConnection = (HttpURLConnection) url
+					.openConnection();
+			openConnection.setRequestMethod("GET");
+			openConnection.connect();
+			//转换成utf-8.解决页面乱码问题
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					openConnection.getInputStream(),"UTF-8");
+			StringBuffer sb = new StringBuffer();
+			char[] bytes = new char[1024];
+			int len = -1;
+			while ((len = inputStreamReader.read(bytes)) != -1) {
+				sb.append(new String(bytes, 0, len));
+			}
+			inputStreamReader.close();
+			return sb.toString();
+		} catch (MalformedURLException e) {
+			return null;
+		} catch (IOException e) {
+			return null;
+		}
 	}
 }
