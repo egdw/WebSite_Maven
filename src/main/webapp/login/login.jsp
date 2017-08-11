@@ -54,6 +54,7 @@
             </div>
         </form>
     </div>
+    <a href="<%=request.getContextPath()%>/login/register.jsp" style="color: #ffffff">还没有账户?</a>
 </center>
 </body>
 </html>

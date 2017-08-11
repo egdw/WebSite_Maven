@@ -66,8 +66,6 @@
                         <li><a href="type?pageNum=0&typeId=9">其他</a></li>
                     </ul>
                 </li>
-                <li><a href="##" data-toggle="modal"
-                       data-target="#about-modal">关于自己</a></li>
                 <shiro:authenticated>
                     <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
                 </shiro:authenticated>
@@ -96,8 +94,11 @@
                         <li><a href="<%=request.getContextPath()%>/music" target="_blank">我的音乐</a></li>
                         <li><a href="<%=request.getContextPath()%>/image" target="_blank">我的相册</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a
-                                href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
+                        <li>
+                            <a href="##" data-toggle="modal"
+                                data-target="#about-modal">关于自己</a>
+                            <a
+                                    href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
                     </ul>
                 </li>
             </ul>

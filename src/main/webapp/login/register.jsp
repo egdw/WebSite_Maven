@@ -107,6 +107,7 @@
             </div>
         </form>
     </div>
+    <a href="<%=request.getContextPath()%>/login/manager" style="color: #ffffff">已经注册账户?</a>
 </center>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,82 +20,81 @@
         <div id="bannerDiv">
             <%@include file="/banner.html" %>
         </div>
-        <div class="row-md-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    最新博文<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <c:forEach items="${requestScope.list}" var="index">
-                            <div class="row-sm-1">
-                                <div class="thumbnail" style="height: 210px;width: 100%">
-                                        <%--<div class="row-sm-1" style="padding: 10px">--%>
-                                        <%----%>
-                                        <%--</div>--%>
-                                    <div class="media">
-                                        <div style="float: left;padding-top: 10px;padding-left: 5px;">
-                                            <c:if test="${!empty index.picUrl}">
-                                                <a href="detail?pageId=${index.id}" target="_blank"><img
-                                                        src="<%=request.getContextPath()%>/${index.picUrl}"
-                                                        alt="${index.title}" class="img-thumbnail" width="150"/></a>
-                                            </c:if>
-                                            <c:if test="${empty index.picUrl}">
-                                                <a href="detail?pageId=${index.id}" target="_blank"><img
-                                                        src="<%=request.getContextPath()%>/images/noimg.jpeg"
-                                                        alt="图片找不到鸟" class="img-thumbnail" width="150"/></a>
-                                            </c:if>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading" style="margin-top: 10px">
-                                                <a href="detail?pageId=${index.id}" target="_blank"
-                                                   style="font-size: 20px;color: #00a67c;padding: 10px">${index.title}</a>
-                                            </h4>
-                                            <p style="padding: 10px;">
-                                                估摸着各位小伙伴儿被想使用CrawlSpider的Rule来抓取JS，相当受折磨； CrawlSpider Rule总是不能和Splash结合。
-                                                废话不多说，手疼···· 来替换掉Ru...
-                                            </p>
-                                            <p style="float: right;padding-top: 65px;padding-right: 10px;" class="hidden-xs hidden-sm">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                最新 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="color:#d56464" ></span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <c:forEach items="${requestScope.list}" var="index">
+                        <div class="row-sm-1">
+                            <div style="height: 180px;width: 100%">
+                                <div class="media">
+                                    <div style="float: left;padding-top: 10px;padding-left: 5px;">
+                                        <c:if test="${!empty index.picUrl}">
+                                            <a href="detail?pageId=${index.id}" target="_blank"><img
+                                                    src="<%=request.getContextPath()%>/${index.picUrl}"
+                                                    alt="${index.title}" class="img-thumbnail" width="150"/></a>
+                                        </c:if>
+                                        <c:if test="${empty index.picUrl}">
+                                            <a href="detail?pageId=${index.id}" target="_blank"><img
+                                                    src="<%=request.getContextPath()%>/images/noimg.jpeg"
+                                                    alt="图片找不到鸟" class="img-thumbnail" width="150"/></a>
+                                        </c:if>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading" style="margin-top: 10px">
+                                            <a href="detail?pageId=${index.id}" target="_blank"
+                                               style="font-size: 20px;color: #00a67c;padding: 10px">${index.title}</a>
+                                        </h4>
+                                        <p style="padding: 10px;">
+                                            估摸着各位小伙伴儿被想使用CrawlSpider的Rule来抓取JS，相当受折磨； CrawlSpider
+                                            Rule总是不能和Splash结合。
+                                            废话不多说，手疼···· 来替换掉Ru...
+                                        </p>
+                                        <p style="float: right;padding-top: 65px;padding-right:20px;"
+                                           class="hidden-xs hidden-sm">
                                                 <span class="label label-default"><fmt:formatDate
-                                                               value="${index.createTime}"
-                                                               pattern="yyyy-MM-dd HH:mm"/></span>
-                                                <span class="label label-default">阅读(${index.clickTimes})</span>
-                                                <span class="label label-default">评论(${index.commentTimes})</span>
-                                                <span class="label label-danger">喜欢(${index.agreeWithTimes})</span>
-                                            </p>
-                                        </div>
+                                                        value="${index.createTime}"
+                                                        pattern="yyyy-MM-dd HH:mm"/></span>
+                                            <span class="label label-default">阅读(${index.clickTimes})</span>
+                                            <span class="label label-default">评论(${index.commentTimes})</span>
+                                            <span class="label label-danger">喜欢(${index.agreeWithTimes})</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                        </c:forEach>
-                    </div>
-                    <center>
-                        <ul class="pagination">
-                            <c:forEach var="index" begin="1" end="${requestScope.pageCount}">
-                                <c:if test="${requestScope.currentPage==index}">
-                                    <li><a style="color: #000000"
-                                           href="<%=request.getContextPath()%>/blog/?pageNum=${index-1}">${index}</a>
-                                    </li>
-                                </c:if>
-                                <c:if test="${requestScope.currentPage!=index}">
-                                    <li><a
-                                            href="<%=request.getContextPath()%>/blog/?pageNum=${index-1}">${index}</a>
-                                    </li>
-                                </c:if>
-                            </c:forEach>
-                        </ul>
-                    </center>
+                        </div>
+                        <hr>
+                    </c:forEach>
                 </div>
+                <center>
+                    <ul class="pagination">
+                        <c:forEach var="index" begin="1" end="${requestScope.pageCount}">
+                            <c:if test="${requestScope.currentPage==index}">
+                                <li><a style="color: #000000"
+                                       href="<%=request.getContextPath()%>/blog/?pageNum=${index-1}&typeId=${requestScope.typeId}">${index}</a>
+                                </li>
+                            </c:if>
+                            <c:if test="${requestScope.currentPage!=index}">
+                                <li><a
+                                        href="<%=request.getContextPath()%>/blog/?pageNum=${index-1}&typeId=${requestScope.typeId}">${index}</a>
+                                </li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                </center>
             </div>
         </div>
     </div>
+</div>
 </div>
 <div class="col-md-3">
     <div class="htmleaf-container">
         <div class="row-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    最新照片<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+                    最新照片 <span class="glyphicon glyphicon-camera" aria-hidden="true" style="color:#d56464" ></span>
                 </div>
                 <div class="panel-body">
                     <div id="myCarousel" class="carousel slide">
@@ -148,7 +148,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>阅读排行</b> <span
-                        class="glyphicon glyphicon-book" aria-hidden="true"></span></div>
+                        class="glyphicon glyphicon-book" aria-hidden="true" style="color:#d56464" ></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
@@ -191,7 +191,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>评论排行</b> <span
-                        class="glyphicon glyphicon-comment" aria-hidden="true"></span></div>
+                        class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464" ></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
@@ -213,8 +213,8 @@
         <div class="row-md-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                   <b>最新评论</b> <span
-                        class="glyphicon glyphicon-comment" aria-hidden="true"></span></div>
+                    <b>最新评论</b> <span
+                        class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464" ></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
@@ -237,10 +237,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>音乐盒</b> <span
-                        class="glyphicon glyphicon-music" aria-hidden="true"></span></div>
+                        class="glyphicon glyphicon-music" aria-hidden="true" style="color:#d56464" ></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
+                            <shiro:notAuthenticated>
+                                请<a href="<%=request.getContextPath()%>/login/manager">登录</a>且<a href="<%=request.getContextPath()%>/login/register.jsp">注册</a>后方可使用~
+                            </shiro:notAuthenticated>
                             <div id="player1" class="aplayer"></div>
                         </div>
                     </div>
