@@ -20,7 +20,7 @@
 
 		<!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
                是否生成 example类   -->
-		<table schema="website" tableName="website_blog_type" domainObjectName="WebsiteBlogType"
+		<table schema="website" tableName="website_friend_link" domainObjectName="WebsiteFriendLink"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false">
