@@ -85,23 +85,31 @@
     <form id="comment_id" method="post">
         <fieldset>
             <input value="${requestScope.blog.id}" type="hidden" name="blogId">
-            <div class="form-inline" style="padding-top: 20px">
-                <div class="input-group form-group  col-lg-offset-1">
-                    <span class="input-group-addon" id="sizing-addon1">* 姓 名：</span>
-                    <input name="username" required maxlength="30" class="form-control" placeholder="请输入你的名称"
-                           aria-describedby="sizing-addon1" type="text" minlength="2">
+            <shiro:notAuthenticated>
+                <div class="form-inline" style="padding-top: 20px">
+                    <div class="input-group form-group  col-lg-offset-1">
+                        <span class="input-group-addon" id="sizing-addon1">* 姓 名：</span>
+                        <input name="username" required maxlength="30" class="form-control" placeholder="请输入你的名称"
+                               aria-describedby="sizing-addon1" type="text" minlength="2">
+                    </div>
                 </div>
-            </div>
-            <div class="form-inline" style="padding-top: 20px">
-                <div class="input-group form-group  col-lg-offset-1">
-                    <span class="input-group-addon">* 邮 箱：</span>
-                    <input type="email" name="email" required maxlength="30" class="form-control" placeholder="请输入你的邮箱"
-                           aria-describedby="sizing-addon1" type="text" minlength="2">
+                <div class="form-inline" style="padding-top: 20px">
+                    <div class="input-group form-group  col-lg-offset-1">
+                        <span class="input-group-addon">* 邮 箱：</span>
+                        <input type="email" name="email" required maxlength="30" class="form-control"
+                               placeholder="请输入你的邮箱"
+                               aria-describedby="sizing-addon1" type="text" minlength="2">
+                    </div>
                 </div>
-            </div>
+            </shiro:notAuthenticated>
+            <shiro:authenticated>
+                <input name="username" required maxlength="30" class="form-control"
+                       aria-describedby="sizing-addon1" type="hidden" minlength="2" value="${sessionScope.currentUser.loginAccount}">
+                <input name="email" required maxlength="30" class="form-control"
+                       aria-describedby="sizing-addon1" type="hidden" minlength="2" value="${sessionScope.currentUser.userEmail}">
+            </shiro:authenticated>
             <div class="form-inline" style="padding-top: 20px">
                 <div class="form-group  col-lg-offset-1">
-                    <label style="font-size: 15px;width: 60px">* 内 容：</label>
                     <textarea id="demo" required name="content" style="display: none;"></textarea>
                 </div>
             </div>

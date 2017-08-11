@@ -196,7 +196,7 @@
 	</select>
 	
 	<select id="selectBlogByNumAndReader" resultMap="resultMap">
-		select  * from website_blog order by click_times desc limit #{0};
+		select  * from website_blog order by click_times desc limit 0,#{0};
 	</select>
 	
 	<select id="selectBlogByNumAndComment" resultMap="resultMap">

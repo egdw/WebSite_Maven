@@ -11,13 +11,13 @@
           href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="/layui/css/layui.css"/>
-    <script src="/layui/layui.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
     <script
             src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+    <script src="/layui/layui.js"></script>
 </head>
 <body>
 <div id="nav_top">
@@ -25,7 +25,7 @@
     <center>
         <div>
             <div id="nav_top_title1"><h1>静谧</h1></div>
-            <div id="nav_top_title2"><h2>恶搞大王的个人博客</h2></div>
+            <div id="nav_top_title2" class="hidden-xs-block"><h2>恶搞大王的个人博客</h2></div>
         </div>
     </center>
 </div>
@@ -46,17 +46,28 @@
                 <li><a href="<%=request.getContextPath()%>/blog/">首页</a></li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle"
                                         data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">博客分类 <span class="caret"></span></a>
+                                        aria-expanded="false">生活笔记 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="type?pageNum=0&typeId=0">学习</a></li>
-                        <li role="separator" class="divider"></li>
                         <li><a href="type?pageNum=0&typeId=1">生活</a></li>
-                        <li role="separator" class="divider"></li>
                         <li><a href="type?pageNum=0&typeId=2">随笔</a></li>
                     </ul>
                 </li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                        data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">技术杂谈 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="type?pageNum=0&typeId=3">JAVA</a></li>
+                        <li><a href="type?pageNum=0&typeId=4">PHP</a></li>
+                        <li><a href="type?pageNum=0&typeId=5">C/C++</a></li>
+                        <li><a href="type?pageNum=0&typeId=6">HTML</a></li>
+                        <li><a href="type?pageNum=0&typeId=7">JS</a></li>
+                        <li><a href="type?pageNum=0&typeId=8">Python</a></li>
+                        <li><a href="type?pageNum=0&typeId=9">其他</a></li>
+                    </ul>
+                </li>
                 <li><a href="##" data-toggle="modal"
-                       data-target="#about-modal">关于</a></li>
+                       data-target="#about-modal">关于自己</a></li>
                 <shiro:authenticated>
                     <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
                 </shiro:authenticated>
@@ -64,7 +75,7 @@
                     <li><a href="<%=request.getContextPath()%>/login/manager">登录</a></li>
                 </shiro:notAuthenticated>
             </ul>
-            <form class="navbar-form navbar-left" action="blogFind" method="post">
+            <form class="navbar-form navbar-right" action="blogFind" method="post">
                 <div class="form-group">
                     <input type="text" name="name" class="form-control" placeholder="搜索您感兴趣的内容...">
                 </div>
@@ -72,23 +83,21 @@
                         style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索
                 </button>
             </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="<%=request.getContextPath()%>/">个人首页</a></li>
+            <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown"><a href="#" class="dropdown-toggle"
                                         data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">其他地址 <span class="caret"></span></a>
+                                        aria-expanded="false">更多 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a
-                                href="<%=request.getContextPath()%>/project/MyProject.do">我的作品</a></li>
-                        <li><a href="<%=request.getContextPath()%>/blog/">我的博客</a></li>
-                        <li><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></li>
-                        <li><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></li>
-                        <li><a href="<%=request.getContextPath()%>/music">我的音乐</a></li>
-                        <li><a href="<%=request.getContextPath()%>/image">我的相册</a></li>
-                        <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
+                                href="<%=request.getContextPath()%>/project/MyProject.do" target="_blank">我的作品</a></li>
+                        <li><a href="<%=request.getContextPath()%>/blog/" target="_blank">我的博客</a></li>
+                        <li><a href="<%=request.getContextPath()%>/funnyView.do" target="_blank">趣味网页</a></li>
+                        <li><a href="<%=request.getContextPath()%>/tempView.do" target="_blank">临时网页</a></li>
+                        <li><a href="<%=request.getContextPath()%>/music" target="_blank">我的音乐</a></li>
+                        <li><a href="<%=request.getContextPath()%>/image" target="_blank">我的相册</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a
-                                href="<%=request.getContextPath()%>/AboutMy/index.html">关于我</a></li>
+                                href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
                     </ul>
                 </li>
             </ul>
