@@ -20,6 +20,15 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+<div id="nav_top">
+    <br>
+    <center>
+        <div>
+            <div id="nav_top_title1"><h1>静谧</h1></div>
+            <div id="nav_top_title2"><h2>恶搞大王的个人博客</h2></div>
+        </div>
+    </center>
+</div>
 <nav class="navbar navbar-default navbar-static-top" style="width: 100%">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -29,12 +38,12 @@
                 <span class="sr-only"></span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<%=request.getContextPath()%>/blog/">恶搞大王的博客</a>
         </div>
 
         <div class="collapse navbar-collapse"
              id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                <li><a href="<%=request.getContextPath()%>/blog/">首页</a></li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle"
                                         data-toggle="dropdown" role="button" aria-haspopup="true"
                                         aria-expanded="false">博客分类 <span class="caret"></span></a>
@@ -48,7 +57,6 @@
                 </li>
                 <li><a href="##" data-toggle="modal"
                        data-target="#about-modal">关于</a></li>
-
                 <shiro:authenticated>
                     <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
                 </shiro:authenticated>
@@ -60,7 +68,9 @@
                 <div class="form-group">
                     <input type="text" name="name" class="form-control" placeholder="搜索您感兴趣的内容...">
                 </div>
-                <button type="submit" class="btn btn-default">搜索</button>
+                <button type="submit" class="btn btn-default"
+                        style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索
+                </button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<%=request.getContextPath()%>/">个人首页</a></li>
@@ -153,4 +163,184 @@
     </div>
 </div>
 </body>
+<style>
+    .navbar-default {
+        background-color: #594d4d;
+        border-color: #d56464;
+    }
+
+    .navbar-default .navbar-brand {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-brand:hover,
+    .navbar-default .navbar-brand:focus {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-text {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-nav > li > a:hover,
+    .navbar-default .navbar-nav > li > a:focus {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu {
+        background-color: #594d4d;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu > li > a {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+        color: #ffffff;
+        background-color: #d56464;
+    }
+
+    .navbar-default .navbar-nav > li > .dropdown-menu > li.divider {
+        background-color: #d56464;
+    }
+
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+        color: #ffffff;
+        background-color: #d56464;
+    }
+
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
+    .navbar-default .navbar-nav > .active > a:focus {
+        color: #ffffff;
+        background-color: #d56464;
+    }
+
+    .navbar-default .navbar-nav > .open > a,
+    .navbar-default .navbar-nav > .open > a:hover,
+    .navbar-default .navbar-nav > .open > a:focus {
+        color: #ffffff;
+        background-color: #d56464;
+    }
+
+    .navbar-default .navbar-toggle {
+        border-color: #d56464;
+    }
+
+    .navbar-default .navbar-toggle:hover,
+    .navbar-default .navbar-toggle:focus {
+        background-color: #d56464;
+    }
+
+    .navbar-default .navbar-toggle .icon-bar {
+        background-color: #ffffff;
+    }
+
+    .navbar-default .navbar-collapse,
+    .navbar-default .navbar-form {
+        border-color: #ffffff;
+    }
+
+    .navbar-default .navbar-link {
+        color: #ffffff;
+    }
+
+    .navbar-default .navbar-link:hover {
+        color: #ffffff;
+    }
+
+    @media (max-width: 767px) {
+        .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+            color: #ffffff;
+        }
+
+        .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+        .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+            color: #ffffff;
+        }
+
+        .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+        .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+        .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+            color: #ffffff;
+            background-color: #d56464;
+        }
+    }
+
+    body {
+        background-color: #eeeeee;
+    }
+
+    #nav_top {
+        width: 100%;
+        height: 106px;
+        background-color: #d56464;
+    }
+
+    #nav_top_title1 {
+        margin: 0px auto;
+        padding-top: 5px;
+        padding-left: 35%;
+        float: left;
+    }
+
+    #nav_top_title1 h1 {
+        font-size: 55px;
+        color: #ffffff;
+    }
+
+    #nav_top_title2 h2 {
+        font-size: 20px;
+        color: #ffffff;
+    }
+
+    #nav_top_title2 {
+        float: left;
+        padding-top: 40px;
+        padding-left: 10px;
+    }
+
+    #nav_search {
+        float: right;
+        width: 45px;
+        height: 55px;
+        color: #ffffff;
+        font-size: 20px;
+        padding-top: 15px;
+        background-color: #d56464;
+    }
+
+    #nav_search:hover {
+        float: right;
+        width: 45px;
+        height: 55px;
+        color: #ffffff;
+        font-size: 20px;
+        padding-top: 15px;
+        opacity: 0.8;
+        background-color: #d56464;
+    }
+
+    #tip {
+        background-color: #ffffff;
+        width: 100%;
+        height: 40px;
+        float: none;
+    }
+
+    #tip_left {
+        float: left;
+    }
+
+    #tip_right {
+        float: right;
+    }
+</style>
 </html>

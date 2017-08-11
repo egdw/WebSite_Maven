@@ -101,7 +101,7 @@ CREATE TABLE `website_funny` (
 --  Records of `website_funny`
 -- ----------------------------
 BEGIN;
-INSERT INTO `website_funny` VALUES ('18', 'upload/funny/20170307122152229admin/7/index.html', '好看吧撒旦就卡 ', '是的框架了哈的', '2017-03-07', null), ('20', 'upload/funny/20170307150011257admin/7/index.html', '这是测试2', '这是测试2', '2017-03-07', null);
+INSERT INTO `website_funny` VALUES ('18', 'upload/funny/20170307122152229admin/7/banner.html', '好看吧撒旦就卡 ', '是的框架了哈的', '2017-03-07', null), ('20', 'upload/funny/20170307150011257admin/7/banner.html', '这是测试2', '这是测试2', '2017-03-07', null);
 COMMIT;
 
 -- ----------------------------
@@ -182,7 +182,7 @@ CREATE TABLE `website_temp` (
 --  Records of `website_temp`
 -- ----------------------------
 BEGIN;
-INSERT INTO `website_temp` VALUES ('21', 'upload/temp/20170307150105779admin/7/index.html', '这是测试', '这是测试', '2017-03-07', null);
+INSERT INTO `website_temp` VALUES ('21', 'upload/temp/20170307150105779admin/7/banner.html', '这是测试', '这是测试', '2017-03-07', null);
 COMMIT;
 
 -- ----------------------------

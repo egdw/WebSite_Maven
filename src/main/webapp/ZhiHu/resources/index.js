@@ -3,7 +3,7 @@
  */
 var hot = null;
 function getDetail(pageId) {
-    var url = "/pageController/getZhihuPageById?id=" + 9562129;
+    var url = "/pageController/getZhihuPageById?id=" + pageId;
     console.log(url);
     //获取当前的这篇信息
     $.ajax({
@@ -22,6 +22,7 @@ function getDetail(pageId) {
             $(".headline-title").append(data.title);
             $("#backgroud_img").attr("src", data.image);
             $(document).attr("title", data.title);
+            getComment(pageId);
         },
         error: function (xhr, textStatus) {
             console.log('错误')
@@ -71,6 +72,29 @@ function hotClickFunction(index) {
             $('html, body').animate({
                 scrollTop: $("#main_body").offset().top
             }, 500);
+            getComment(obj.news_id);
+        },
+        error: function (xhr, textStatus) {
+            console.log('错误')
+        },
+    });
+}
+
+//获取评论
+function getComment(page) {
+    var url = "/pageController/getZhihuShortComments?id=" + page;
+    $.ajax({
+        url: url,
+        type: "GET",
+        async: true,
+        headers: {"Host": "p3.zhimg.com", "Content-Type": "text/plain;charset=UTF-8"},
+        timeout: 5000,
+        dataType: 'json',
+        success: function (data) {
+            $(".PostCommentList").html("");
+            $.each(data.comments, function (index, content) {
+                $(".PostCommentList").append("<div class='CommentItem'> <a class='UserAvatar CommentItem-author' href='javascript:void(0)'><img class='Avatar-hemingway Avatar--xs' src='" + content.avatar + "'/></a> <div class='CommentItem-headWrapper'> <div class='CommentItem-head'> <span class='CommentItem-context'><a href='javascript:void(0)'>" + content.author + "</a></span> </div> </div> <div class='CommentItem-content'>" + content.content + " </div> <div class='CommentItem-foot'> <span class='CommentItem-like' title=''>" + content.likes + " 赞</span></div> </div>");
+            });
         },
         error: function (xhr, textStatus) {
             console.log('错误')

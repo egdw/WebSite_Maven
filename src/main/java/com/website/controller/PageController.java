@@ -39,11 +39,35 @@ public class PageController {
 
     /**
      * 获取知乎最热的新闻
+     *
      * @return
      */
     @RequestMapping("getZhihuHotNews")
-    public String getZhihuHotNews(){
+    public String getZhihuHotNews() {
         String s = InternetUtil.get("https://news-at.zhihu.com/api/3/news/hot");
         return s;
     }
+
+    /**
+     * 获取知乎文章长评论
+     * @param id
+     * @return
+     */
+    @RequestMapping("getZhihuLongComments")
+    public String getZhihuLongComments(@RequestParam(required = true) Long id) {
+        String s = InternetUtil.get("https://news-at.zhihu.com/api/4/story/" + id + "/long-comments");
+        return s;
+    }
+
+    /**
+     * 获取知乎文章短评论
+     * @param id
+     * @return
+     */
+    @RequestMapping("getZhihuShortComments")
+    public String getZhihuShortComments(@RequestParam(required = true) Long id) {
+        String s = InternetUtil.get("https://news-at.zhihu.com/api/4/story/" + id + "/short-comments");
+        return s;
+    }
+
 }

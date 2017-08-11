@@ -2,19 +2,21 @@ package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.website.entites.NeteaseMusic;
-import com.website.entites.NeteaseMusicMVCode;
-import com.website.entites.NeteaseMusicMvModel;
-import com.website.entites.NeteaseMusicResult;
+import com.website.entites.*;
+import com.website.model.Message;
+import com.website.model.MusicSong;
 import com.website.service.WebSiteMusicService;
 import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,9 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("music")
@@ -310,73 +310,73 @@ public class MusicController {
     }
 
 
-//    /**
-//     * 获取用户的表单
-//     *
-//     * @return
-//     */
-//    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
-//    @RequestMapping(value = "/getSongsTable", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String getUserSongsTable(Integer page, HttpSession session) {
-//        WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
-//        ArrayList<WebSiteMusic> list = null;
-//        if (page == null) {
-//            //那就说明是要获取全部的歌曲
-//            list = musicService.findAll(user.getUserId());
-//        } else {
-//            //说明获取分页歌曲
-//            list = musicService.find(page, user.getUserId());
-//        }
-//        ArrayList<MusicSong> lists = new ArrayList<MusicSong>();
-//        if (list != null && list.size() > 0) {
-//            //说明添加了新歌曲
-//            Iterator<WebSiteMusic> iterator = list.iterator();
-//            while (iterator.hasNext()) {
-//                WebSiteMusic param = iterator.next();
-//                NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(param.getWebsiteMusicId() + "", param.getWebsiteMusicId() + "");
-//                MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=" + param.getWebsiteMusicId(), musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=" + param.getWebsiteMusicId());
-//                lists.add(song);
-//            }
-//        } else {
-//            //没添加。给固定的几首歌
-//            NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(31234186 + "", 31234186 + "");
-//            MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=31234186", musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=31234186");
-//            NeteaseMusicResult musicResult2 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36270426 + "", 36270426 + "");
-//            MusicSong song2 = new MusicSong(musicResult2.getSongs().get(0).getName(), musicResult2.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=36270426", musicResult2.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36270426");
-//            NeteaseMusicResult musicResult3 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36103237 + "", 36103237 + "");
-//            MusicSong song3 = new MusicSong(musicResult3.getSongs().get(0).getName(), musicResult3.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=36103237", musicResult3.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36103237");
-//            NeteaseMusicResult musicResult4 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(29450548 + "", 29450548 + "");
-//            MusicSong song4 = new MusicSong(musicResult4.getSongs().get(0).getName(), musicResult4.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=29450548", musicResult4.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=29450548");
-//            lists.add(song);
-//            lists.add(song2);
-//            lists.add(song3);
-//            lists.add(song4);
-//        }
-//        return JSON.toJSONString(lists);
-//    }
+    /**
+     * 获取用户的表单
+     *
+     * @return
+     */
+    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
+    @RequestMapping(value = "/getSongsTable", method = RequestMethod.GET)
+    @ResponseBody
+    public String getUserSongsTable(Integer page, HttpSession session) {
+        WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
+        ArrayList<WebSiteMusic> list = null;
+        if (page == null) {
+            //那就说明是要获取全部的歌曲
+            list = musicService.findAll(user.getUserId());
+        } else {
+            //说明获取分页歌曲
+            list = musicService.find(page, user.getUserId());
+        }
+        ArrayList<MusicSong> lists = new ArrayList<MusicSong>();
+        if (list != null && list.size() > 0) {
+            //说明添加了新歌曲
+            Iterator<WebSiteMusic> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                WebSiteMusic param = iterator.next();
+                NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(param.getWebsiteMusicId() + "", param.getWebsiteMusicId() + "");
+                MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=" + param.getWebsiteMusicId(), musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=" + param.getWebsiteMusicId());
+                lists.add(song);
+            }
+        } else {
+            //没添加。给固定的几首歌
+            NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(31234186 + "", 31234186 + "");
+            MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=31234186", musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=31234186");
+            NeteaseMusicResult musicResult2 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36270426 + "", 36270426 + "");
+            MusicSong song2 = new MusicSong(musicResult2.getSongs().get(0).getName(), musicResult2.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=36270426", musicResult2.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36270426");
+            NeteaseMusicResult musicResult3 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(36103237 + "", 36103237 + "");
+            MusicSong song3 = new MusicSong(musicResult3.getSongs().get(0).getName(), musicResult3.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=36103237", musicResult3.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=36103237");
+            NeteaseMusicResult musicResult4 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(29450548 + "", 29450548 + "");
+            MusicSong song4 = new MusicSong(musicResult4.getSongs().get(0).getName(), musicResult4.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=29450548", musicResult4.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=29450548");
+            lists.add(song);
+            lists.add(song2);
+            lists.add(song3);
+            lists.add(song4);
+        }
+        return JSON.toJSONString(lists);
+    }
 
 
-//    /**
-//     * 往自己表单里提交歌曲
-//     *
-//     * @return
-//     */
-//    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
-//    @RequestMapping(value = "addUserSongsTable", method = RequestMethod.POST)
-//    @ResponseBody
-//    public String addUserSongsTable(@RequestParam(required = true) String param, HttpSession session) {
-//        WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
-//        WebSiteMusic music = new WebSiteMusic();
-//        music.setWebsiteUserId(user.getUserId());
-//        music.setWebsiteMusicId(Long.valueOf(param));
-//        boolean b = musicService.addMusic(music);
-//        if (b) {
-//            return JSON.toJSONString(new Message(200, "addsuccess", null, null, null));
-//        } else {
-//            return JSON.toJSONString(new Message(500, "addfail", null, null, null));
-//        }
-//    }
+    /**
+     * 往自己表单里提交歌曲
+     *
+     * @return
+     */
+    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
+    @RequestMapping(value = "addUserSongsTable", method = RequestMethod.POST)
+    @ResponseBody
+    public String addUserSongsTable(@RequestParam(required = true) String param, HttpSession session) {
+        WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
+        WebSiteMusic music = new WebSiteMusic();
+        music.setWebsiteUserId(user.getUserId());
+        music.setWebsiteMusicId(Long.valueOf(param));
+        boolean b = musicService.addMusic(music);
+        if (b) {
+            return JSON.toJSONString(new Message(200, "addsuccess", null, null, null));
+        } else {
+            return JSON.toJSONString(new Message(500, "addfail", null, null, null));
+        }
+    }
 
     /**
      * 音乐下载请求

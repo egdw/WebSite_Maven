@@ -120,6 +120,8 @@
                 /upload/** = anon
                 /WEB-INF/** = anon
                 /index.jsp = anon
+                /index.html = anon
+                /banner/** = anon
                 /chat.jsp = anon
                 /login/logout.do = anon
                 /login/manager = anon
