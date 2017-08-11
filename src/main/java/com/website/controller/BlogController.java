@@ -1,15 +1,16 @@
 package com.website.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.website.entites.WebsiteAlbum;
 import com.website.entites.WebsiteBlog;
+import com.website.entites.WebsiteBlogType;
 import com.website.entites.WebsiteComment;
+import com.website.model.Message;
 import com.website.service.WebSiteAlbumService;
 import com.website.service.WebSiteBlogService;
 import com.website.service.WebSiteCommentService;
-import com.website.utils.ImageUtils;
 import com.website.utils.UUIDUtils;
 import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -207,7 +208,7 @@ public class BlogController {
     @ResponseBody
     @RequiresRoles("super_admin")
     public String addBlog(String title, Integer type, String pic_url,
-                          String content,String description) {
+                          String content, String description) {
         WebsiteBlog blog = new WebsiteBlog();
         blog.setPicUrl(pic_url);
         blog.setType(type.byteValue());
@@ -251,7 +252,7 @@ public class BlogController {
     @ResponseBody
     @RequiresRoles("super_admin")
     public String update(String title, Integer id, Integer type,
-                         String pic_url, String content,String description) {
+                         String pic_url, String content, String description) {
         WebsiteBlog record = null;
         if (id != null) {
             record = service.getBlogById(id);
@@ -294,4 +295,48 @@ public class BlogController {
         return "/blog/blog_find";
     }
 
+
+    /**
+     * 添加博客标签
+     *
+     * @return
+     */
+    @RequestMapping(value = "addBlogType", method = RequestMethod.POST)
+    @RequiresRoles("super_admin")
+    public String addBlogType(@RequestParam WebsiteBlogType type) {
+        boolean b = service.addType(type);
+        if (b) {
+            return JSON.toJSONString(new Message(200, "添加成功", null, null, null));
+        } else {
+            return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
+        }
+    }
+
+    /**
+     * 删除博客标签
+     *
+     * @return
+     */
+    @RequestMapping(value = "delBlogType", method = RequestMethod.DELETE)
+    public String delBlogType(Integer id) {
+        boolean b = service.removeTypeById(id);
+        if (b) {
+            return JSON.toJSONString(new Message(200, "删除成功", null, null, null));
+        }
+        return JSON.toJSONString(new Message(500, "删除失败", null, null, null));
+    }
+
+    /**
+     * 更改博客标签
+     *
+     * @return
+     */
+    @RequestMapping(value = "updateBlogType", method = RequestMethod.PUT)
+    public String updateBlogType(@RequestParam WebsiteBlogType type) {
+        boolean b = service.updateTypeId(type);
+        if (b) {
+            return JSON.toJSONString(new Message(200, "更改成功", null, null, null));
+        }
+        return JSON.toJSONString(new Message(500, "更改失败", null, null, null));
+    }
 }

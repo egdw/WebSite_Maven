@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteBlogTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteBlogType" >
+    <id column="website_blog_type_id" property="websiteBlogTypeId" jdbcType="INTEGER" />
+    <result column="website_blog_type_name" property="websiteBlogTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    website_blog_type_id, website_blog_type_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from website_blog_type
+    where website_blog_type_id = #{websiteBlogTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from website_blog_type
+    where website_blog_type_id = #{websiteBlogTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.website.entites.WebsiteBlogType" >
+    insert into website_blog_type (website_blog_type_id, website_blog_type_name
+      )
+    values (#{websiteBlogTypeId,jdbcType=INTEGER}, #{websiteBlogTypeName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.website.entites.WebsiteBlogType" >
+    insert into website_blog_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="websiteBlogTypeId != null" >
+        website_blog_type_id,
+      </if>
+      <if test="websiteBlogTypeName != null" >
+        website_blog_type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="websiteBlogTypeId != null" >
+        #{websiteBlogTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="websiteBlogTypeName != null" >
+        #{websiteBlogTypeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteBlogType" >
+    update website_blog_type
+    <set >
+      <if test="websiteBlogTypeName != null" >
+        website_blog_type_name = #{websiteBlogTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where website_blog_type_id = #{websiteBlogTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteBlogType" >
+    update website_blog_type
+    set website_blog_type_name = #{websiteBlogTypeName,jdbcType=VARCHAR}
+    where website_blog_type_id = #{websiteBlogTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>
