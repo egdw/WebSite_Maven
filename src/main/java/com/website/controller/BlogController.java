@@ -207,13 +207,14 @@ public class BlogController {
     @ResponseBody
     @RequiresRoles("super_admin")
     public String addBlog(String title, Integer type, String pic_url,
-                          String content) {
+                          String content,String description) {
         WebsiteBlog blog = new WebsiteBlog();
         blog.setPicUrl(pic_url);
         blog.setType(type.byteValue());
         blog.setTitle(title);
         blog.setCreateTime(new Date());
         blog.setContent(content);
+        blog.setDescription(description);
         boolean b = service.addBlog(blog);
         if (b) {
             return "success";
@@ -250,7 +251,7 @@ public class BlogController {
     @ResponseBody
     @RequiresRoles("super_admin")
     public String update(String title, Integer id, Integer type,
-                         String pic_url, String content) {
+                         String pic_url, String content,String description) {
         WebsiteBlog record = null;
         if (id != null) {
             record = service.getBlogById(id);
@@ -264,6 +265,7 @@ public class BlogController {
         record.setTitle(title);
         record.setType(type.byteValue());
         record.setContent(content);
+        record.setDescription(description);
         boolean b = service.update(record);
         if (b)
             return "success";

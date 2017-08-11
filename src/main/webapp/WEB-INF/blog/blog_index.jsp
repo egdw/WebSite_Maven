@@ -48,9 +48,10 @@
                                                style="font-size: 20px;color: #00a67c;padding: 10px">${index.title}</a>
                                         </h4>
                                         <p style="padding: 10px;">
-                                            估摸着各位小伙伴儿被想使用CrawlSpider的Rule来抓取JS，相当受折磨； CrawlSpider
-                                            Rule总是不能和Splash结合。
-                                            废话不多说，手疼···· 来替换掉Ru...
+                                            ${index.description}
+                                            <%--估摸着各位小伙伴儿被想使用CrawlSpider的Rule来抓取JS，相当受折磨； CrawlSpider--%>
+                                            <%--Rule总是不能和Splash结合。--%>
+                                            <%--废话不多说，手疼···· 来替换掉Ru...--%>
                                         </p>
                                         <p style="float: right;padding-top: 65px;padding-right:20px;"
                                            class="hidden-xs hidden-sm">

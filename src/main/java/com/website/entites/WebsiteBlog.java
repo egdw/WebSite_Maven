@@ -13,6 +13,8 @@ public class WebsiteBlog {
 
     private Date createTime;
 
+    private String description;
+
     private Integer commentTimes;
 
     private Integer agreeWithTimes;
@@ -93,14 +95,27 @@ public class WebsiteBlog {
         this.content = content;
     }
 
-	@Override
-	public String toString() {
-		return "WebsiteBlog [id=" + id + ", title=" + title + ", type=" + type
-				+ ", clickTimes=" + clickTimes + ", createTime=" + createTime
-				+ ", commentTimes=" + commentTimes + ", agreeWithTimes="
-				+ agreeWithTimes + ", picUrl=" + picUrl + ", content="
-				+ content + "]";
-	}
-    
-    
+    @Override
+    public String toString() {
+        return "WebsiteBlog{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", type=" + type +
+                ", clickTimes=" + clickTimes +
+                ", createTime=" + createTime +
+                ", description='" + description + '\'' +
+                ", commentTimes=" + commentTimes +
+                ", agreeWithTimes=" + agreeWithTimes +
+                ", picUrl='" + picUrl + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

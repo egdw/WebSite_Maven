@@ -228,6 +228,11 @@
                                             name="title" type="text" class="form-control"
                                             placeholder="请输入标题"/>
                                     </div>
+                                    <br>
+                                    <div>
+                                        <label style="font-size: 15px">描述:</label>
+                                        <textarea name="description" id="description" cols="20" rows="5" maxlength="183"></textarea>
+                                    </div>
                                     <div style="padding-top: 5px">
                                         <label style="font-size: 15px">分类:</label> <select
                                             name="type" class="form-control"
@@ -235,6 +240,13 @@
                                         <option value="0">学习</option>
                                         <option value="1">生活</option>
                                         <option value="2">随笔</option>
+                                        <option value="3">JAVA</option>
+                                        <option value="4">PHP</option>
+                                        <option value="5">C/C++</option>
+                                        <option value="6">HTML</option>
+                                        <option value="7">JS</option>
+                                        <option value="8">Python</option>
+                                        <option value="8">其他</option>
                                     </select>
                                     </div>
                                     <div id="pic_div" style="padding-top: 5px;">

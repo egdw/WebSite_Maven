@@ -10,12 +10,13 @@
     <result column="comment_times" property="commentTimes" jdbcType="INTEGER" />
     <result column="agree_with_times" property="agreeWithTimes" jdbcType="INTEGER" />
     <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebsiteBlog" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, type, click_times, create_time, comment_times, agree_with_times, pic_url
+    id, title, type, click_times, create_time, comment_times, agree_with_times, pic_url,description
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -35,11 +36,11 @@
   <insert id="insert" parameterType="com.website.entites.WebsiteBlog" >
     insert into website_blog (id, title, type, 
       click_times, create_time, comment_times, 
-      agree_with_times, pic_url, content
+      agree_with_times, pic_url, content,description
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
       #{clickTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{commentTimes,jdbcType=INTEGER}, 
-      #{agreeWithTimes,jdbcType=INTEGER}, #{picUrl,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      #{agreeWithTimes,jdbcType=INTEGER}, #{picUrl,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR},#{description,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.website.entites.WebsiteBlog" >
@@ -72,6 +73,9 @@
       <if test="content != null" >
         content,
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR}
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -100,6 +104,9 @@
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -130,6 +137,9 @@
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR}
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -143,6 +153,7 @@
       agree_with_times = #{agreeWithTimes,jdbcType=INTEGER},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
+      description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteBlog" >
@@ -155,6 +166,7 @@
       agree_with_times = #{agreeWithTimes,jdbcType=INTEGER},
       pic_url = #{picUrl,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
+      description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -168,6 +180,7 @@
   	<result column="agree_with_times" property="agreeWithTimes"/>
   	<result column="pic_url" property="picUrl"/>
   	<result column="content" property="content"/>
+    <result column="description" property="description"/>
   </resultMap>
   
   
