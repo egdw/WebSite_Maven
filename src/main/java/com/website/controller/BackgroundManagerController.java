@@ -397,4 +397,16 @@ public class BackgroundManagerController {
         }
         return "{project_update_error}";
     }
+
+    /**
+     * 进入Banner管理界面
+     *
+     * @return
+     */
+    @RequiresRoles("super_admin")
+    @RequestMapping(value = "manager_banner.do", method = RequestMethod.GET)
+    public String entryManagerView() {
+        return "admin/admin_banner";
+    }
+
 }

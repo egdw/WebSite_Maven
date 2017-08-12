@@ -85,6 +85,7 @@
                                 href="<%=request.getContextPath()%>/manager/manager_temp_manager.do"> 临时管理</a></li>
                         <li><a href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                         <li><a href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
+                        <li><a href="<%=request.getContextPath()%>/manager/manager_banner.do"> Banner管理</a></li>
                     </ul>
                 </li>
             </ul>
