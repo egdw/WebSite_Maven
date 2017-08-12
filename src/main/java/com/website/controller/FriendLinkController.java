@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by hdy on 2017/8/11.
+ * 友情链接控制器
  */
 @RestController
 @RequestMapping("friendLink")
