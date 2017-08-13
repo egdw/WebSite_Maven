@@ -2,7 +2,7 @@ package com.website.entites;
 
 import java.util.Date;
 
-public class WebSiteAdvices {
+public class WebsiteAdvices {
     private Long websiteAdvicesId;
 
     private Long websiteUserId;

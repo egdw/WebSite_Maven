@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.website.mapper.WebSiteAdvicesMapper" >
-  <resultMap id="BaseResultMap" type="com.website.entites.WebSiteAdvices" >
+  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteAdvices" >
     <id column="website_advices_id" property="websiteAdvicesId" jdbcType="BIGINT" />
     <result column="website_user_id" property="websiteUserId" jdbcType="BIGINT" />
     <result column="website_date" property="websiteDate" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebSiteAdvices" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.website.entites.WebsiteAdvices" extends="BaseResultMap" >
     <result column="website_text" property="websiteText" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -27,13 +27,13 @@
     delete from website_advices
     where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.website.entites.WebSiteAdvices" >
+  <insert id="insert" parameterType="com.website.entites.WebsiteAdvices" >
     insert into website_advices (website_advices_id, website_user_id, website_date, 
       website_text)
     values (#{websiteAdvicesId,jdbcType=BIGINT}, #{websiteUserId,jdbcType=BIGINT}, #{websiteDate,jdbcType=TIMESTAMP}, 
       #{websiteText,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.website.entites.WebSiteAdvices" >
+  <insert id="insertSelective" parameterType="com.website.entites.WebsiteAdvices" >
     insert into website_advices
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="websiteAdvicesId != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebSiteAdvices" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteAdvices" >
     update website_advices
     <set >
       <if test="websiteUserId != null" >
@@ -79,14 +79,14 @@
     </set>
     where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebSiteAdvices" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebsiteAdvices" >
     update website_advices
     set website_user_id = #{websiteUserId,jdbcType=BIGINT},
       website_date = #{websiteDate,jdbcType=TIMESTAMP},
       website_text = #{websiteText,jdbcType=LONGVARCHAR}
     where website_advices_id = #{websiteAdvicesId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebSiteAdvices" >
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteAdvices" >
     update website_advices
     set website_user_id = #{websiteUserId,jdbcType=BIGINT},
       website_date = #{websiteDate,jdbcType=TIMESTAMP}

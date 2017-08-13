@@ -1,19 +1,19 @@
 package com.website.mapper;
 
-import com.website.entites.WebSiteAdvices;
+import com.website.entites.WebsiteAdvices;
 
 public interface WebSiteAdvicesMapper {
     int deleteByPrimaryKey(Long websiteAdvicesId);
 
-    int insert(WebSiteAdvices record);
+    int insert(WebsiteAdvices record);
 
-    int insertSelective(WebSiteAdvices record);
+    int insertSelective(WebsiteAdvices record);
 
-    WebSiteAdvices selectByPrimaryKey(Long websiteAdvicesId);
+    WebsiteAdvices selectByPrimaryKey(Long websiteAdvicesId);
 
-    int updateByPrimaryKeySelective(WebSiteAdvices record);
+    int updateByPrimaryKeySelective(WebsiteAdvices record);
 
-    int updateByPrimaryKeyWithBLOBs(WebSiteAdvices record);
+    int updateByPrimaryKeyWithBLOBs(WebsiteAdvices record);
 
-    int updateByPrimaryKey(WebSiteAdvices record);
+    int updateByPrimaryKey(WebsiteAdvices record);
 }
