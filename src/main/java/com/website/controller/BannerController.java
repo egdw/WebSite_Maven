@@ -54,7 +54,6 @@ public class BannerController {
 
     }
 
-
     /**
      * 进行banner的删除
      */
@@ -67,7 +66,6 @@ public class BannerController {
         }
         return JSON.toJSONString(new Message(500, "删除失败", null, null, null));
     }
-
 
     /**
      * 进行banner的修改

@@ -7,10 +7,13 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.website.entites.*;
+import com.website.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -21,14 +24,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.website.entites.WebsiteFunny;
-import com.website.entites.WebsiteProject;
-import com.website.entites.WebsiteTemp;
-import com.website.entites.WebsiteUser;
-import com.website.service.WebSiteFunnyService;
-import com.website.service.WebSiteProjectService;
-import com.website.service.WebSiteTempService;
-import com.website.service.WebSiteUserService;
 import com.website.utils.ZipTools;
 
 @Controller
@@ -42,6 +37,8 @@ public class BackgroundManagerController {
     private WebSiteFunnyService funnyService;
     @Autowired
     private WebSiteTempService tempService;
+    @Autowired
+    private WebsiteBannerService bannerService;
 
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
     public String shiroException2() {
@@ -405,7 +402,10 @@ public class BackgroundManagerController {
      */
     @RequiresRoles("super_admin")
     @RequestMapping(value = "manager_banner.do", method = RequestMethod.GET)
-    public String entryManagerView() {
+    public String entryManagerView(Map<String, Object> map) {
+        List<WebsiteBanner> all = bannerService.getAll();
+        System.out.println("获取到的banner"+all);
+        map.put("list", all);
         return "admin/admin_banner";
     }
 

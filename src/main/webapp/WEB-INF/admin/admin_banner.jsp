@@ -1,11 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hdy
-  Date: 2017/8/12
-  Time: 上午9:35
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Banner管理</title>
@@ -56,26 +50,29 @@
                                 <th>标题</th>
                                 <th>指向地址</th>
                                 <th>图片地址</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             <c:forEach items="${requestScope.list}" var="index"
                                        varStatus="i">
+                                <p>${index.bannerId}</p>
                                 <tr>
-                                    <td>${i.index+1}</td>
-                                    <td><a href="#" name="${i.index+1}"
-                                           onclick="editInfo(this)">${index.title}</a></td>
-
-                                    <c:if test="${index.url !=null}">
+                                    <td>${index.bannerId}</td>
+                                    <td><a href="#" name="${index.bannerId}"
+                                           onclick="editInfo(this)">${index.bannerTitle}</a></td>
+                                    <td><a href="#" name="${index.bannerUrl}"
+                                           onclick="editInfo(this)">${index.bannerUrl}</a></td>
+                                    <c:if test="${index.bannerImageUrl !=null}">
                                         <td><a
-                                                href="<%=request.getContextPath()%>/${index.url}"
+                                                href="<%=request.getContextPath()%>/${index.bannerImageUrl}"
                                                 class="thumbnail" data-lightbox="example-set"
                                                 data-title="<div style='padding-top:5px;font-size: 16px'></div>">
-                                            <img src="<%=request.getContextPath()%>/${index.urlThumb}"
+                                            <img src="<%=request.getContextPath()%>/${index.bannerImageUrl}"
                                                  height="30px" style="height: 30px">
                                         </a></td>
                                     </c:if>
-                                    <c:if test="${index.url ==null}">
+                                    <c:if test="${index.bannerImageUrl ==null}">
                                         <td><a
                                                 href="<%=request.getContextPath()%>/images/noimg.jpeg"
                                                 class="thumbnail" data-lightbox="example-set"
@@ -84,9 +81,6 @@
                                                  height="30px" style="height: 30px">
                                         </a></td>
                                     </c:if>
-                                    <td>${index.id}</td>
-                                    <td><fmt:formatDate value="${index.createTime}"
-                                                        pattern="yyyy-mm-dd hh:mm:ss"/></td>
                                     <td>
                                         <div class="btn-group btn-group-xs">
                                             <button type="button" class="btn btn-success"
@@ -97,57 +91,29 @@
                                                onclick="clickDel(${index.id},${i.index},this)">删除</a>
                                         </div>
                                     </td>
-                                    <!-- 信息删除确认 -->
-                                    <div class="modal fade" id="deleteBlogModel">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content message_align">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                    <h4 class="modal-title">确认删除操作</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>您确认要删除这篇文章吗?</p>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal" onclick="delPage()">确定
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">取消
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.modal-content -->
-                                        </div>
-                                        <!-- /.modal-dialog -->
-                                    </div>
-                                    <!-- /.modal -->
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
                         <!-- 分页开始 -->
-                        <nav style="text-align: center">
+                        <%--<nav style="text-align: center">--%>
 
-                            <ul class="pagination">
-                                <c:forEach var="index" begin="1"
-                                           end="${requestScope.pageCount}">
-                                    <c:if test="${requestScope.currentPage==index}">
-                                        <li><a style="color: #000000"
-                                               href="<%=request.getContextPath()%>/album/album?pageNum=${index-1}">${index}</a>
-                                        </li>
-                                    </c:if>
-                                    <c:if test="${requestScope.currentPage!=index}">
-                                        <li><a
-                                                href="<%=request.getContextPath()%>/album/album?pageNum=${index-1}">${index}</a>
-                                        </li>
-                                    </c:if>
-                                </c:forEach>
-                            </ul>
-                        </nav>
+                        <%--<ul class="pagination">--%>
+                        <%--<c:forEach var="index" begin="1"--%>
+                        <%--end="${requestScope.pageCount}">--%>
+                        <%--<c:if test="${requestScope.currentPage==index}">--%>
+                        <%--<li><a style="color: #000000"--%>
+                        <%--href="<%=request.getContextPath()%>/album/album?pageNum=${index-1}">${index}</a>--%>
+                        <%--</li>--%>
+                        <%--</c:if>--%>
+                        <%--<c:if test="${requestScope.currentPage!=index}">--%>
+                        <%--<li><a--%>
+                        <%--href="<%=request.getContextPath()%>/album/album?pageNum=${index-1}">${index}</a>--%>
+                        <%--</li>--%>
+                        <%--</c:if>--%>
+                        <%--</c:forEach>--%>
+                        <%--</ul>--%>
+                        <%--</nav>--%>
                         <!-- 分页结束 -->
                     </div>
                 </div>
@@ -172,11 +138,17 @@
                                             name="title" type="text" class="form-control"
                                             placeholder="请输入标题"/>
                                     </div>
+                                    <div>
+                                        <label style="font-size: 15px">指向地址:</label> <input
+                                            style="display: inline;font-size:15px;width:250px;"
+                                            name="url" type="text" class="form-control"
+                                            placeholder="请输入指向地址或文章"/>
+                                    </div>
                                     <div id="pic_div" style="padding-top: 5px;">
                                         <label style="font-size: 15px">图片: </label>
                                         <div id="show"></div>
                                         <!-- 存储图片地址，并显示图片 -->
-                                        <input type="hidden" name="pic_url" id="pictureSrc">
+                                        <input type="hidden" name="img_url" id="pictureSrc">
                                     </div>
                                     <img alt="" id="displayImg" width="100px" height="100px"
                                          src="">
@@ -197,6 +169,33 @@
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 信息删除确认 -->
+                <div class="modal fade" id="deleteBlogModel">
+                    <div class="modal-dialog">
+                        <div class="modal-content message_align">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title">确认删除操作</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>您确认要删除这篇文章吗?</p>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal" onclick="delPage()">确定
+                                    </button>
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">取消
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -316,12 +315,14 @@
                     function addBlog() {
                         $.ajax({
                             type: 'post',
-                            url: '<%=request.getContextPath()%>/album/add',
+                            url: '<%=request.getContextPath()%>/banner',
                             data: $("#addBlogForm").serialize(),
                             success: function (data) {
-                                if (data == 'success') {
+                                var obj = eval("(" + data + ")");
+                                if (obj.code == 200) {
                                     $("#addBlogBtnCancle").click();
                                     alert("提交成功");
+//                                    window.location.reload();
                                 } else {
                                     $("#addBlogBtnCancle").click();
                                     alert("提交出错");

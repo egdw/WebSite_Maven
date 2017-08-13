@@ -27,7 +27,7 @@ public class ViewController {
 	private WebSiteTempService tempService;
 	@Autowired
 	private WebSiteAlbumService albumService;
-	
+
 	/**
 	 * 进入趣味网站主页
 	 */
@@ -37,7 +37,7 @@ public class ViewController {
 		map.put("projects", list);
 		return "/project/funny_list";
 	}
-	
+
 	/**
 	 * 进入临时网站主页
 	 */
@@ -47,7 +47,7 @@ public class ViewController {
 		map.put("projects", list);
 		return "/project/temp_list";
 	}
-	
+
 	/**
 	 * 进入音乐
 	 * @return
@@ -56,7 +56,7 @@ public class ViewController {
 	public String music(){
 		return "/music/index";
 	}
-	
+
 	/**
 	 * 进入博客的照片
 	 */
@@ -66,4 +66,5 @@ public class ViewController {
 		map.put("list", list);
 		return "/blog/blog_album";
 	}
+
 }

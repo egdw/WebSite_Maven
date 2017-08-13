@@ -66,32 +66,33 @@
                         <li><a href="/blog/type?pageNum=0&typeId=9">其他</a></li>
                     </ul>
                 </li>
-                <ul class="nav navbar-nav navbar-left">
-                    <li class="dropdown"><a href="#" class="dropdown-toggle"
-                                            data-toggle="dropdown" role="button" aria-haspopup="true"
-                                            aria-expanded="false">更多内容 <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a
-                                    href="<%=request.getContextPath()%>/project/MyProject.do">我的作品</a></li>
-                            <li><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></li>
-                            <li><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></li>
-                            <li><a href="<%=request.getContextPath()%>/music" target="_blank">我的音乐</a></li>
-                            <li><a href="<%=request.getContextPath()%>/image" target="_blank">我的相册</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a href="##" data-toggle="modal"
-                                   data-target="#about-modal">我的历程</a>
-                                <a
-                                        href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
-                        </ul>
-                    </li>
-                </ul>
                 <shiro:authenticated>
                     <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
                 </shiro:authenticated>
                 <shiro:notAuthenticated>
                     <li><a href="<%=request.getContextPath()%>/login/manager">登录</a></li>
                 </shiro:notAuthenticated>
+            </ul>
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                        data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">更多内容 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a
+                                href="<%=request.getContextPath()%>/project/MyProject.do">我的作品</a></li>
+                        <li><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></li>
+                        <li><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></li>
+                        <li><a href="<%=request.getContextPath()%>/music" target="_blank">我的音乐</a></li>
+                        <li><a href="<%=request.getContextPath()%>/image">我的相册</a></li>
+                        <li><a href="<%=request.getContextPath()%>/read/index.html">我的闲读</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="##" data-toggle="modal"
+                               data-target="#about-modal">我的历程</a>
+                            <a
+                                    href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
+                    </ul>
+                </li>
             </ul>
             <form class="navbar-form navbar-right" action="blogFind" method="post">
                 <div class="form-group">
