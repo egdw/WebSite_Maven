@@ -1,68 +1,135 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.website.mapper.WebsiteFriendLinkMapper" >
-  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteFriendLink" >
-    <id column="website_friend_link_id" property="websiteFriendLinkId" jdbcType="INTEGER" />
-    <result column="website_friend_link_name" property="websiteFriendLinkName" jdbcType="VARCHAR" />
-    <result column="wbesite_friend_link_url" property="wbesiteFriendLinkUrl" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.website.mapper.WebsiteFriendLinkMapper">
+  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteFriendLink">
+    <id column="website_friend_link_id" jdbcType="INTEGER" property="websiteFriendLinkId" />
+    <result column="website_friend_link_name" jdbcType="VARCHAR" property="websiteFriendLinkName" />
+    <result column="wbesite_friend_link_url" jdbcType="VARCHAR" property="wbesiteFriendLinkUrl" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     website_friend_link_id, website_friend_link_name, wbesite_friend_link_url
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
     <include refid="Base_Column_List" />
     from website_friend_link
     where website_friend_link_id = #{websiteFriendLinkId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from website_friend_link
     where website_friend_link_id = #{websiteFriendLinkId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.website.entites.WebsiteFriendLink" >
+  <insert id="insert" parameterType="com.website.entites.WebsiteFriendLink">
     insert into website_friend_link (website_friend_link_id, website_friend_link_name, 
       wbesite_friend_link_url)
     values (#{websiteFriendLinkId,jdbcType=INTEGER}, #{websiteFriendLinkName,jdbcType=VARCHAR}, 
       #{wbesiteFriendLinkUrl,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.website.entites.WebsiteFriendLink" >
+  <insert id="insertSelective" parameterType="com.website.entites.WebsiteFriendLink">
     insert into website_friend_link
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="websiteFriendLinkId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="websiteFriendLinkId != null">
         website_friend_link_id,
       </if>
-      <if test="websiteFriendLinkName != null" >
+      <if test="websiteFriendLinkName != null">
         website_friend_link_name,
       </if>
-      <if test="wbesiteFriendLinkUrl != null" >
+      <if test="wbesiteFriendLinkUrl != null">
         wbesite_friend_link_url,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="websiteFriendLinkId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="websiteFriendLinkId != null">
         #{websiteFriendLinkId,jdbcType=INTEGER},
       </if>
-      <if test="websiteFriendLinkName != null" >
+      <if test="websiteFriendLinkName != null">
         #{websiteFriendLinkName,jdbcType=VARCHAR},
       </if>
-      <if test="wbesiteFriendLinkUrl != null" >
+      <if test="wbesiteFriendLinkUrl != null">
         #{wbesiteFriendLinkUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteFriendLink" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteFriendLink">
     update website_friend_link
-    <set >
-      <if test="websiteFriendLinkName != null" >
+    <set>
+      <if test="websiteFriendLinkName != null">
         website_friend_link_name = #{websiteFriendLinkName,jdbcType=VARCHAR},
       </if>
-      <if test="wbesiteFriendLinkUrl != null" >
+      <if test="wbesiteFriendLinkUrl != null">
         wbesite_friend_link_url = #{wbesiteFriendLinkUrl,jdbcType=VARCHAR},
       </if>
     </set>
     where website_friend_link_id = #{websiteFriendLinkId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteFriendLink" >
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteFriendLink">
+    update website_friend_link
+    set website_friend_link_name = #{websiteFriendLinkName,jdbcType=VARCHAR},
+      wbesite_friend_link_url = #{wbesiteFriendLinkUrl,jdbcType=VARCHAR}
+    where website_friend_link_id = #{websiteFriendLinkId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteFriendLink">
+    <id column="website_friend_link_id" jdbcType="INTEGER" property="websiteFriendLinkId" />
+    <result column="website_friend_link_name" jdbcType="VARCHAR" property="websiteFriendLinkName" />
+    <result column="wbesite_friend_link_url" jdbcType="VARCHAR" property="wbesiteFriendLinkUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    website_friend_link_id, website_friend_link_name, wbesite_friend_link_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from website_friend_link
+    where website_friend_link_id = #{websiteFriendLinkId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from website_friend_link
+    where website_friend_link_id = #{websiteFriendLinkId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.website.entites.WebsiteFriendLink">
+    insert into website_friend_link (website_friend_link_id, website_friend_link_name, 
+      wbesite_friend_link_url)
+    values (#{websiteFriendLinkId,jdbcType=INTEGER}, #{websiteFriendLinkName,jdbcType=VARCHAR}, 
+      #{wbesiteFriendLinkUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.website.entites.WebsiteFriendLink">
+    insert into website_friend_link
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="websiteFriendLinkId != null">
+        website_friend_link_id,
+      </if>
+      <if test="websiteFriendLinkName != null">
+        website_friend_link_name,
+      </if>
+      <if test="wbesiteFriendLinkUrl != null">
+        wbesite_friend_link_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="websiteFriendLinkId != null">
+        #{websiteFriendLinkId,jdbcType=INTEGER},
+      </if>
+      <if test="websiteFriendLinkName != null">
+        #{websiteFriendLinkName,jdbcType=VARCHAR},
+      </if>
+      <if test="wbesiteFriendLinkUrl != null">
+        #{wbesiteFriendLinkUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteFriendLink">
+    update website_friend_link
+    <set>
+      <if test="websiteFriendLinkName != null">
+        website_friend_link_name = #{websiteFriendLinkName,jdbcType=VARCHAR},
+      </if>
+      <if test="wbesiteFriendLinkUrl != null">
+        wbesite_friend_link_url = #{wbesiteFriendLinkUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where website_friend_link_id = #{websiteFriendLinkId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteFriendLink">
     update website_friend_link
     set website_friend_link_name = #{websiteFriendLinkName,jdbcType=VARCHAR},
       wbesite_friend_link_url = #{wbesiteFriendLinkUrl,jdbcType=VARCHAR}
