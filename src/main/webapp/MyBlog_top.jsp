@@ -24,7 +24,7 @@
     <br>
     <center>
         <div>
-            <div id="nav_top_title1"><h1>静谧</h1></div>
+            <div id="nav_top_title1"><h1>低调</h1></div>
             <div id="nav_top_title2" class="hidden-xs-block"><h2>恶搞大王的个人博客</h2></div>
         </div>
     </center>
@@ -48,24 +48,44 @@
                                         data-toggle="dropdown" role="button" aria-haspopup="true"
                                         aria-expanded="false">生活笔记 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="type?pageNum=0&typeId=0">学习</a></li>
-                        <li><a href="type?pageNum=0&typeId=1">生活</a></li>
-                        <li><a href="type?pageNum=0&typeId=2">随笔</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=0">学习</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=1">生活</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=2">随笔</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle"
                                         data-toggle="dropdown" role="button" aria-haspopup="true"
                                         aria-expanded="false">技术杂谈 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="type?pageNum=0&typeId=3">JAVA</a></li>
-                        <li><a href="type?pageNum=0&typeId=4">PHP</a></li>
-                        <li><a href="type?pageNum=0&typeId=5">C/C++</a></li>
-                        <li><a href="type?pageNum=0&typeId=6">HTML</a></li>
-                        <li><a href="type?pageNum=0&typeId=7">JS</a></li>
-                        <li><a href="type?pageNum=0&typeId=8">Python</a></li>
-                        <li><a href="type?pageNum=0&typeId=9">其他</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=3">JAVA</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=4">PHP</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=5">C/C++</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=6">HTML</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=7">JS</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=8">Python</a></li>
+                        <li><a href="/blog/type?pageNum=0&typeId=9">其他</a></li>
                     </ul>
                 </li>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                            data-toggle="dropdown" role="button" aria-haspopup="true"
+                                            aria-expanded="false">更多内容 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a
+                                    href="<%=request.getContextPath()%>/project/MyProject.do">我的作品</a></li>
+                            <li><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></li>
+                            <li><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></li>
+                            <li><a href="<%=request.getContextPath()%>/music" target="_blank">我的音乐</a></li>
+                            <li><a href="<%=request.getContextPath()%>/image" target="_blank">我的相册</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="##" data-toggle="modal"
+                                   data-target="#about-modal">我的历程</a>
+                                <a
+                                        href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
+                        </ul>
+                    </li>
+                </ul>
                 <shiro:authenticated>
                     <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
                 </shiro:authenticated>
@@ -81,32 +101,11 @@
                         style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索
                 </button>
             </form>
-            <ul class="nav navbar-nav navbar-left">
-                <li class="dropdown"><a href="#" class="dropdown-toggle"
-                                        data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">更多 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a
-                                href="<%=request.getContextPath()%>/project/MyProject.do" target="_blank">我的作品</a></li>
-                        <li><a href="<%=request.getContextPath()%>/blog/" target="_blank">我的博客</a></li>
-                        <li><a href="<%=request.getContextPath()%>/funnyView.do" target="_blank">趣味网页</a></li>
-                        <li><a href="<%=request.getContextPath()%>/tempView.do" target="_blank">临时网页</a></li>
-                        <li><a href="<%=request.getContextPath()%>/music" target="_blank">我的音乐</a></li>
-                        <li><a href="<%=request.getContextPath()%>/image" target="_blank">我的相册</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="##" data-toggle="modal"
-                                data-target="#about-modal">关于自己</a>
-                            <a
-                                    href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
 <div class="modal fade" id="about-modal" tabindex="-1" role="dialog"
-     style="background-color:#FFFFF0" aria-labelledby="modal-label"
+     style="background-color:#d56464" aria-labelledby="modal-label"
      aria-hidden="true">
     <div class="modal-dialog" style="background-color:#FFFFF0">
         <div class="modal-content">
@@ -122,7 +121,7 @@
                     <div class="row">
                         <div class="col-xs-4 col-md-4">
                             <div class="panel panel-info">
-                                <div class="panel-heading">支付宝赞助(点击大图)</div>
+                                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">支付宝赞助(点击大图)</div>
                                 <div class="panel-body">
                                     <a href="/images/alipay_code.jpg"> <img src="/images/alipay_code.jpg" alt="支付宝二维码"
                                                                             class="img-thumbnail"></a>
@@ -132,7 +131,7 @@
                         </div>
                         <div class="col-xs-4 col-md-4">
                             <div class="panel panel-info">
-                                <div class="panel-heading">微信赞助(点击大图)</div>
+                                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">微信赞助(点击大图)</div>
                                 <div class="panel-body">
                                     <a href="/images/wxpay_code.jpg"> <img src="/images/wxpay_code.jpg" alt="微信二维码"
                                                                            class="img-thumbnail"></a>
@@ -141,7 +140,7 @@
                         </div>
                         <div class="col-xs-4 col-md-4">
                             <div class="panel panel-info">
-                                <div class="panel-heading">QQ赞助(点击大图)</div>
+                                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">QQ赞助(点击大图)</div>
                                 <div class="panel-body">
                                     <a href="/images/qqpay_code.jpg"> <img src="/images/qqpay_code.jpg" alt="QQ二维码"
                                                                            class="img-thumbnail"></a>
@@ -150,8 +149,8 @@
                         </div>
                     </div>
                     <div class="panel panel-info">
-                        <div class="panel-heading">微信公众号(猿猴家族)</div>
-                        <div class="panel-body">
+                        <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF;border-color:#594d4d ">微信公众号(猿猴家族)</div>
+                        <div class="panel-body" style="border-color:#594d4d ">
                             <img src="/images/wx_code.jpg" alt="微信公众号二维码" class="img-thumbnail">
                         </div>
                     </div>
@@ -353,4 +352,15 @@
         float: right;
     }
 </style>
+<script>
+    $(".my_ad").bootstrapNews({
+        newsPerPage: 9,
+        autoplay: false,
+        pauseOnHover: true,
+        direction: 'up',
+        newsTickerInterval: 2500,
+        onToDo: function () {
+        }
+    });
+</script>
 </html>

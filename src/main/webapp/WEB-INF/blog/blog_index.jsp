@@ -2,18 +2,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>恶搞大王的个人博客</title>
 </head>
 <body onload="getUserTable()">
-<%--<body style="background-image: url(/images/blog_bg.png);>--%>
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <link rel="stylesheet" type="text/css" href="/css/MyBlog_files/default.css">
 <link href="/css/MyBlog_files/site.css" rel="stylesheet" type="text/css"/>
-<!--正文开始-->
 <script src="/layui/dist/APlayer.min.js"></script>
 <div class="col-md-9">
     <div class="row-md-1">
@@ -21,8 +19,8 @@
             <%@include file="/banner.html" %>
         </div>
         <div class="panel panel-default">
-            <div class="panel-heading">
-                最新 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="color:#d56464" ></span>
+            <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
+                最新 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="color:#d56464"></span>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -48,10 +46,7 @@
                                                style="font-size: 20px;color: #00a67c;padding: 10px">${index.title}</a>
                                         </h4>
                                         <p style="padding: 10px;">
-                                            ${index.description}
-                                            <%--估摸着各位小伙伴儿被想使用CrawlSpider的Rule来抓取JS，相当受折磨； CrawlSpider--%>
-                                            <%--Rule总是不能和Splash结合。--%>
-                                            <%--废话不多说，手疼···· 来替换掉Ru...--%>
+                                                ${index.description}
                                         </p>
                                         <p style="float: right;padding-top: 65px;padding-right:20px;"
                                            class="hidden-xs hidden-sm">
@@ -94,8 +89,8 @@
     <div class="htmleaf-container">
         <div class="row-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    最新照片 <span class="glyphicon glyphicon-camera" aria-hidden="true" style="color:#d56464" ></span>
+                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
+                    最新照片 <span class="glyphicon glyphicon-camera" aria-hidden="true" style="color:#d56464"></span>
                 </div>
                 <div class="panel-body">
                     <div id="myCarousel" class="carousel slide">
@@ -147,9 +142,9 @@
 
         <div class="row-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
                     <b>阅读排行</b> <span
-                        class="glyphicon glyphicon-book" aria-hidden="true" style="color:#d56464" ></span></div>
+                        class="glyphicon glyphicon-book" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
@@ -190,9 +185,9 @@
         </div>
         <div class="row-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
                     <b>评论排行</b> <span
-                        class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464" ></span></div>
+                        class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
@@ -213,9 +208,9 @@
         </div>
         <div class="row-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
                     <b>最新评论</b> <span
-                        class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464" ></span></div>
+                        class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
@@ -238,7 +233,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b>音乐盒</b> <span
-                        class="glyphicon glyphicon-music" aria-hidden="true" style="color:#d56464" ></span></div>
+                        class="glyphicon glyphicon-music" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">

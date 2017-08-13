@@ -11,7 +11,7 @@
 <link href="<%=request.getContextPath()%>/css/music_css/bootstrap.min.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/css/music_css/my.css" rel="stylesheet">
 <body>
-<jsp:include page="/music_top.jsp"></jsp:include>
+<jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <div class="jumbotron">
     <center><h1>欢迎您使用恶搞大王音乐</h1></center>
     <center><p>本网站采用网易云音乐的接口,所有的音乐全部来源于网易云音乐.</p></center>

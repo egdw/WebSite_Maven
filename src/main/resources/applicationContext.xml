@@ -134,6 +134,7 @@
                 /layer/** = anon
                 /read/** = anon
                 / = anon
+                /recommend.jsp = anon
                 /login/Login.do = anon
                 /music = anon
                 /unauthorized.jsp = anon
