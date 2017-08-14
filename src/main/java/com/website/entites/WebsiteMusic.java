@@ -1,6 +1,6 @@
 package com.website.entites;
 
-public class WebSiteMusic {
+public class WebsiteMusic {
     private Long websiteMusicUserId;
 
     private Long websiteUserId;

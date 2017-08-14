@@ -9,13 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>音乐搜索</title>
 </head>
-<link
-        href="<%=request.getContextPath()%>/css/music_css/bootstrap.min.css"
-        rel="stylesheet">
 <link href="<%=request.getContextPath()%>/css/music_css/my.css"
       rel="stylesheet">
 <body>
-<jsp:include page="/music_top.jsp"></jsp:include>
+<jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <c:if test="${empty requestScope.errorMessage}">
     <div class="alert alert-success" role="alert">
         查询成功!一共有${requestScope.songCount}条数据,您当前处于第${requestScope.pageNum+1}页.
@@ -99,8 +96,6 @@
 </center>
 <!-- 分页结束 -->
 </body>
-<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <script>
     function addSong(songId) {
         $.ajax({

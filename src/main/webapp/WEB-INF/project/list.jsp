@@ -12,7 +12,7 @@
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <div class="col-md-9">
     <div class="panel panel-default">
-        <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
+        <div class="pawnel-heading" style="background-color:#594d4d;color: #FFFFFF">
             <h3 class="panel-title">个人项目 <span class="glyphicon glyphicon-th-list" aria-hidden="true"
                                                style="color:#d56464"/></h3>
         </div>

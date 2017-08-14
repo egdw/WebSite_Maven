@@ -1,12 +1,7 @@
 package com.website.service;
 
-//import com.website.entites.WebsiteMusic;
-//import com.website.mapper.WebsiteMusicMapper;
-//import com.website.utils.ConstantClass;
-//import org.springframework.beans.factory.annotation.Autowired;
-
-import com.website.entites.WebSiteMusic;
-import com.website.mapper.WebSiteMusicMapper;
+import com.website.entites.WebsiteMusic;
+import com.website.mapper.WebsiteMusicMapper;
 import com.website.utils.ConstantClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +17,10 @@ import java.util.ArrayList;
 @Transactional
 public class WebSiteMusicService {
     @Autowired
-    private WebSiteMusicMapper mapper;
+    private WebsiteMusicMapper mapper;
 
 
-    public boolean addMusic(WebSiteMusic websiteMusic) {
+    public boolean addMusic(WebsiteMusic websiteMusic) {
         int insert = mapper.insert(websiteMusic);
         return insert > 0 ? true : false;
     }
@@ -42,13 +37,13 @@ public class WebSiteMusicService {
      * @param userId 用户id
      * @return 返回的音乐信息
      */
-    public ArrayList<WebSiteMusic> find(int page, Long userId) {
-        ArrayList<WebSiteMusic> music = mapper.selectByPageNum(page * ConstantClass.MUSIC_GET_NUM, ConstantClass.MUSIC_GET_NUM, userId);
+    public ArrayList<WebsiteMusic> find(int page, Long userId) {
+        ArrayList<WebsiteMusic> music = mapper.selectByPageNum(page * ConstantClass.MUSIC_GET_NUM, ConstantClass.MUSIC_GET_NUM, userId);
         return music;
     }
 
-    public ArrayList<WebSiteMusic> findAll(Long userId) {
-        ArrayList<WebSiteMusic> all = mapper.findAll(userId);
+    public ArrayList<WebsiteMusic> findAll(Long userId) {
+        ArrayList<WebsiteMusic> all = mapper.findAll(userId);
         return all;
     }
 }

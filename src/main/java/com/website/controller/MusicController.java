@@ -6,6 +6,7 @@ import com.website.entites.*;
 import com.website.model.Message;
 import com.website.model.MusicSong;
 import com.website.service.WebSiteMusicService;
+import com.website.utils.InternetUtil;
 import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
 import org.apache.shiro.authz.annotation.Logical;
@@ -320,7 +321,7 @@ public class MusicController {
     @ResponseBody
     public String getUserSongsTable(Integer page, HttpSession session) {
         WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
-        ArrayList<WebSiteMusic> list = null;
+        ArrayList<WebsiteMusic> list = null;
         if (page == null) {
             //那就说明是要获取全部的歌曲
             list = musicService.findAll(user.getUserId());
@@ -331,9 +332,9 @@ public class MusicController {
         ArrayList<MusicSong> lists = new ArrayList<MusicSong>();
         if (list != null && list.size() > 0) {
             //说明添加了新歌曲
-            Iterator<WebSiteMusic> iterator = list.iterator();
+            Iterator<WebsiteMusic> iterator = list.iterator();
             while (iterator.hasNext()) {
-                WebSiteMusic param = iterator.next();
+                WebsiteMusic param = iterator.next();
                 NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(param.getWebsiteMusicId() + "", param.getWebsiteMusicId() + "");
                 MusicSong song = new MusicSong(musicResult.getSongs().get(0).getName(), musicResult.getSongs().get(0).getArtists().get(0).getName(), "/music/getUrlFormMusicId?params=" + param.getWebsiteMusicId(), musicResult.getSongs().get(0).getAlbum().getPicUrl(), "/music/getLrcByMusicId?params=" + param.getWebsiteMusicId());
                 lists.add(song);
@@ -367,7 +368,7 @@ public class MusicController {
     @ResponseBody
     public String addUserSongsTable(@RequestParam(required = true) String param, HttpSession session) {
         WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
-        WebSiteMusic music = new WebSiteMusic();
+        WebsiteMusic music = new WebsiteMusic();
         music.setWebsiteUserId(user.getUserId());
         music.setWebsiteMusicId(Long.valueOf(param));
         boolean b = musicService.addMusic(music);
@@ -438,6 +439,28 @@ public class MusicController {
         }
         inputStream.close();
         return sb.toString();
+    }
+
+
+    /**
+     * 获取到歌曲表单
+     */
+    @RequestMapping(value = "getSongsForm",method = RequestMethod.GET)
+    @ResponseBody
+    public String getSongsForm(){
+        String get = InternetUtil.get("http://music.163.com/api/user/playlist/?offset=0&limit=1001&uid=2769317");
+        return get;
+    }
+
+    /**
+     * 获取表单的详细数据
+     * @return
+     */
+    @RequestMapping(value = "getSongsFormDetail",method = RequestMethod.GET)
+    @ResponseBody
+    public String getSongsFormDetail(@RequestParam(required = true) Long id){
+        String s = InternetUtil.get("http://music.163.com/api/playlist/detail?id=" + id);
+        return s;
     }
 
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)

@@ -1,5 +1,5 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,22 +11,29 @@
 <link href="<%=request.getContextPath()%>/css/music_css/bootstrap.min.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/css/music_css/my.css" rel="stylesheet">
 <body>
-<jsp:include page="/music_top.jsp"></jsp:include>
-<center>
-    <form class="navbar-form navbar-center" action="search" method="post" accept-charset="utf-8">
-        <div class="form-group">
-            <input type="text" name="songsName" class="form-control" placeholder="音乐搜索">
-        </div>
-        <button type="submit" class="btn btn-default">搜索</button>
-    </form>
-    
-    <form class="navbar-form navbar-center" action="mvsearch" method="post" accept-charset="utf-8">
-    	 <div class="form-group">
-            <input type="text" name="songsName" class="form-control" placeholder="MV搜索">
-        </div>
-        <button type="submit" class="btn btn-default">搜索</button>
-    </form>
-
+<jsp:include page="/MyBlog_top.jsp"></jsp:include>
+<div class="row">
+    <div class="col-lg-6">
+        <form class="navbar-form navbar-center" action="search" method="post" accept-charset="utf-8">
+            <div class="input-group">
+                <input type="text" name="songsName" class="form-control" placeholder="音乐搜索">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">搜索</button>
+                      </span>
+            </div><!-- /input-group -->
+        </form>
+        <form class="navbar-form navbar-center" action="mvsearch" method="post" accept-charset="utf-8">
+            <div class="input-group">
+                <input type="text" name="songsName" class="form-control" placeholder="MV搜索">
+                <form class="input-group-btn">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">搜索</button>
+                      </span>
+            </div><!-- /input-group -->
+        </form>
+    </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+<div class="col-md-6">
     <div class="list-group">
         <a href="#" class="list-group-item active">
             <h4 class="list-group-item-heading">我的最爱</h4>
@@ -43,8 +50,24 @@
         <a href="playMusic?id=28793502" class="list-group-item" target="_blank">邓紫棋-后会无期</a>
         <a href="playMusic?id=4466775" class="list-group-item" target="_blank">lostrivers</a>
     </div>
-</center>
+</div>
+<div class="col-md-6">
+    <div class="list-group">
+        <a href="#" class="list-group-item active">
+            <h4 class="list-group-item-heading">伤感</h4>
+            <p class="list-group-item-text">只推荐我最伤感的❤️</p>
+        </a>
+        <a href="playMusic?id=25641369" class="list-group-item" target="_blank">周杰伦-明明就</a>
+        <a href="playMusic?id=293768" class="list-group-item" target="_blank">陶晶莹-太委屈</a>
+        <a href="playMusic?id=432506345" class="list-group-item" target="_blank">陈一发儿-童话镇</a>
+        <a href="playMusic?id=201487" class="list-group-item" target="_blank">左宏元-渡情</a>
+        <a href="playMusic?id=280765" class="list-group-item" target="_blank">彭佳慧-喜欢两个人</a>
+        <a href="playMusic?id=30903117" class="list-group-item" target="_blank">周深-漂洋过海来看你</a>
+        <a href="playMusic?id=32450986" class="list-group-item" target="_blank">周二珂-走在冷风中</a>
+        <a href="playMusic?id=201507" class="list-group-item" target="_blank">左宏元-悲情面具</a>
+        <a href="playMusic?id=34274468" class="list-group-item" target="_blank">刘瑞琪-来不及</a>
+        <a href="playMusic?id=418603077" class="list-group-item" target="_blank">周杰伦-告白气球</a>
+    </div>
+</div>
 </body>
-<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 </html>

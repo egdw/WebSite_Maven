@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
 		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-	<classPathEntry location="/Users/hdy/git/myGit/WebSite/WebRoot/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar"/>
+	<classPathEntry location="/home/hdy/Documents/repository/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar"/>
 	<context id="mybatis_generator">
 		<!-- optional，旨在创建class时，对注释进行控制 -->
 		<commentGenerator>
@@ -20,7 +20,7 @@
 
 		<!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
                是否生成 example类   -->
-		<table schema="website" tableName="website_friend_link" domainObjectName="WebsiteFriendLink"
+		<table schema="website" tableName="website_music" domainObjectName="WebsiteMusic"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false">

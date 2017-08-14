@@ -14,7 +14,7 @@ public class BeanFactory extends SqlSessionFactoryBean {
     protected SqlSessionFactory buildSqlSessionFactory() throws IOException {
         try {
             return super.buildSqlSessionFactory();
-        } catch (NestedIOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new NestedIOException("Failed to parse mapping resource:", e.getCause());
         }

@@ -91,6 +91,28 @@
                                data-target="#about-modal">我的历程</a>
                             <a
                                     href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <form class="navbar-form navbar-center" action="search" method="post" accept-charset="utf-8">
+                                <div class="input-group">
+                                    <input type="text" name="songsName"  class="form-control" placeholder="音乐搜索">
+                                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索</button>
+                      </span>
+                                </div><!-- /input-group -->
+                            </form>
+                        </li>
+                        <li>
+                            <form class="navbar-form navbar-center" action="mvsearch" method="post"
+                                  accept-charset="utf-8">
+                                <div class="input-group">
+                                    <input type="text" name="songsName" class="form-control" placeholder="MV搜索">
+                                    <form class="input-group-btn">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索</button></span>
+                                </div>
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -122,7 +144,8 @@
                     <div class="row">
                         <div class="col-xs-4 col-md-4">
                             <div class="panel panel-info">
-                                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">支付宝赞助(点击大图)</div>
+                                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">支付宝赞助(点击大图)
+                                </div>
                                 <div class="panel-body">
                                     <a href="/images/alipay_code.jpg"> <img src="/images/alipay_code.jpg" alt="支付宝二维码"
                                                                             class="img-thumbnail"></a>
@@ -132,7 +155,8 @@
                         </div>
                         <div class="col-xs-4 col-md-4">
                             <div class="panel panel-info">
-                                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">微信赞助(点击大图)</div>
+                                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">微信赞助(点击大图)
+                                </div>
                                 <div class="panel-body">
                                     <a href="/images/wxpay_code.jpg"> <img src="/images/wxpay_code.jpg" alt="微信二维码"
                                                                            class="img-thumbnail"></a>
@@ -141,7 +165,8 @@
                         </div>
                         <div class="col-xs-4 col-md-4">
                             <div class="panel panel-info">
-                                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">QQ赞助(点击大图)</div>
+                                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">QQ赞助(点击大图)
+                                </div>
                                 <div class="panel-body">
                                     <a href="/images/qqpay_code.jpg"> <img src="/images/qqpay_code.jpg" alt="QQ二维码"
                                                                            class="img-thumbnail"></a>
@@ -150,7 +175,9 @@
                         </div>
                     </div>
                     <div class="panel panel-info">
-                        <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF;border-color:#594d4d ">微信公众号(猿猴家族)</div>
+                        <div class="panel-heading"
+                             style="background-color:#594d4d;color: #FFFFFF;border-color:#594d4d ">微信公众号(猿猴家族)
+                        </div>
                         <div class="panel-body" style="border-color:#594d4d ">
                             <img src="/images/wx_code.jpg" alt="微信公众号二维码" class="img-thumbnail">
                         </div>
