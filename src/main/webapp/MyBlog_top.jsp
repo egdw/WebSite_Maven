@@ -93,7 +93,7 @@
                                     href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
                         <li role="separator" class="divider"></li>
                         <li>
-                            <form class="navbar-form navbar-center" action="search" method="post" accept-charset="utf-8">
+                            <form class="navbar-form navbar-center" action="/music/search" method="post" accept-charset="utf-8">
                                 <div class="input-group">
                                     <input type="text" name="songsName"  class="form-control" placeholder="音乐搜索">
                                     <span class="input-group-btn">
@@ -103,7 +103,7 @@
                             </form>
                         </li>
                         <li>
-                            <form class="navbar-form navbar-center" action="mvsearch" method="post"
+                            <form class="navbar-form navbar-center" action="/music/mvsearch" method="post"
                                   accept-charset="utf-8">
                                 <div class="input-group">
                                     <input type="text" name="songsName" class="form-control" placeholder="MV搜索">

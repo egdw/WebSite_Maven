@@ -6,6 +6,7 @@ import com.website.entites.*;
 import com.website.model.Message;
 import com.website.model.MusicSong;
 import com.website.service.WebSiteMusicService;
+import com.website.utils.ConstantClass;
 import com.website.utils.InternetUtil;
 import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
@@ -14,6 +15,8 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +35,8 @@ import java.util.*;
 public class MusicController {
     @Autowired
     private WebSiteMusicService musicService;
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
      * 进入搜索界面
@@ -81,8 +86,21 @@ public class MusicController {
         if (pageNum < 0) {
             pageNum = 0;
         }
-        NeteaseMusicMVCode code = NeteaseMusicUtils.searchMv(
-                getURLEncoderString(songsName), 15, 1004, 15 * pageNum);
+        Jedis jedis =
+                jedisPool.getResource();
+        String s = jedis.get(songsName + ":" + pageNum);
+        NeteaseMusicMVCode code = null;
+        if (s == null) {
+            //说明缓存不存在
+            code = NeteaseMusicUtils.searchMv(
+                    getURLEncoderString(songsName), 15, 1004, 15 * pageNum);
+            jedis.set(songsName + ":" + pageNum, JSON.toJSONString(code));
+            jedis.expire(songsName + ":" + pageNum, ConstantClass.MUSIC_TIME_DELAY);
+        } else {
+            //存在的话直接就返回数据库获取的内容
+            code = JSON.parseObject(s, NeteaseMusicMVCode.class);
+        }
+        jedis.close();
         if (code != null) {
             int code2 = code.getCode();
             if (code2 != 200) {
@@ -121,8 +139,19 @@ public class MusicController {
         if (pageNum < 0) {
             pageNum = 0;
         }
-        NeteaseMusic searchMusic = NeteaseMusicUtils.SearchMusic(
-                getURLEncoderString(songsName), 15, 1, 15 * pageNum);
+        Jedis jedis =
+                jedisPool.getResource();
+        String s = jedis.get(songsName + "_music:" + pageNum);
+        NeteaseMusic searchMusic = null;
+        if (s == null) {
+            searchMusic = NeteaseMusicUtils.SearchMusic(
+                    getURLEncoderString(songsName), 15, 1, 15 * pageNum);
+            jedis.set(songsName + "_music:" + pageNum, JSON.toJSONString(searchMusic));
+            jedis.expire(songsName + "_music:" + pageNum, ConstantClass.MUSIC_TIME_DELAY);
+        } else {
+            searchMusic = JSON.parseObject(s, NeteaseMusic.class);
+        }
+        jedis.close();
         map.put("errorMessage", "");
         if (searchMusic != null) {
             int code = searchMusic.getCode();
@@ -170,11 +199,23 @@ public class MusicController {
      * @return
      */
     @RequestMapping("playMusic")
-    public static String openMusic(Map<String, Object> map, String id, @RequestParam(required = false) Integer rate) {
-        String lyricsById = NeteaseMusicUtils.getLyricsById(id);
-        NeteaseMusicResult musicResult = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(id, id);
-        System.out.println(musicResult);
-        map.put("songs", musicResult.getSongs());
+    public String openMusic(Map<String, Object> map, String id, @RequestParam(required = false) Integer rate) {
+        Jedis jedis = jedisPool.getResource();
+        String lyricsById = jedis.get("lyricsById:" + id);
+        if (lyricsById == null) {
+            lyricsById = NeteaseMusicUtils.getLyricsById(id);
+            jedis.set("lyricsById:" + id, lyricsById);
+        }
+        String musicResult = jedis.get("musicResult:" + id);
+        if (musicResult == null) {
+            NeteaseMusicResult musicResult1 = NeteaseMusicUtils.Cloud_Music_MusicInfoAPI(id, id);
+            map.put("songs", musicResult1.getSongs());
+            jedis.set("musicResult:" + id, JSON.toJSONString(musicResult1));
+            jedis.expire("musicResult:" + id, 60 * 60 * 24);
+        } else {
+            NeteaseMusicResult parse = JSON.parseObject(musicResult, NeteaseMusicResult.class);
+            map.put("songs", parse.getSongs());
+        }
         String rateParam = null;
         if (rate == null) {
             //判断码率
@@ -188,14 +229,20 @@ public class MusicController {
         }
         String first_param = "{\"ids\":\"[" + id + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
         try {
-            String realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
-                    + Netease_AES.get_encSecKey());
+            String realSongUrl = jedis.get("realSongUrl:" + rateParam + id);
+            if (realSongUrl == null) {
+                realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
+                        + Netease_AES.get_encSecKey());
+                jedis.set("realSongUrl:" + id, realSongUrl);
+                jedis.expire("realSongUrl:" + id, 60 * 60 * 12);
+            }
             JSONObject data = (JSONObject) JSON.parseObject(realSongUrl).getJSONArray("data").get(0);
             String url = (String) data.get("url");
-            System.out.println(url);
             map.put("muisc_url", url);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            jedis.close();
         }
         if (lyricsById != null && !"".equals(lyricsById)) {
             String[] split = lyricsById.split("\n");
@@ -221,6 +268,7 @@ public class MusicController {
 //    @ResponseBody
     public String getUrlFormMusicId(@RequestParam(required = true) String params, Integer rate) {
         String rateParam = null;
+        Jedis jedis = jedisPool.getResource();
         if (rate == null) {
             //判断码率
             rateParam = "320000";
@@ -231,14 +279,19 @@ public class MusicController {
         } else {
             rateParam = "320000";
         }
-        String first_param = "{\"ids\":\"[" + params + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
-        String realSongUrl = null;
-        try {
-            realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
-                    + Netease_AES.get_encSecKey());
-        } catch (Exception e) {
-            e.printStackTrace();
+        String realSongUrl = jedis.get("realSongUrl:" + rateParam + params);
+        if (realSongUrl == null) {
+            String first_param = "{\"ids\":\"[" + params + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
+            try {
+                realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
+                        + Netease_AES.get_encSecKey());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            jedis.set("realSongUrl:" + rateParam + params, realSongUrl);
+            jedis.expire("realSongUrl:" + rateParam + params, 60 * 60 * 12);
         }
+        jedis.close();
         JSONObject data = (JSONObject) JSON.parseObject(realSongUrl).getJSONArray("data").get(0);
         String url = (String) data.get("url");
         return url;
@@ -249,6 +302,7 @@ public class MusicController {
     @ResponseBody
     public void getMusicTest(HttpServletResponse response, @RequestParam(required = true) String params, Integer rate) throws IOException {
         String rateParam = null;
+        Jedis jedis = jedisPool.getResource();
         if (rate == null) {
             //判断码率
             rateParam = "320000";
@@ -259,14 +313,19 @@ public class MusicController {
         } else {
             rateParam = "320000";
         }
-        String first_param = "{\"ids\":\"[" + params + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
-        String realSongUrl = null;
-        try {
-            realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
-                    + Netease_AES.get_encSecKey());
-        } catch (Exception e) {
-            e.printStackTrace();
+        String realSongUrl = jedis.get("realSongUrl:" + rateParam + params);
+        if (realSongUrl == null) {
+            String first_param = "{\"ids\":\"[" + params + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
+            try {
+                realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
+                        + Netease_AES.get_encSecKey());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            jedis.set("realSongUrl:" + rateParam + params, realSongUrl);
+            jedis.expire("realSongUrl:" + rateParam + params, 60 * 60 * 12);
         }
+        jedis.close();
         JSONObject data = (JSONObject) JSON.parseObject(realSongUrl).getJSONArray("data").get(0);
         String url = (String) data.get("url");
         response.setContentType("audio/mp3");
@@ -275,10 +334,9 @@ public class MusicController {
         HttpURLConnection conn = (HttpURLConnection) musicUrl.openConnection();
         BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
         int len = -1;
-        byte[] bytes = new byte[1024];
+        byte[] bytes = new byte[bis.available()];
         while ((len = bis.read(bytes)) != -1) {
             outputStream.write(bytes, 0, len);
-//            outputStream.flush();
         }
         bis.close();
         outputStream.close();
@@ -286,7 +344,13 @@ public class MusicController {
 
     @RequestMapping(value = "getLrcByMusicId", method = RequestMethod.GET)
     public void getLrcTest(@RequestParam(required = true) String params, HttpServletResponse response) {
-        String lyric = NeteaseMusicUtils.getLyricsById(params);
+        Jedis jedis = jedisPool.getResource();
+        String lyric = jedis.get("lyricsById:" + params);
+        if (lyric == null) {
+            lyric = NeteaseMusicUtils.getLyricsById(params);
+            jedis.set("lyricsById:" + params, lyric);
+        }
+        jedis.close();
         response.setContentType("text/plain");
         try {
             ServletOutputStream outputStream = response.getOutputStream();
@@ -445,21 +509,35 @@ public class MusicController {
     /**
      * 获取到歌曲表单
      */
-    @RequestMapping(value = "getSongsForm",method = RequestMethod.GET)
+    @RequestMapping(value = "getSongsForm", method = RequestMethod.GET)
     @ResponseBody
-    public String getSongsForm(){
-        String get = InternetUtil.get("http://music.163.com/api/user/playlist/?offset=0&limit=1001&uid=2769317");
-        return get;
+    public String getSongsForm() {
+        Jedis jedis = jedisPool.getResource();
+        String getSongsForm = jedis.get("getSongsForm");
+        if (getSongsForm == null) {
+            getSongsForm = InternetUtil.get("http://music.163.com/api/user/playlist/?offset=0&limit=1001&uid=2769317");
+            jedis.set("getSongsForm", getSongsForm);
+            jedis.expire("getSongsForm", ConstantClass.MUSIC_TIME_DELAY);
+        }
+        jedis.close();
+        return getSongsForm;
     }
 
     /**
      * 获取表单的详细数据
+     *
      * @return
      */
-    @RequestMapping(value = "getSongsFormDetail",method = RequestMethod.GET)
+    @RequestMapping(value = "getSongsFormDetail", method = RequestMethod.GET)
     @ResponseBody
-    public String getSongsFormDetail(@RequestParam(required = true) Long id){
-        String s = InternetUtil.get("http://music.163.com/api/playlist/detail?id=" + id);
+    public String getSongsFormDetail(@RequestParam(required = true) Long id) {
+        Jedis jedis = jedisPool.getResource();
+        String s = jedis.get("getSongsFormDetail:" + id);
+        if (s == null) {
+            s = InternetUtil.get("http://music.163.com/api/playlist/detail?id=" + id);
+            jedis.set("getSongsFormDetail:" + id, s);
+            jedis.expire("getSongsFormDetail:" + id, 60 * 60 * 24);
+        }
         return s;
     }
 
