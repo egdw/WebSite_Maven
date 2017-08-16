@@ -38,4 +38,9 @@ public class WebsiteBannerService {
         int i = mapper.updateByPrimaryKey(banner);
         return i > 0 ? true : false;
     }
+
+    public WebsiteBanner getOne(Integer bannerId) {
+        WebsiteBanner banner = mapper.selectByPrimaryKey(bannerId);
+        return banner;
+    }
 }

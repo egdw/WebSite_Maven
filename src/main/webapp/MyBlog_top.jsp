@@ -18,6 +18,7 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/layui/css/layui.css"/>
     <script src="/layui/layui.js"></script>
+    <script src="/css/MyBlog_files/lightbox.js"></script>
 </head>
 <body>
 <div id="nav_top">

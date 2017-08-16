@@ -50,7 +50,7 @@
     //获取自己的项目
     function getGithubData() {
         $.ajax({
-            url: 'https://api.github.com/users/egdw/repos',
+            url: '/project/repos',
             type: 'GET', //GET
             async: true,  //或false,是否异步
             timeout: 5000, //超时时间
@@ -69,7 +69,7 @@
     //获取星级项目
     function getGithubData2() {
         $.ajax({
-            url: 'https://api.github.com/users/egdw/starred',
+            url: '/project/started',
             type: 'GET', //GET
             async: true,  //或false,是否异步
             timeout: 5000, //超时时间

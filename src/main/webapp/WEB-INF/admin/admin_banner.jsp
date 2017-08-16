@@ -6,6 +6,8 @@
 </head>
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
+<script src="/css/MyBlog_files/lightbox.js"></script>
+<link rel="stylesheet" href="/css/MyBlog_files/lightbox.css">
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-3">
@@ -56,7 +58,6 @@
                             <tbody>
                             <c:forEach items="${requestScope.list}" var="index"
                                        varStatus="i">
-                                <p>${index.bannerId}</p>
                                 <tr>
                                     <td>${index.bannerId}</td>
                                     <td><a href="#" name="${index.bannerId}"
@@ -88,33 +89,13 @@
                                             </button>
                                             <a data-toggle="modal" data-target="#deleteBlogModel"
                                                type="button" class="btn btn-warning"
-                                               onclick="clickDel(${index.id},${i.index},this)">删除</a>
+                                               onclick="clickDel(${index.bannerId},${i.index},this)">删除</a>
                                         </div>
                                     </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
-                        <!-- 分页开始 -->
-                        <%--<nav style="text-align: center">--%>
-
-                        <%--<ul class="pagination">--%>
-                        <%--<c:forEach var="index" begin="1"--%>
-                        <%--end="${requestScope.pageCount}">--%>
-                        <%--<c:if test="${requestScope.currentPage==index}">--%>
-                        <%--<li><a style="color: #000000"--%>
-                        <%--href="<%=request.getContextPath()%>/album/album?pageNum=${index-1}">${index}</a>--%>
-                        <%--</li>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${requestScope.currentPage!=index}">--%>
-                        <%--<li><a--%>
-                        <%--href="<%=request.getContextPath()%>/album/album?pageNum=${index-1}">${index}</a>--%>
-                        <%--</li>--%>
-                        <%--</c:if>--%>
-                        <%--</c:forEach>--%>
-                        <%--</ul>--%>
-                        <%--</nav>--%>
-                        <!-- 分页结束 -->
                     </div>
                 </div>
                 <!-- 隐藏博客添加窗体 -->
@@ -186,7 +167,7 @@
                                 <h4 class="modal-title">确认删除操作</h4>
                             </div>
                             <div class="modal-body">
-                                <p>您确认要删除这篇文章吗?</p>
+                                <p>您确认要删除这个Banner吗?</p>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default"
                                             data-dismiss="modal" onclick="delPage()">确定
@@ -210,28 +191,43 @@
                                 </button>
                                 <h4 class="modal-title">查看</h4>
                             </div>
-                            <form action="/blog/update" method="post">
+                            <form id="updateForm" action="/banner" method="post">
                                 <div class="modal-body">
                                     <div>
                                         <label style="font-size: 15px">编号:</label> <input
                                             style="display: inline;font-size:15px;width:250px;" id="id"
-                                            name="id" type="text" class="form-control" readonly/>
+                                            name="bannerId" type="text" class="form-control" readonly/>
                                     </div>
                                     <div style="padding-top: 5px">
                                         <label style="font-size: 15px">标题:</label> <input
                                             style="display: inline;font-size:15px;width:250px;"
-                                            id="title" name="title" type="text" class="form-control"/>
+                                            id="title" name="bannerTitle" type="text" class="form-control"/>
+                                    </div>
+                                    <div style="padding-top: 5px">
+                                        <label style="font-size: 15px">指向地址:</label> <input
+                                            style="display: inline;font-size:15px;width:250px;"
+                                            id="url" name="bannerUrl" type="text" class="form-control"/>
                                     </div>
                                     <div style="padding-top: 5px;">
                                         <label style="font-size: 15px">图片: </label>
                                         <!-- 存储图片地址，并显示图片 -->
                                         <img height="140px" id="blog_update_image"> <input
-                                            id="update_blog_image" type="hidden" name="blog.pic_url">
+                                            id="update_blog_image" type="hidden" name="bannerImageUrl">
+                                    </div>
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <div style="padding-top: 5px">
+                                        <input type="file" id="imageFile2">
+                                    </div>
+                                    <div style="padding-top: 5px">
+                                        <button id="upload2" id="updateChangeBtn" onclick="return false;">上传</button>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">了解
+                                    <button type="button" id="updateBlogBtn" class="btn btn-success"
+                                            onclick="update()">修改
+                                    </button>
+                                    <button type="button" id="updateBlogBtnCancle"
+                                            class="btn btn-default" data-dismiss="modal">取消
                                     </button>
                                 </div>
                             </form>
@@ -243,8 +239,6 @@
                         src="<%=request.getContextPath()%>/ckeditor/ckeditor.js"></script>
                 <script type="text/javascript"
                         src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
-                <script
-                        src="<%=request.getContextPath()%>/css/MyBlog_files/lightbox.js"></script>
                 <script src="<%=request.getContextPath()%>/js/ajaxfileupload.js"></script>
                 <script type="text/javascript">
                     //临时存放需要删除的文章ID号
@@ -256,14 +250,34 @@
                         delTableTemp = y + 1;
                     }
 
+                    function update() {
+                        $.ajax({
+                            type: 'post',
+                            url: '<%=request.getContextPath()%>/banner',
+                            data: $("#updateForm").serialize(),
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    alert("更新成功");
+                                } else {
+                                    alert("更新失败");
+                                }
+                                $("#updateBlogBtnCancle").click();
+                            },
+                            error: function (e) {
+                                console.log("更新失败");
+                            }
+                        });
+                    }
+
                     function delPage() {
                         $.ajax({
                             type: 'post',
-                            url: '<%=request.getContextPath()%>/album/del',
-                            data: {id: delIdTemp},
-                            dataType: 'text',
+                            url: '<%=request.getContextPath()%>/banner',
+                            data: {id: delIdTemp, _method: 'DELETE'},
+                            dataType: 'json',
                             success: function (data) {
-                                if (data == 'success') {
+                                if (data.code == 200) {
                                     document.getElementById("blog-table").deleteRow(delTableTemp);
                                     var rowsCount = document.getElementById("blog-table").rows.length;
                                     for (var z = 1; z < rowsCount; z++) {
@@ -284,19 +298,22 @@
                     function editInfo(obj) {
                         var id = $(obj).attr("name");
                         //获取表格中的一行数据
-                        var id_db = document.getElementById("blog-table").rows[id].cells[3].innerText;
+                        var id_db = document.getElementById("blog-table").rows[id].cells[0].innerText;
                         //向模态框中传值
                         $('#id').val(id_db);
                         $.ajax({
-                            type: 'post',
-                            url: '<%=request.getContextPath()%>/album/selectById?id=' + id_db,
+                            type: 'get',
+                            url: '<%=request.getContextPath()%>/banner/getBanner?id=' + id_db,
                             cache: false,
                             dataType: 'json',
                             success: function (data) {
-                                $('#title').val(data.title);
+                                console.log(data);
+                                $('#title').val(data.bannerTitle);
+                                $('#url').val(data.bannerUrl);
+                                $('#pictureSrc2').val(data.bannerImageUrl);
                                 //放入img的src
-                                $('#blog_update_image').attr('src', '/' + data.url);
-                                $('#update_blog_image').val(data.url);
+                                $('#blog_update_image').attr('src', '/' + data.bannerImageUrl);
+                                $('#update_blog_image').val(data.bannerImageUrl);
                             },
                         });
                         $('#update-blog-modal').modal('show');
@@ -310,6 +327,10 @@
                         $("#addBlogBtn").click(function () {
                             addBlog();
                         });
+
+                        $("#updateChangeBtn").click(function () {
+                            addBlog2();
+                        })
                     });
 
                     function addBlog() {
@@ -349,6 +370,30 @@
                                     } else {
                                         $('#displayImg').attr("src", "");
                                         $('#pictureSrc').attr("value", "");
+                                        alert("上传失败" + data);
+                                    }
+                                },
+                                error: function (data, status, e) {
+                                    alert("上传失败");
+                                }
+                            }
+                        );
+                    }
+
+                    function upload2() {
+                        $.ajaxFileUpload(
+                            {
+                                url: '<%=request.getContextPath()%>/blog/imageUpload',
+                                secureuri: false,
+                                fileElementId: 'imageFile2',
+                                dataType: 'text',
+                                success: function (data) {
+                                    if (data != 'null') {
+                                        $('#blog_update_image').attr("src", "/" + data);
+                                        $('#update_blog_image').attr("value", data);
+                                    } else {
+                                        $('#blog_update_image').attr("src", "");
+                                        $('#update_blog_image').attr("value", "");
                                         alert("上传失败" + data);
                                     }
                                 },

@@ -21,8 +21,6 @@
                 src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
                 crossorigin="anonymous"></script>
-        <link rel="stylesheet"
-              href="<%=request.getContextPath()%>/css/admin_project_manager_files/ui.css">
         <style type="text/css">
             body {
                 font-family: "微软雅黑", "Microsoft YaHei";
@@ -33,19 +31,6 @@
     <body>
     <button class="btn btn-primary btn-lg" id="wabutton"
             style="display:none;" data-toggle="modal" data-target="#alert_modal"></button>
-    <link rel="stylesheet"
-          href="<%=request.getContextPath()%>/css/admin_index/ui.css">
-    <div id="mok_bgimg"
-         style="width:100%;height:100%;background-size:100% 100%;background-image:url(&#39;/az/hprichbg/rb/MartianCrater_ZH-CN9867068013_1920x1080.jpg&#39;);position:fixed;"></div>
-    <style>
-        .container .nav > li > a {
-            color: #FF3030
-        }
-
-        .navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand {
-            color: #EEAEEE !important
-        }
-    </style>
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"

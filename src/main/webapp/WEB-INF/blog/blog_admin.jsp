@@ -311,7 +311,7 @@
                                         <label style="font-size: 15px">分类:</label> <select
                                             name="type" id="blog.type" class="form-control"
                                             style="font-size:15px;width:250px;display: inline">
-                                        <option value="0">学习</option>
+                             w           <option value="0">学习</option>
                                         <option value="1">生活</option>
                                         <option value="2">随笔</option>
                                     </select>

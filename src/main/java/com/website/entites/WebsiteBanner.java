@@ -40,4 +40,14 @@ public class WebsiteBanner {
     public void setBannerImageUrl(String bannerImageUrl) {
         this.bannerImageUrl = bannerImageUrl;
     }
+
+    @Override
+    public String toString() {
+        return "WebsiteBanner{" +
+                "bannerId=" + bannerId +
+                ", bannerTitle='" + bannerTitle + '\'' +
+                ", bannerUrl='" + bannerUrl + '\'' +
+                ", bannerImageUrl='" + bannerImageUrl + '\'' +
+                '}';
+    }
 }

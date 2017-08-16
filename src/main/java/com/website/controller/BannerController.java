@@ -33,9 +33,17 @@ public class BannerController {
         return JSON.toJSONString(all);
     }
 
+    @RequiresRoles("super_admin")
+    @RequestMapping(value = "getBanner", method = RequestMethod.GET)
+    public String getBannerById(Integer id) {
+        WebsiteBanner one = bannerService.getOne(id);
+        return JSON.toJSONString(one);
+    }
+
     /**
      * 进行banner的添加
-     *  @param url     图片指向的地址
+     *
+     * @param url     图片指向的地址
      * @param title   图片的标题
      * @param img_url 图片的地址
      */
@@ -47,10 +55,10 @@ public class BannerController {
         banner.setBannerTitle(title);
         banner.setBannerUrl(url);
         boolean b = bannerService.add(banner);
-        if(b){
+        if (b) {
             return JSON.toJSONString(new Message(200, "添加成功", null, null, null));
         }
-        return JSON.toJSONString(new Message(500, "添加成功", null, null, null));
+        return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
 
     }
 
@@ -72,8 +80,12 @@ public class BannerController {
      */
     @RequiresRoles(value = "super_admin")
     @RequestMapping(method = RequestMethod.PUT)
-    public void update(@RequestParam WebsiteBanner banner) {
-
+    public String update(WebsiteBanner banner) {
+        boolean b = bannerService.update(banner);
+        if (b) {
+            return JSON.toJSONString(new Message(200, "更新成功", null, null, null));
+        }
+        return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
     }
 
 }
