@@ -39,6 +39,8 @@ public class BackgroundManagerController {
     private WebSiteTempService tempService;
     @Autowired
     private WebsiteBannerService bannerService;
+    @Autowired
+    private WebSiteFriendLinkService linkService;
 
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
     public String shiroException2() {
@@ -404,9 +406,21 @@ public class BackgroundManagerController {
     @RequestMapping(value = "manager_banner.do", method = RequestMethod.GET)
     public String entryManagerView(Map<String, Object> map) {
         List<WebsiteBanner> all = bannerService.getAll();
-        System.out.println("获取到的banner"+all);
         map.put("list", all);
         return "admin/admin_banner";
     }
 
+
+    /**
+     * 进入友情链接管理
+     *
+     * @return
+     */
+    @RequiresRoles("super_admin")
+    @RequestMapping(value = "manager_friend_link.do", method = RequestMethod.GET)
+    public String enrtyManagerFriendLink(Map<String, Object> map) {
+        List<WebsiteFriendLink> all = linkService.getAll();
+        map.put("list", all);
+        return "admin/admin_friend_link";
+    }
 }

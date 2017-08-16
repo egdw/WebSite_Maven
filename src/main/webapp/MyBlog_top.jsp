@@ -381,15 +381,4 @@
         float: right;
     }
 </style>
-<script>
-    $(".my_ad").bootstrapNews({
-        newsPerPage: 9,
-        autoplay: false,
-        pauseOnHover: true,
-        direction: 'up',
-        newsTickerInterval: 2500,
-        onToDo: function () {
-        }
-    });
-</script>
 </html>

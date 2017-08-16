@@ -9,7 +9,7 @@
     <title>恶搞大王音乐</title>
 </head>
 <link href="<%=request.getContextPath()%>/css/music_css/my.css" rel="stylesheet">
-<body onload="getSongsForm()">
+<body onload="getSongsForm();getRecommendData()">
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <div id="musicBody" class="col-md-9">
 </div>

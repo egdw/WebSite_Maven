@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>项目展示</title>
 </head>
-<body onload="getGithubData();">
+<body onload="getGithubData();getRecommendData()">
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <div class="col-md-9">
     <div class="panel panel-default">

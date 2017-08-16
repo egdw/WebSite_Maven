@@ -37,4 +37,9 @@ public class WebSiteFriendLinkService {
                 mapper.getAll();
         return all;
     }
+
+    public WebsiteFriendLink getOne(Integer id){
+        WebsiteFriendLink link = mapper.selectByPrimaryKey(id);
+        return link;
+    }
 }
