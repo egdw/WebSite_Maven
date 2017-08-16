@@ -15,7 +15,6 @@
 </div>
 <jsp:include page="/recommend.jsp"></jsp:include>
 </body>
-<%--<script src="/js/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>--%>
 <script>
 
     //从自己的网易云音乐上获取歌单
