@@ -13,7 +13,7 @@
     <script src="/layui/layui.js"></script>
     <script src="/layui/dist/APlayer.min.js"></script>
     <script src="/js/user_top_js.js"></script>
-    <script src="/js/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
 </head>
 <body style="background-color: #c2c2c2" onload="getUserTable()">
 <ul class="layui-nav" lay-filter="" style="width: 100%">

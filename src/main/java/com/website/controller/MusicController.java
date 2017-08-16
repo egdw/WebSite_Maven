@@ -254,49 +254,6 @@ public class MusicController {
     }
 
 
-    /**
-     * 根据音乐id获取真实地址
-     * <p>
-     * 未登录用户不能使用
-     *
-     * @param params id值
-     * @param rate   码率
-     * @return
-     */
-//    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
-//    @RequestMapping(value = "getUrlFormMusicId", method = RequestMethod.GET)
-//    @ResponseBody
-    public String getUrlFormMusicId(@RequestParam(required = true) String params, Integer rate) {
-        String rateParam = null;
-        Jedis jedis = jedisPool.getResource();
-        if (rate == null) {
-            //判断码率
-            rateParam = "320000";
-        } else if (rate == 128000) {
-            rateParam = "128000";
-        } else if (rate == 192000) {
-            rateParam = "192000";
-        } else {
-            rateParam = "320000";
-        }
-        String realSongUrl = jedis.get("realSongUrl:" + rateParam + params);
-        if (realSongUrl == null) {
-            String first_param = "{\"ids\":\"[" + params + "]\",\"br\":" + rateParam + ",\"csrf_token\":\"\"}";
-            try {
-                realSongUrl = getRealSongUrl("params=" + URLEncoder.encode(Netease_AES.get_params(first_param), "UTF-8") + "&encSecKey="
-                        + Netease_AES.get_encSecKey());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            jedis.set("realSongUrl:" + rateParam + params, realSongUrl);
-            jedis.expire("realSongUrl:" + rateParam + params, 60 * 60 * 12);
-        }
-        jedis.close();
-        JSONObject data = (JSONObject) JSON.parseObject(realSongUrl).getJSONArray("data").get(0);
-        String url = (String) data.get("url");
-        return url;
-    }
-
     //    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
     @RequestMapping(value = "getUrlFormMusicId", method = RequestMethod.GET)
     @ResponseBody
@@ -360,19 +317,6 @@ public class MusicController {
         }
     }
 
-    /**
-     * 根据歌曲id获取歌词
-     *
-     * @param params 歌曲id
-     * @return 歌词
-     */
-//    @RequiresRoles(value = {"super_admin","admin","normal","ban_say"}, logical = Logical.OR)
-//    @RequestMapping(value = "getLrcByMusicId", method = RequestMethod.GET)
-//    @ResponseBody
-    public String getLrcByMusicId(@RequestParam(required = true) String params) {
-        String lyric = NeteaseMusicUtils.getLyricsById(params);
-        return lyric;
-    }
 
 
     /**
@@ -538,6 +482,7 @@ public class MusicController {
             jedis.set("getSongsFormDetail:" + id, s);
             jedis.expire("getSongsFormDetail:" + id, 60 * 60 * 24);
         }
+        jedis.close();
         return s;
     }
 

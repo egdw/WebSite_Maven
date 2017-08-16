@@ -17,12 +17,14 @@
                 <ul class="nav bs-sidenav">
                     <li></li>
                     <li class=""><a href="<%=request.getContextPath()%>/login/manager"> 管理首页</a></li>
-                    <li class=""><a href="<%=request.getContextPath()%>/manager/manager_person_setting.do"> 个人设置</a></li>
+                    <li class=""><a href="<%=request.getContextPath()%>/manager/manager_person_setting.do"> 个人设置</a>
+                    </li>
                     <li class=""><a
                             href="<%=request.getContextPath()%>/manager/manager_project_manager.do"> 项目管理</a></li>
                     <li class=""><a
                             href="<%=request.getContextPath()%>/manager/manager_funny_manager.do"> 趣味管理</a></li>
-                    <li class="active"><a href="<%=request.getContextPath()%>/manager/manager_temp_manager.do"> 临时管理</a></li>
+                    <li class="active"><a href="<%=request.getContextPath()%>/manager/manager_temp_manager.do"> 临时管理</a>
+                    </li>
                     <li><a href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li><a href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
 
@@ -94,11 +96,13 @@
                 </div>
                 <!-- END PAGE1 -->
 
-                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                                </button>
                                 <h4 class="modal-title" id="myModalLabel">添加临时项目</h4>
                             </div>
                             <div class="modal-body">
@@ -111,30 +115,38 @@
                                       action="manager_temp_add.do" enctype="multipart/form-data">
                                     <div class="input-group">
                                         <span class="input-group-addon">项目标题</span> <input type="text"
-                                                                                           class="form-control" id="project_topic"
+                                                                                           class="form-control"
+                                                                                           id="project_topic"
                                                                                            name="project_topic"
-                                                                                           placeholder="请输入项目标题" required="">
+                                                                                           placeholder="请输入项目标题"
+                                                                                           required="">
                                     </div>
                                     <br>
                                     <div class="input-group">
                                         <span class="input-group-addon">项目简介</span> <input type="text"
-                                                                                           class="form-control" name="project_text"
+                                                                                           class="form-control"
+                                                                                           name="project_text"
                                                                                            id="project_text"
-                                                                                           placeholder="请输入项目内容" required="">
+                                                                                           placeholder="请输入项目内容"
+                                                                                           required="">
                                     </div>
                                     <br>
                                     <div class="input-group">
                                         <span class="input-group-addon">首页名称</span> <input type="text"
-                                                                                           class="form-control" name="project_name"
+                                                                                           class="form-control"
+                                                                                           name="project_name"
                                                                                            id="project_name"
-                                                                                           placeholder="例如index.html" required="">
+                                                                                           placeholder="例如index.html"
+                                                                                           required="">
                                     </div>
                                     <br/>
                                     <div class="input-group">
                                         <span class="input-group-addon">文件附件</span> <input type="file"
-                                                                                           class="form-control" name="project_file"
+                                                                                           class="form-control"
+                                                                                           name="project_file"
                                                                                            id="project_file"
-                                                                                           placeholder="请上传格式为zip的压缩文件" required=""
+                                                                                           placeholder="请上传格式为zip的压缩文件"
+                                                                                           required=""
                                                                                            accept=".zip">
                                     </div>
                                     <br/> <a href="#modal"> <input type="button"
@@ -287,49 +299,16 @@
                                                                value="点击提交"></span>
                         </div>
                     </form>
-
                     <br> <br> <br>
                 </div>
                 <br> <br> <br> <br> <br>
             </div>
         </div>
     </div>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
 
-    <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="../libs/jquery/dist/jquery.min.js"><\/script>')</script>
     <script
             src="<%=request.getContextPath()%>/css/admin_project_manager_files/dist/remodal.js"></script>
-
-    <!-- Events -->
-    <script>
-
-        $(document).on('opening', '.remodal', function () {
-            console.log('opening');
-        });
-
-        $(document).on('opened', '.remodal', function () {
-            console.log('opened');
-        });
-
-        $(document).on('closing', '.remodal', function (e) {
-            console.log('closing' + (e.reason ? ', reason: ' + e.reason : ''));
-        });
-
-        $(document).on('closed', '.remodal', function (e) {
-            console.log('closed' + (e.reason ? ', reason: ' + e.reason : ''));
-        });
-
-        $(document).on('confirmation', '.remodal', function () {
-            console.log('confirmation');
-        });
-
-        $(document).on('cancellation', '.remodal', function () {
-            console.log('cancellation');
-        });
-        $('[data-remodal-id=modal2]').remodal({
-            modifier: 'with-red-theme'
-        });
-    </script>
 </div>
 </div>
 </div>

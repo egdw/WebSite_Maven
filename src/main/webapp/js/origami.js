@@ -9,11 +9,6 @@ window.requestAnimFrame = (function(){
           };
 })();
 
-/**
- * 
- * 
- * @author Hakim El Hattab | http://hakim.se
- */
 (function(){
 	var canvas = document.body.appendChild( document.createElement( 'canvas' ) ),
 	    context = canvas.getContext( '2d' ),
@@ -137,28 +132,8 @@ window.requestAnimFrame = (function(){
 					paper.speed = Math.min( 0.5 + i / quantity, 1 );
 				} );
 			}
-//			// Qwiki
-//			function() {
-//				for( var i = 0, len = quantity - 3; i < len; i++ ) {
-//					var paper = papers[i];
-//					var radius = 2,
-//						x = Math.sin( i/len * Math.PI*2 ) * radius,
-//						y = Math.cos( i/len * Math.PI*2 ) * radius,
-//						angle = Math.atan2( y, x ) * 180/Math.PI,
-//						size = 100;
-//					
-//					paper.interpolations = { x: x, y: y, size: size, angle: angle };
-//				};
-//				
-//				var paperA = papers[quantity - 0];
-//				var paperB = papers[quantity - 1];
-//				var paperC = papers[quantity - 2];
-//				
-//				paper.interpolations = { x: 3, y: 3, size: 100, angle: 0 };
-//			}
 		];
 	
-	// Generate the papers
 	for( var i = 0; i < quantity; i++ ) {
 		papers.push( new Paper( 0, 0, 0, 1, i/quantity ) );
 	}
@@ -172,7 +147,6 @@ window.requestAnimFrame = (function(){
 	resize();
 	animate();
 	
-	// Start automatically changing layouts
 	layoutInterval = setInterval( function() {
 		nextLayout();
 	}, 5000 );
@@ -226,10 +200,6 @@ window.requestAnimFrame = (function(){
 		
 		while( dirtyRegions.length ) {
 			var region = dirtyRegions.pop()
-//			context.clearRect( region.left, region.top, region.right-region.left, region.bottom-region.top );
-			
-//			context.fillStyle = 'rgba(0,255,0,0.4)';
-//			context.fillRect( region.left, region.top, region.right-region.left, region.bottom-region.top );
 		}
 		
 		for( var i = 0; i < papers.length; i++ ) {

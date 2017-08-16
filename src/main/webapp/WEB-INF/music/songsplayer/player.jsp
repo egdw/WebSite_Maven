@@ -59,7 +59,6 @@
 				</c:forEach>
 			</ul>
 		</div>
-		<!-- #flip-back -->
 	</div>
 	<script src="<%=request.getContextPath()%>/js/index.js"></script>
 </body>

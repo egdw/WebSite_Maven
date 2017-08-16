@@ -198,9 +198,7 @@
             });
         });
     </script>
-
-    <script
-            src="<%=request.getContextPath()%>/css/admin_project_manager_files/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
 </div>
 <script>
     function addImageClass() {

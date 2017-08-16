@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
-<script type="text/javascript"
-        src="<%=request.getContextPath()%>/css/admin_project_manager_files/js.js"></script>
 <script src="https://cdn.bootcss.com/remodal/1.1.1/remodal.js"></script>
 <link href="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.js"></script>
@@ -239,9 +237,7 @@
             </div>
         </div>
     </div>
-
-    <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="../libs/jquery/dist/jquery.min.js"><\/script>')</script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
     <script
             src="<%=request.getContextPath()%>/css/admin_project_manager_files/dist/remodal.js"></script>
 
@@ -286,37 +282,6 @@
                 class="remodal-confirm">OK
         </button>
     </div>
-
-    <!-- Events -->
-    <script>
-
-        $(document).on('opening', '.remodal', function () {
-            console.log('opening');
-        });
-
-        $(document).on('opened', '.remodal', function () {
-            console.log('opened');
-        });
-
-        $(document).on('closing', '.remodal', function (e) {
-            console.log('closing' + (e.reason ? ', reason: ' + e.reason : ''));
-        });
-
-        $(document).on('closed', '.remodal', function (e) {
-            console.log('closed' + (e.reason ? ', reason: ' + e.reason : ''));
-        });
-
-        $(document).on('confirmation', '.remodal', function () {
-            console.log('confirmation');
-        });
-
-        $(document).on('cancellation', '.remodal', function () {
-            console.log('cancellation');
-        });
-        $('[data-remodal-id=modal2]').remodal({
-            modifier: 'with-red-theme'
-        });
-    </script>
 </div>
 </div>
 </div>

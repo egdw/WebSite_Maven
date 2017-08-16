@@ -10,38 +10,31 @@
         <meta http-equiv="charset" content="utf-8">
         <title>后台管理</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <script
-                src="<%=request.getContextPath()%>/css/admin_index/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
         <link rel="stylesheet"
-              href="<%=request.getContextPath()%>/css/admin_index/bootstrap.min.css">
+              href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
         <link rel="stylesheet"
               href="<%=request.getContextPath()%>/css/MyBlog_files/lightbox.css">
         <script
-                src="<%=request.getContextPath()%>/css/admin_index/bootstrap.min.js"></script>
+                src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
         <link rel="stylesheet"
               href="<%=request.getContextPath()%>/css/admin_project_manager_files/ui.css">
-        <link rel="stylesheet"
-              href="<%=request.getContextPath()%>/css/admin_project_manager_files/my.css">
-        <script type="text/javascript"
-                src="<%=request.getContextPath()%>/css/admin_project_manager_files/my.js"></script>
         <style type="text/css">
             body {
                 font-family: "微软雅黑", "Microsoft YaHei";
                 background: #eee;
             }
         </style>
-        <script type="text/javascript"
-                src="<%=request.getContextPath()%>/css/admin_index/js.js"></script>
     </head>
     <body>
     <button class="btn btn-primary btn-lg" id="wabutton"
             style="display:none;" data-toggle="modal" data-target="#alert_modal"></button>
     <link rel="stylesheet"
           href="<%=request.getContextPath()%>/css/admin_index/ui.css">
-    <link rel="stylesheet"
-          href="<%=request.getContextPath()%>/css/admin_index/my.css">
-    <script type="text/javascript"
-            src="<%=request.getContextPath()%>/css/admin_index/my.js"></script>
     <div id="mok_bgimg"
          style="width:100%;height:100%;background-size:100% 100%;background-image:url(&#39;/az/hprichbg/rb/MartianCrater_ZH-CN9867068013_1920x1080.jpg&#39;);position:fixed;"></div>
     <style>

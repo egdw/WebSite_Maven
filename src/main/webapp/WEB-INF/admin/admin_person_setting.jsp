@@ -3,7 +3,6 @@
 <html>
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
-
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-3">
