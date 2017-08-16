@@ -1,16 +1,11 @@
 package com.website.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-
-import com.website.entites.WebsiteRole;
+import com.website.entites.WebsiteUser;
 import com.website.service.WebSiteRoleService;
+import com.website.service.WebSiteUserService;
 import com.website.utils.AuthCodeGenerator;
-import com.website.utils.UserUtils;
+import com.website.utils.RedisUtils;
+import com.website.utils.UUIDUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
@@ -19,14 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.website.entites.WebsiteUser;
-import com.website.service.WebSiteUserService;
 import org.springframework.web.bind.annotation.RequestParam;
+import redis.clients.jedis.JedisPool;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Map;
 
 @Controller
 @RequestMapping("login")
@@ -35,6 +32,8 @@ public class LoginController {
     private WebSiteUserService service;
     @Autowired
     private WebSiteRoleService roleService;
+    @Autowired
+    private JedisPool jedisPool;
 
     /**
      * 用户登录操作
@@ -45,9 +44,13 @@ public class LoginController {
     @RequestMapping(value = "Login.do", method = RequestMethod.POST)
     public String loginByUsernamePasswd(@RequestParam(required = true) String username, @RequestParam(required = true) String password,
                                         Map<String, Object> requests, @RequestParam(required = true) String verify, HttpSession session) {
-        String verifyPass = (String) session.getAttribute("loginVeriyPass");
-        session.setAttribute("loginVeriyPass", UserUtils.getRandomText(4));
-        if (!(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
+//        String verifyPass = (String) session.getAttribute("loginVeriyPass");
+        String uuid = (String) SecurityUtils.getSubject().getSession().getAttribute("loginTemp");
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "loginVeriyPass:" + uuid);
+        String verifyPass = utils.get();
+        utils.remove();
+        utils.close();
+        if (verifyPass == null || !(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
             //如果不相同.说明验证码不正确
             return "redirect:/login/login.jsp";
         }
@@ -115,11 +118,15 @@ public class LoginController {
      * 得到登录验证码
      */
     @RequestMapping("/getVeriyImage")
-    public void getVeriyImage(HttpSession session, HttpServletResponse response) {
+    public void getVeriyImage(HttpServletResponse response) {
         AuthCodeGenerator generator =
                 new AuthCodeGenerator();
+        String uuid = UUIDUtils.getUUID();
+        SecurityUtils.getSubject().getSession().setAttribute("loginTemp", uuid);
         Object[] objects = generator.getAuthCodeImage(4);
-        session.setAttribute("loginVeriyPass", objects[0]);
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "loginVeriyPass:" + uuid);
+        //设置验证码60秒自动过期
+        utils.setAndExpire((String) objects[0], 60, true);
         BufferedImage image = (BufferedImage) objects[1];
         response.setContentType("image/png");
         OutputStream os = null;

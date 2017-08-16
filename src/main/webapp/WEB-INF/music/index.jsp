@@ -33,7 +33,9 @@
                         " <div class='panel-heading' style='width: 100%;background-color:#594d4d;color: #FFFFFF'>" +
                         "<b>" + content.name + "(" + content.trackCount + ")首</b>" +
                         " <span class='glyphicon glyphicon-headphones'' aria-hidden='true' style='color:#d56464'></span></div></div>");
-                    getSongsList(content.id);
+                    setTimeout(function () {
+                        getSongsList(content.id);
+                    }, (index + 1) * 10);
                 });
 
             },

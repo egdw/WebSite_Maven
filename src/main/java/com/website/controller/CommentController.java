@@ -4,8 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.website.utils.AuthCodeGenerator;
+import com.website.utils.RedisUtils;
+import com.website.utils.UUIDUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import com.website.entites.WebsiteComment;
 import com.website.service.WebSiteBlogService;
 import com.website.service.WebSiteCommentService;
+import redis.clients.jedis.JedisPool;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +32,8 @@ public class CommentController {
     private WebSiteCommentService commentService;
     @Autowired
     private WebSiteBlogService blogService;
+    @Autowired
+    private JedisPool jedisPool;
 
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
     public String shiroException2() {
@@ -37,10 +44,14 @@ public class CommentController {
     @ResponseBody
     public String add(@RequestParam(required = true) Integer blogId, @RequestParam(required = true) String content, String email,
                       @RequestParam(required = true) String username, @RequestParam(required = true) String verify, HttpSession session) {
-        String verifyPass = (String) session.getAttribute("CommentVeriyPass");
-        if (!(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
+        String uuid = (String) SecurityUtils.getSubject().getSession().getAttribute("commentTemp");
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "CommentVeriyPass:" + uuid);
+        String verifyPass = utils.get();
+        utils.remove();
+        utils.close();
+        if (verifyPass == null || !(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
             //如果不相同.说明验证码不正确
-            return "redirect:/login/login.jsp";
+            return "error";
         }
         if (blogId == null || content == null || email == null
                 || username == null || content.isEmpty() || email.isEmpty()
@@ -92,11 +103,14 @@ public class CommentController {
      * 得到登录验证码
      */
     @RequestMapping("/getVeriyImage")
-    public void getVeriyImage(HttpSession session, HttpServletResponse response) {
+    public void getVeriyImage(HttpServletResponse response) {
         AuthCodeGenerator generator =
                 new AuthCodeGenerator();
         Object[] objects = generator.getAuthCodeImage(4);
-        session.setAttribute("CommentVeriyPass", objects[0]);
+        String uuid = UUIDUtils.getUUID();
+        SecurityUtils.getSubject().getSession().setAttribute("commentTemp", uuid);
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "CommentVeriyPass:" + uuid);
+        utils.setAndExpire((String) objects[0], 60, true);
         BufferedImage image = (BufferedImage) objects[1];
         response.setContentType("image/png");
         OutputStream os = null;

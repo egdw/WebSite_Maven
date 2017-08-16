@@ -9,6 +9,7 @@ import com.website.model.Message;
 import com.website.service.WebSiteAlbumService;
 import com.website.service.WebSiteBlogService;
 import com.website.service.WebSiteCommentService;
+import com.website.utils.RedisUtils;
 import com.website.utils.UUIDUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -18,11 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.JedisPool;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -36,6 +39,8 @@ public class BlogController {
     private WebSiteAlbumService albumService;
     @Autowired
     private WebSiteCommentService commentService;
+    @Autowired
+    private JedisPool jedisPool;
 
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
     public String shiroException2() {
@@ -51,16 +56,63 @@ public class BlogController {
         if (pageNum == null) {
             pageNum = 0;
         }
-        ArrayList<WebsiteBlog> list = service.selectBlogByNum(pageNum, null);
+        RedisUtils redisUtils = new RedisUtils(jedisPool.getResource(), "index_page_list:" + pageNum);
+        //获取首页的文章
+        ArrayList<WebsiteBlog> list = null;
+        if (redisUtils.exist()) {
+            list = (ArrayList<WebsiteBlog>) JSON.parseArray(redisUtils.get(), WebsiteBlog.class);
+        } else {
+            list = service.selectBlogByNum(pageNum, null);
+            redisUtils.setAndExpire(JSON.toJSONString(list), 60 * 60, false);
+        }
+
+
         Integer pageCount = service.getPageNum(null);
         // 从数据库中获取最新的前五张图片
-        ArrayList<WebsiteAlbum> albumbyPage = albumService.selectAlbumbyPage(0,
-                10);
-        ArrayList<WebsiteComment> comments = commentService.getCommentByNum(5);
-        ArrayList<WebsiteBlog> selectBlogByNumAndComment = service
-                .selectBlogByNumAndComment(10);
-        ArrayList<WebsiteBlog> selectBlogByNumAndReader = service
-                .selectBlogByNumAndReader(10);
+        ArrayList<WebsiteAlbum> albumbyPage = null;
+        redisUtils.setKey("albumbyPage");
+        if (redisUtils.exist()) {
+            albumbyPage = (ArrayList<WebsiteAlbum>) JSON.parseArray(redisUtils.get(), WebsiteAlbum.class);
+        } else {
+            albumbyPage = albumService.selectAlbumbyPage(0,
+                    10);
+            redisUtils.setAndExpire(JSON.toJSONString(albumbyPage), 60 * 60, false);
+        }
+
+
+        //从数据库获取评论
+        ArrayList<WebsiteComment> comments = null;
+        redisUtils.setKey("index_comments");
+        if (redisUtils.exist()) {
+            comments = (ArrayList<WebsiteComment>) JSON.parseArray(redisUtils.get(), WebsiteComment.class);
+        } else {
+            comments = commentService.getCommentByNum(5);
+            redisUtils.setAndExpire(JSON.toJSONString(comments), 60 * 60, false);
+        }
+
+        //从数据库获取评论数最高的文章
+        ArrayList<WebsiteBlog> selectBlogByNumAndComment = null;
+        redisUtils.setKey("index_blog_top_comment");
+        if (redisUtils.exist()) {
+            selectBlogByNumAndComment = (ArrayList<WebsiteBlog>) JSON.parseArray(redisUtils.get(), WebsiteBlog.class);
+        } else {
+            selectBlogByNumAndComment = service
+                    .selectBlogByNumAndComment(10);
+            redisUtils.setAndExpire(JSON.toJSONString(selectBlogByNumAndComment), 60 * 60, false);
+        }
+
+        //从数据库获取阅读数最高的文章
+        ArrayList<WebsiteBlog> selectBlogByNumAndReader = null;
+        redisUtils.setKey("index_blog_top_reader");
+        if (redisUtils.exist()) {
+            selectBlogByNumAndReader = (ArrayList<WebsiteBlog>) JSON.parseArray(redisUtils.get(), WebsiteBlog.class);
+            redisUtils.close();
+        } else {
+            selectBlogByNumAndReader = service
+                    .selectBlogByNumAndReader(10);
+            redisUtils.set(JSON.toJSONString(selectBlogByNumAndReader), true);
+        }
+
         map.put("list", list);
         map.put("pageCount", pageCount);
         map.put("currentPage", pageNum);
@@ -88,7 +140,15 @@ public class BlogController {
         if (typeId == null) {
             typeId = 0;
         }
-        ArrayList<WebsiteBlog> list = service.selectBlogByNum(pageNum, typeId);
+        ArrayList<WebsiteBlog> list = null;
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "index_page_type:" + pageNum + ":" + typeId);
+        if (utils.exist()) {
+            list = (ArrayList<WebsiteBlog>) JSON.parseArray(utils.get(), WebsiteBlog.class);
+            utils.close();
+        } else {
+            list = service.selectBlogByNum(pageNum, typeId);
+            utils.setAndExpire(JSON.toJSONString(list), 60 * 60, true);
+        }
         Integer num = service.getPageNum(typeId);
         map.put("pageCount", num);
         map.put("list", list);

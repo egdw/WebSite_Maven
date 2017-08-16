@@ -9,13 +9,18 @@ import com.website.service.WebSiteRoleService;
 import com.website.service.WebSiteUserRoleService;
 import com.website.service.WebSiteUserService;
 import com.website.utils.AuthCodeGenerator;
+import com.website.utils.RedisUtils;
+import com.website.utils.UUIDUtils;
 import com.website.utils.UserUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
@@ -39,14 +44,17 @@ public class RegisterController {
     private WebSiteUserRoleService userRoleService;
     @Autowired
     private WebSiteRoleService roleService;
+    @Autowired
+    private JedisPool jedisPool;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public String register(@RequestParam(required = true) String username, @RequestParam(required = true) String password, @RequestParam(required = true) String password2, @RequestParam(required = true) String verify, HttpSession session) {
-        //noinspection Since15
-        String registerVeriyPass = (String) session.getAttribute("registerVeriyPass");
-        //立即重置验证码
-        session.setAttribute("registerVeriyPass", UserUtils.getRandomText(4));
+        String uuid = (String) SecurityUtils.getSubject().getSession().getAttribute("registerTemp");
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "registerVeriyPass:" + uuid);
+        String registerVeriyPass = utils.get();
+        utils.remove();
+        utils.close();
         if (username.isEmpty()) {
             Message message = new Message(200, "username_short", null, null, null);
             return JSON.toJSONString(message);
@@ -63,7 +71,7 @@ public class RegisterController {
                     return JSON.toJSONString(message);
                 } else {
                     //密码通过
-                    if (verify.equals(verify)) {
+                    if (verify.equals(registerVeriyPass)) {
                         //如果与验证码相同.说明可以注册了
                         WebsiteUser websiteUser = new WebsiteUser();
                         websiteUser.setLoginAccount(username);
@@ -98,11 +106,14 @@ public class RegisterController {
      * 得到登录验证码
      */
     @RequestMapping("/getVeriyImage")
-    public void getVeriyImage(HttpSession session, HttpServletResponse response) {
+    public void getVeriyImage(HttpServletResponse response) {
         AuthCodeGenerator generator =
                 new AuthCodeGenerator();
         Object[] objects = generator.getAuthCodeImage(6);
-        session.setAttribute("registerVeriyPass", objects[0]);
+        String uuid = UUIDUtils.getUUID();
+        SecurityUtils.getSubject().getSession().setAttribute("registerTemp", uuid);
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "registerVeriyPass:" + uuid);
+        utils.setAndExpire((String) objects[0], 60, true);
         BufferedImage image = (BufferedImage) objects[1];
         response.setContentType("image/png");
         OutputStream os = null;
