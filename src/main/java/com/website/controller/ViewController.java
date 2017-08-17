@@ -96,4 +96,9 @@ public class ViewController {
         return "/blog/blog_album";
     }
 
+
+    @RequestMapping("news")
+    public String entryNews() {
+        return "/blog/blog_news";
+    }
 }

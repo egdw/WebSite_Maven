@@ -143,11 +143,13 @@
                 /login/manager = anon
                 /comment/add = anon
                 /comment/get = anon
+                /news = anon
                 /comment/getVeriyImage = anon
                 /blog/** = anon
                 /music/** = anon
                 /layer/** = anon
                 /read/** = anon
+                /friendLink = anon
                 / = anon
                 /recommend.jsp = anon
                 /login/Login.do = anon
