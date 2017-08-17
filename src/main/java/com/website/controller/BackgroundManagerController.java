@@ -423,4 +423,14 @@ public class BackgroundManagerController {
         map.put("list", all);
         return "admin/admin_friend_link";
     }
+
+    /**
+     * 用户管理.权限管理
+     * @return
+     */
+    @RequiresRoles("super_admin")
+    @RequestMapping(value = "manager_user.do",method = RequestMethod.GET)
+    public String entryManagerUser(){
+        return "admin/admin_user";
+    }
 }

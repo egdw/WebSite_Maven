@@ -44,23 +44,51 @@ public class LoginController {
     @RequestMapping(value = "Login.do", method = RequestMethod.POST)
     public String loginByUsernamePasswd(@RequestParam(required = true) String username, @RequestParam(required = true) String password,
                                         Map<String, Object> requests, @RequestParam(required = true) String verify, HttpSession session) {
-//        String verifyPass = (String) session.getAttribute("loginVeriyPass");
         String uuid = (String) SecurityUtils.getSubject().getSession().getAttribute("loginTemp");
         RedisUtils utils = new RedisUtils(jedisPool.getResource(), "loginVeriyPass:" + uuid);
         String verifyPass = utils.get();
         utils.remove();
-        utils.close();
+        utils.setKey("loginTimes:" + username);
+        if (utils.exist()) {
+            //说明有登录错误记录
+            String times = utils.get();
+            if (Integer.valueOf(times) > 5) {
+                //说明超过登录限制
+                utils.close();
+                return "redirect:/login/login.jsp";
+            }
+        }
         if (verifyPass == null || !(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
             //如果不相同.说明验证码不正确
+            //添加尝试登录次数
+            if (utils.exist()) {
+                String times = utils.get();
+                Integer valueOf = Integer.valueOf(times) + 1;
+                //添加一个60秒的延迟
+                utils.setAndExpire(valueOf + "", 60 * 15, true);
+            } else {
+                utils.setAndExpire("1", 60 * 15, true);
+            }
             return "redirect:/login/login.jsp";
         }
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username,
                 password);
-        token.setRememberMe(true);
         try {
             subject.login(token);
+            //如果登录成功,就删除所有的登录失败记录
+            utils.remove();
+            utils.close();
         } catch (Exception e) {
+            //添加尝试登录次数
+            if (utils.exist()) {
+                String times = utils.get();
+                Integer valueOf = Integer.valueOf(times) + 1;
+                //添加一个60秒的延迟
+                utils.setAndExpire(valueOf + "", 60 * 15, true);
+            } else {
+                utils.setAndExpire("1", 60 * 15, true);
+            }
             return "redirect:/login/login.jsp";
             // 说明登陆失败
         }
@@ -135,7 +163,6 @@ public class LoginController {
             ImageIO.write(image, "PNG", os);
         } catch (IOException e) {
             //有异常说明是用户主动中断了
-//            e.printStackTrace();
         }
     }
 

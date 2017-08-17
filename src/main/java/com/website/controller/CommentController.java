@@ -48,7 +48,15 @@ public class CommentController {
         RedisUtils utils = new RedisUtils(jedisPool.getResource(), "CommentVeriyPass:" + uuid);
         String verifyPass = utils.get();
         utils.remove();
-        utils.close();
+        utils.setKey("commentDelay");
+        //判断是否发言过于频繁
+        if (utils.exist()) {
+            //说明太频繁了.30秒只能发言一次
+            utils.close();
+            return "error";
+        } else {
+            utils.setAndExpire("true", 30, true);
+        }
         if (verifyPass == null || !(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
             //如果不相同.说明验证码不正确
             return "error";

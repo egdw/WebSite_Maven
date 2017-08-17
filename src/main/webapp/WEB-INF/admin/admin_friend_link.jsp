@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Banner管理</title>
+    <title>友情链接管理</title>
 </head>
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>

@@ -31,7 +31,7 @@
     <li class="layui-nav-item">
         <a href="javascript:">关于</a>
         <dl class="layui-nav-child">
-            <dd><a href="<%=request.getContextPath()%>/AboutMy/index.html">关于我</a></dd>
+            <dd><a href="<%=request.getContextPath()%>/AboutMy/index2.html">关于我</a></dd>
         </dl>
     </li>
     <li class="layui-nav-item">
@@ -46,7 +46,7 @@
                 <ul class="layui-tab-title">
                     <li class="layui-this">个人信息</li>
                     <li>我的音乐</li>
-                    <li>宝贵建议</li>
+                    <li>留言板</li>
                     <li>设置</li>
                 </ul>
                 <div class="layui-tab-content">
