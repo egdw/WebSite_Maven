@@ -1,5 +1,11 @@
 package com.website.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.website.entites.WebsiteRole;
+import com.website.entites.WebsiteUserRoleKey;
+import com.website.model.Message;
+import com.website.service.WebSiteRoleService;
+import com.website.service.WebSiteUserRoleService;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +16,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.website.entites.WebsiteUser;
 import com.website.service.WebSiteUserService;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 @Controller
 @RequestMapping("userController")
 public class UserController {
     @Autowired
     private WebSiteUserService service;
+    @Autowired
+    private WebSiteRoleService roleService;
+    @Autowired
+    private WebSiteUserRoleService userRoleService;
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(String username, String email, String phone,
@@ -44,21 +57,77 @@ public class UserController {
         }
         return "redirect:/manager/manager_person_setting.do";
     }
-//
-//    /**
-//     * 通过参数查找用户
-//     *
-//     * @param name 用户名 或 关键词
-//     * @param type 类型 0 关键词 1 用户名
-//     * @return
-//     */
-//    public String findByName(String name, Integer type) {
-//        if (type == 0) {
-//            service.getBySearch(name);
-//        } else {
-//            service.getByUsername(name);
-//        }
-//    }
 
+    /**
+     * 通过参数查找用户
+     *
+     * @param name 用户名 或 关键词
+     * @param type 类型 0 关键词 1 用户名
+     * @return
+     */
+    @RequestMapping(value = "findByName", method = RequestMethod.GET)
+    public String findByName(String name, Integer type) {
+        if (type == 0) {
+            ArrayList<WebsiteUser> search = service.getBySearch(name);
+            return JSON.toJSONString(search);
+        } else {
+            WebsiteUser user = service.getByUsername(name);
+            return JSON.toJSONString(user);
+        }
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userId 用户的id
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.DELETE)
+    public String removeUser(Long userId) {
+        boolean user = service.delUser(userId);
+        if (user) {
+            return JSON.toJSONString(new Message(200, "删除成功", null, null, null));
+        } else {
+            return JSON.toJSONString(new Message(500, "删除失败", null, null, null));
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public String updateUserRole(Long userId, Integer roleId) {
+        WebsiteUser user = service.getPrimaryKeyByUser(userId);
+        if (user != null) {
+            //说明用户存在
+            WebsiteRole roleById = roleService.getRoleById(roleId);
+            WebsiteUserRoleKey userRoleKey = userRoleService.getByUserId(userId);
+            if (roleById != null) {
+                //说明角色存在
+                userRoleKey.setRoleId(roleById.getRoleId());
+                boolean role = userRoleService.updateRole(userRoleKey);
+                if (role) {
+                    return JSON.toJSONString(new Message(200, "更新成功", null, null, null));
+                } else {
+                    return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+                }
+            } else {
+                return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            }
+        }
+        return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String addUser(WebsiteUser user) {
+        if (user.getLoginAccount() != null && user.getLoginPasswd() != null) {
+            //判断用户名和密码是否为空
+            user.setRegisterDate(new Date());
+            boolean addUser = service.addUser(user);
+            if (addUser) {
+                return JSON.toJSONString(new Message(200, "添加成功", null, null, null));
+            } else {
+                return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
+            }
+        }
+        return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
+    }
 
 }

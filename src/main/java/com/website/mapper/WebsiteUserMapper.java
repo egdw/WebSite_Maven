@@ -1,8 +1,8 @@
 package com.website.mapper;
 
-import java.util.ArrayList;
-
 import com.website.entites.WebsiteUser;
+
+import java.util.ArrayList;
 
 public interface WebsiteUserMapper {
     int deleteByPrimaryKey(Long userId);
@@ -29,5 +29,4 @@ public interface WebsiteUserMapper {
     
     WebsiteUser loginByUsernamePasswd(String username,String passwd);
     
-    void registerUser(WebsiteUser user);
 }

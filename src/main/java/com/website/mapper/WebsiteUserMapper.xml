@@ -210,4 +210,16 @@
 	<select id="getByUsername" resultMap="getAllResultMap">
 		select * from website_user where login_account=#{0};
 	</select>
+
+	<select id="getUserByNum" resultMap="BaseResultMap">
+	  	select * form website_user limit #{1},#{0};
+	</select>
+
+	<select id="getUserCount" resultType="int">
+		select count(*) from website_user;
+	</select>
+
+	<select id="getBySearch" resultMap="BaseResultMap">
+		select * from website_user where login_account like '%#{0}%';
+	</select>
 </mapper>

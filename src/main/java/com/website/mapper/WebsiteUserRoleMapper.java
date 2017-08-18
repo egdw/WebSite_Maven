@@ -1,8 +1,9 @@
 package com.website.mapper;
 
-import java.util.ArrayList;
-
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import com.website.entites.WebsiteUserRoleKey;
+
+import java.util.ArrayList;
 
 public interface WebsiteUserRoleMapper {
     int deleteByPrimaryKey(WebsiteUserRoleKey key);
@@ -13,6 +14,9 @@ public interface WebsiteUserRoleMapper {
     
     WebsiteUserRoleKey selectByUserId(Long id);
     
-    ArrayList<WebsiteUserRoleKey> selectByRoleId(Long id);
-    
+    ArrayList<WebsiteUserRoleKey> selectByRoleId(Integer id);
+
+    Integer updateWebSite(WebsiteUserRoleKey key);
+
+    ArrayList<WebsiteUserRoleKey> selectRoleByRoleId(Integer roleId);
 }

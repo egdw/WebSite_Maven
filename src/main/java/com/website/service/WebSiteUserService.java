@@ -32,14 +32,17 @@ public class WebSiteUserService {
      * @param showNum 每页显示的user数量
      * @param pageNum 当前的页码
      */
-    public void getUserByNum(Integer showNum, Integer pageNum) {
-
+    public ArrayList<WebsiteUser> getUserByNum(Integer showNum, Integer pageNum) {
+        ArrayList<WebsiteUser> users = mapper.getUserByNum(showNum, showNum * pageNum);
+        return users;
     }
 
     /**
      * 获取到所有user的数量
      */
-    public void getUserCount() {
+    public Integer getUserCount() {
+        Integer count = mapper.getUserCount();
+        return count;
     }
 
     /**
@@ -66,8 +69,9 @@ public class WebSiteUserService {
      *
      * @param regex
      */
-    public void getBySearch(String regex) {
-
+    public ArrayList<WebsiteUser> getBySearch(String regex) {
+        ArrayList<WebsiteUser> search = mapper.getBySearch(regex);
+        return search;
     }
 
     /**
@@ -75,8 +79,9 @@ public class WebSiteUserService {
      *
      * @param id
      */
-    public void delUser(Long id) {
+    public boolean delUser(Long id) {
         int i = mapper.deleteByPrimaryKey(id);
+        return i > 0 ? true : false;
     }
 
     /**
@@ -110,4 +115,14 @@ public class WebSiteUserService {
         return user;
     }
 
+
+    /**
+     * 通过主键获取用户
+     * @param userid
+     * @return
+     */
+    public WebsiteUser getPrimaryKeyByUser(Long userid){
+        WebsiteUser user = mapper.selectByPrimaryKey(userid);
+        return user;
+    }
 }

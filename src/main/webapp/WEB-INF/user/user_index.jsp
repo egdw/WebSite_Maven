@@ -96,8 +96,15 @@
                             </button>
                         </div>
                     </div>
-                    <div class="layui-tab-item"><textarea id="demo" style="display: none;"></textarea>
-                        <button style="float:right;" class="layui-btn" onclick="layer.msg('别提交了!还没写呢');">提交</button>
+                    <div class="layui-tab-item">
+                        <form id="advicesForm" method="post">
+                            <textarea id="demo" name="websiteText" style="display: none;"></textarea>
+                            <input type="text" id="verify" name="verfiy" placeholder="请输入以下验证码" required="required">
+                            <img id="image"
+                                 onclick="loadImage()"
+                                 src="/advices/getVeriyImage"/>
+                        </form>
+                        <button id="advicesButton" style="float:right;" class="layui-btn">提交</button>
                     </div>
                     <div class="layui-tab-item">不要瞎点了!啥都没有!</div>
                     <div class="layui-tab-item">不要瞎点了!啥都没有!</div>
@@ -111,6 +118,33 @@
     </fieldset>
 </fieldset>
 <script>
+    $("#advicesButton").click(function () {
+        layedit.sync(index);
+        $.ajax({
+            type: 'post',
+            url: '<%=request.getContextPath()%>/advices',
+            async: true,
+            timeout: 5000,
+            data: $("#advicesForm").serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 500) {
+                    layer.msg(data.message);
+                } else {
+                    layer.msg(data.message);
+                }
+                loadImage();
+            },
+            error: function (e) {
+                loadImage();
+            }
+        });
+    })
+
+    function loadImage() {
+        document.getElementById("image").src = "/advices/getVeriyImage?" + Math.random();
+    }
+
     var ap5 = null;
     var currentindex = null;
     var currentTime = null;
@@ -118,7 +152,6 @@
 //        ap5.pause();
         currentTime = ap5.audio.currentTime;
         currentindex = ap5.playIndex;
-        layui.code
         layui.use('layer', function () {
             var layer = layui.layer;
             //iframe窗

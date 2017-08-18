@@ -72,9 +72,9 @@
                             <table class="table table-striped text-center">
                                 <thead>
                                 <tr>
-                                    <th>用户名</th>
-                                    <th>用户角色</th>
-                                    <th>用户状态</th>
+                                    <th>账户</th>
+                                    <th>角色</th>
+                                    <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -242,9 +242,9 @@
                         <table class="table table-striped text-center">
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>账户</th>
-                                <th>姓名</th>
+                                <th>角色</th>
+                                <th>状态</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
