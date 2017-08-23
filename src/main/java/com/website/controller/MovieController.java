@@ -35,6 +35,7 @@ public class MovieController {
             Movie info = MovieUtils.getIndexTypeAndInfo();
             Map<MovieType, ArrayList<MovieTop>> map = info.getMap();
             if (map == null || map.isEmpty()) {
+                list.close();
                 return null;
             }
             String json = JSON.toJSONString(map.entrySet());
@@ -77,7 +78,9 @@ public class MovieController {
             return utils.get(true);
         } else {
             MovieDetail detail = MovieUtils.detail(url);
+            System.out.println(detail);
             if (detail == null) {
+                utils.close();
                 return null;
             } else {
                 String details = JSON.toJSONString(detail);
@@ -124,9 +127,7 @@ public class MovieController {
             getType();
         }
         Map<String, String> map2 = JSON.parseObject(movieTypeList2.get(true), Map.class);
-        System.out.println(map2);
         String url = map2.get(title);
-        System.out.println(url);
         if (url == null) {
             return null;
         }

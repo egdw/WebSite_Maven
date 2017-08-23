@@ -7,7 +7,6 @@ layui.use(['layer', 'laypage', 'element', 'flow'], function () {
     layer = layui.layer;
     var element = layui.element();
     laypage = layui.laypage;
-
     laypage({
         cont: 'pageColl'
         , pages: 200
@@ -35,7 +34,6 @@ var search_open = false;
 function getType(page, title) {
     pageType = title;
     var web = "/movie/type?title=" + title + "&page=" + page;
-    console.log(web);
     loadAnimation();
     $.ajax({
         url: web,
@@ -49,7 +47,7 @@ function getType(page, title) {
             $("#list_context").html("");
             $("#LAY_demo3").html("");
             $.each(data.details, function (index, content) {
-                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(" + index + ")'><li class='list-group-item'>" + "<span class='badge'>" + data.searchName + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.title + "</li>" + "</a>");
+                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(" + index + ")'><li class='list-group-item'>" + "<span class='badge'>" + data.searchName + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.title + "(" + content.description + ")" + "</li>" + "</a>");
             });
             window.location.hash = '#!fenye=1';
             laypage({
@@ -71,17 +69,16 @@ function getType(page, title) {
             });
         },
         error: function (xhr, textStatus) {
-            console.log('错误')
             layer.alert("加载失败,请重试")
+        },complete:function(){
+            closeAnimation();
         }
     })
-    closeAnimation();
 }
 
 function getData(page, page_type, scrollTop) {
     pageType = page_type;
     var web = "/movie";
-    console.log(web);
     loadAnimation();
     $.ajax({
         url: web,
@@ -91,12 +88,12 @@ function getData(page, page_type, scrollTop) {
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
             search_open = false;
-            // console.log(data);
+            console.log(data);
             $("#list_context").html("");
             $("#LAY_demo3").html("");
             $.each(data, function (index, content) {
                 $.each(content.value, function (index2, content2) {
-                    $("#list_context").append("<a href='javascript:void(0);' onclick='loadInfoWebSite(\"" + content.url + "\")'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content2.time + "</span>" + "[" + content.key.title + "]&nbsp;&nbsp;" + content2.title + "</li>" + "</a>");
+                    $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(\"" + content2.url + "\")'>" + "<li class='list-group-item'>" + "<span class='badge'>" + content2.time + "</span>" + "[" + content.key.title + "]&nbsp;&nbsp;" + content2.title + "</li>" + "</a>");
                 });
             });
             if (scrollTop == true) {
@@ -125,11 +122,11 @@ function getData(page, page_type, scrollTop) {
             }
         },
         error: function (xhr, textStatus) {
-            console.log('错误')
             layer.alert("加载失败,请重试")
+        }, complete:function(){
+            closeAnimation();
         }
     })
-    closeAnimation();
 }
 
 var index = null;
@@ -173,7 +170,6 @@ function search(page, scrollTop) {
     }
     searchValue = $("#search_input").val();
     var web = '/movie/search?name=' + searchValue + "&page=" + page;
-    console.log(web);
     loadAnimation();
     $.ajax({
         url: web,
@@ -188,7 +184,7 @@ function search(page, scrollTop) {
             $("#LAY_demo3").html("");
             search_list = data.details;
             $.each(data.details, function (index, content) {
-                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(" + index + ")'><li class='list-group-item'>" + "<span class='badge'>" + data.searchName + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.title + "</li>" + "</a>");
+                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(\"" + content.url + "\")'><li class='list-group-item'>" + "<span class='badge'>" + data.searchName + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.title + "(" + content.description + ")" + "</li>" + "</a>");
             });
             if (scrollTop) {
                 $('html, body').animate({
@@ -216,11 +212,11 @@ function search(page, scrollTop) {
             }
         },
         error: function (xhr, textStatus) {
-            console.log('错误')
             layer.alert("加载失败,请重试")
+        },complete:function(){
+            closeAnimation();
         }
     })
-    closeAnimation();
 }
 
 
@@ -229,15 +225,37 @@ function setSearchType(type) {
 }
 
 function openSearchWebsite(src) {
-    console.error("openSearchWebsite")
-    layer.open({
-        type: 1,
-        skin: 'layui-layer-rim', //加上边框
-        area: [document.body.clientWidth - 40 + "px", '600px'], //宽高
-        content: "<div class='container'>" + search_list[src].description + "</div>"
-    });
+    var web = '/movie/deatil?url=' + src;
+    loadAnimation();
+    $.ajax({
+        url: web,
+        type: 'GET', //GET
+        async: true,    //或false,是否异步
+        timeout: 5000,    //超时时间
+        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        success: function (data) {
+            console.log(data)
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: [document.body.clientWidth - 40 + "px", '600px'], //宽高
+                content: "<div class='container'>" + data.webText + "</div>"
+            });
+            addImageClass();
+        },
+        error: function (xhr, textStatus) {
+            layer.alert("加载失败,请重试")
+        },
+        complete:function(){
+            closeAnimation();
+        }
+    })
 }
 
 function changeSearchPage(page) {
     search(page, true)
+}
+
+function addImageClass() {
+    $(".container img").addClass("img-responsive");
 }
