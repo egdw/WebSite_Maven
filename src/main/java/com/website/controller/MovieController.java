@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.JedisPool;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hdy on 17-8-23.
@@ -38,7 +37,7 @@ public class MovieController {
             if (map == null || map.isEmpty()) {
                 return null;
             }
-            String json = JSON.toJSONString(map);
+            String json = JSON.toJSONString(map.entrySet());
             list.setAndExpire(json, 60 * 60 * 24, true);
             return json;
         }
@@ -56,7 +55,9 @@ public class MovieController {
                 //说明获取的数据有问题
                 return null;
             } else {
-                String param = JSON.toJSONString(map);
+                String param = JSON.toJSONString(map.entrySet());
+                RedisUtils utils = new RedisUtils(jedisPool.getResource(), "movieTypeList2");
+                utils.setAndExpire(JSON.toJSONString(map), 60 * 60 * 24, true);
                 //设置一天的缓存
                 list.setAndExpire(param, 60 * 60 * 24, true);
                 return param;
@@ -105,45 +106,59 @@ public class MovieController {
 
     }
 
-    @RequestMapping(value = "type", method = RequestMethod.GET)
-    public void typePageChange() {
-
-    }
+//    @RequestMapping(value = "type", method = RequestMethod.GET)
+//    public void typePageChange() {
+//
+//    }
 
     /**
      * 单个分类查询
      */
     @RequestMapping(value = "type", method = RequestMethod.GET)
-    public String getTypeByNameAndUrl(@RequestParam(required = true) String title, @RequestParam(required = true) String url) {
-        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "movie_type_" + title + "_" + url);
+    public String getTypeByNameAndUrl(@RequestParam(required = true) String title, Integer page) {
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        RedisUtils movieTypeList2 = new RedisUtils(jedisPool.getResource(), "movieTypeList2");
+        if (!movieTypeList2.exist()) {
+            getType();
+        }
+        Map<String, String> map2 = JSON.parseObject(movieTypeList2.get(true), Map.class);
+        System.out.println(map2);
+        String url = map2.get(title);
+        System.out.println(url);
+        if (url == null) {
+            return null;
+        }
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "movie_type_" + title + "_" + url + "_" + page);
         if (utils.exist()) {
             return utils.get(true);
         } else {
             Object[] detail = MovieUtils.getTypeDetail(title, url);
-            Movie o2 = (Movie) detail[0];
-            MovieDetail o1 = (MovieDetail) detail[1];
             MovieSearch o = (MovieSearch) detail[2];
-            if (o2 != null) {
-                utils.setAndExpire(JSON.toJSONString(o2), 60 * 60 * 48, true);
-                return JSON.toJSONString(o2);
-            } else if (o1 != null) {
-                utils.setAndExpire(JSON.toJSONString(o1), 60 * 60 * 48, true);
-                return JSON.toJSONString(o1);
-            } else {
-                utils.setAndExpire(JSON.toJSONString(o), 60 * 60 * 48, true);
-                return JSON.toJSONString(o);
+            if (page != 1) {
+                o = o.changePage(page);
             }
+            utils.setAndExpire(JSON.toJSONString(o), 60 * 60 * 48, true);
+            return JSON.toJSONString(o);
         }
     }
 
 
     @RequestMapping(value = "search", method = RequestMethod.GET)
-    public String search(@RequestParam(required = true) String name) {
-        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "movie_search_" + name);
+    public String search(@RequestParam(required = true) String name, Integer page) {
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        RedisUtils utils = new RedisUtils(jedisPool.getResource(), "movie_search_" + name + "_" + page);
+        MovieSearch search = null;
         if (utils.exist()) {
             return utils.get(true);
         } else {
-            MovieSearch search = MovieUtils.search(name);
+            search = MovieUtils.search(name);
+            if (page != 1) {
+                search = search.changePage(page);
+            }
             String s = JSON.toJSONString(search);
             //一般搜索的内容更新的速度也是很慢的
             utils.setAndExpire(s, 60 * 60 * 12 * 5, true);

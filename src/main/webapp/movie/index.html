@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-Frame-Options" content="ALLOW-FROM">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>恶搞大王的电影放映室</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/gank.css" media="all">
+    <script src="/layui/layui.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+<body class="layui-bg-gray" onload="getData(1,'all',false)">
+<ul class="layui-nav" lay-filter="">
+    <li class="layui-nav-item"><a href="/blog/">个人首页</a></li>
+    <li class="layui-nav-item layui-this"><a href="index.html">电影放映室</a></li>
+</ul>
+<center>
+    <div id="title_top" class="visible-md-block visible-lg-block">
+        <h1 class="lead">恶搞大王的电影放映室</h1>
+        <p>提供最新电影和游戏的搜索和下载~</p>
+        <br>
+    </div>
+</center>
+
+<div class="container">
+    <form class="bs-example bs-example-form" role="form">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" required id="search_input" placeholder="搜索电影" class="form-control">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" tabindex="-1" onclick="search(1,false)">查询
+                        </button>
+                    </div><!-- /btn-group -->
+                </div><!-- /input-group -->
+            </div>
+        </div>
+</div>
+</form>
+<br>
+<div id="main_body" class="" style="background-color: #ffffff;padding-left: 25px;padding-right: 25px">
+    <center><h2 style="padding-top: 60px;">闲视</h2></center>
+    <center><p>看那些值得看的</p></center>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'最新影片')">最新电影</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'经典影片')">经典影片</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'国内电影')">国内影片</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'欧美电影')">欧美影片</button>
+        </div>
+    </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'其它电影')">其他电影</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'华语电视')">华语电视</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'欧美电视')">欧美电视</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'最新综艺')">最新综艺</button>
+        </div>
+    </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'最新综艺')">最新综艺</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'旧版综艺')">旧版综艺</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'动漫资源')">动漫资源</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="getType(1,'旧版游戏')">旧版游戏</button>
+        </div>
+    </div>
+    <div id="main_text">
+        <div class='site-demo-flow' id='LAY_demo3'>
+        </div>
+        <ul class="list-group" id="list_context">
+        </ul>
+        <div id="search_list" class="panel panel-default"></div>
+    </div>
+    <center>
+        <div id="pageColl"></div>
+    </center>
+</div>
+</div>
+</body>
+<script src="js/gank.js"></script>
+</html>

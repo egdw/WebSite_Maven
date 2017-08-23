@@ -178,7 +178,12 @@ public class ParseUtils {
                 Element tr2 = trs.get(3);
                 //第一个获取标题和地址
                 String href = tr1.select("td[height$=26] > b > a").get(0).attr("href");
-                String title = tr1.select("td[height$=26] > b > a").get(0).text().replaceAll("<font color=\"red\">", "").replaceAll("</font>", "");
+                Elements as = tr1.select("td[height$=26] > b > a");
+                String title = "";
+                for (int j = 0; j < as.size(); j++) {
+                    Element element1 = as.get(j);
+                    title = title + element1.text().replaceAll("<font color=\"red\">", "").replaceAll("</font>", "");
+                }
                 //第二个获取描述
                 String description = tr2.getElementsByTag("td").get(0).text().replaceAll("<font color=\"red\">", "").replaceAll("</font>", "");
                 MovieSearchDetail detail = new MovieSearchDetail(title, href, description);
