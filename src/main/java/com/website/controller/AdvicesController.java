@@ -53,11 +53,14 @@ public class AdvicesController {
             //判断验证码是否过期，如果存在说明没有过期
             if (!utils.get().toLowerCase().equals(verfiy.toLowerCase())) {
                 //说明验证码输入错误
+                utils.remove();
                 return JSON.toJSONString(new Message(500, "验证码错误", null, null, null));
             }
         } else {
+            utils.remove();
             return JSON.toJSONString(new Message(500, "验证码已经失效。", null, null, null));
         }
+        utils.remove();
         utils.setKey("advices_times:" + name);
         if (utils.exist()) {
             return JSON.toJSONString(new Message(500, "请求速度太快了，等会在留言吧", null, null, null));

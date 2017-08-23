@@ -127,6 +127,7 @@
                 /AboutMy/** = anon
                 /ZhiHu/** = anon
                 /pageController/** = anon
+                /movie/** = anon
                 /js/** = anon
                 /login/** = anon
                 /register/** = anon

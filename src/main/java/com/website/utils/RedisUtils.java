@@ -85,6 +85,13 @@ public class RedisUtils {
         return s;
     }
 
+    public String get(boolean close) {
+        String s = jedis.get(key);
+        if (close) {
+            jedis.close();
+        }
+        return s;
+    }
 
     public boolean remove() {
         Long del = jedis.del(key);
