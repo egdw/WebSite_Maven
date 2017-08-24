@@ -15,7 +15,6 @@ layui.use(['layer', 'laypage', 'element', 'flow'], function () {
         , hash: 'fenye' //自定义hash值
         , jump: function (obj, first) {
             if (!first) {
-                // layer.msg('第 '+ obj.curr +' 页');
                 console.error("search_open" + search_open)
                 if (search_open) {
                     changeSearchPage(obj.curr);
@@ -42,13 +41,15 @@ function getType(page, title) {
         timeout: 5000,    //超时时间
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
-            console.log(data)
             search_open = false;
             $("#list_context").html("");
             $("#LAY_demo3").html("");
             $.each(data.details, function (index, content) {
-                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(" + index + ")'><li class='list-group-item'>" + "<span class='badge'>" + data.searchName + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.title + "(" + content.description + ")" + "</li>" + "</a>");
+                $("#list_context").append("<a href='javascript:void(0);' onclick='openSearchWebsite(\"" + content.url + "\")'><li class='list-group-item'>" + "<span class='badge'>" + data.searchName + "</span>" + "[" + (index + 1) + "]&nbsp;&nbsp;" + content.title + "(" + content.description + ")" + "</li>" + "</a>");
             });
+            $('html, body').animate({
+                scrollTop: $("#main_body").offset().top
+            }, 500);
             window.location.hash = '#!fenye=1';
             laypage({
                 cont: 'pageColl'
@@ -88,7 +89,6 @@ function getData(page, page_type, scrollTop) {
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
             search_open = false;
-            console.log(data);
             $("#list_context").html("");
             $("#LAY_demo3").html("");
             $.each(data, function (index, content) {
@@ -104,20 +104,10 @@ function getData(page, page_type, scrollTop) {
                 window.location.hash = '#!fenye=1';
                 laypage({
                     cont: 'pageColl'
-                    , pages: 200
+                    , pages: -1
                     , group: 3
                     , curr: location.hash.replace('#!fenye=', '') //获取hash值为fenye的当前页
                     , hash: 'fenye' //自定义hash值
-                    , jump: function (obj, first) {
-                        if (!first) {
-                            // layer.msg('第 '+ obj.curr +' 页');
-                            if (search_open) {
-                                changeSearchPage(obj.curr);
-                            } else {
-                                pageChange(obj.curr)
-                            }
-                        }
-                    }
                 });
             }
         },
@@ -179,7 +169,6 @@ function search(page, scrollTop) {
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
             search_open = true;
-            console.log(data);
             $("#list_context").html("");
             $("#LAY_demo3").html("");
             search_list = data.details;
@@ -234,7 +223,6 @@ function openSearchWebsite(src) {
         timeout: 5000,    //超时时间
         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
         success: function (data) {
-            console.log(data)
             layer.open({
                 type: 1,
                 skin: 'layui-layer-rim', //加上边框

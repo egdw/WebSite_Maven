@@ -86,6 +86,7 @@
                         <li><a href="<%=request.getContextPath()%>/music" target="_blank">我的音乐</a></li>
                         <li><a href="<%=request.getContextPath()%>/image">我的相册</a></li>
                         <li><a href="<%=request.getContextPath()%>/read/index.html">我的闲读</a></li>
+                        <li><a href="<%=request.getContextPath()%>/movie/index.html">我的闲视</a></li>
                         <li><a href="<%=request.getContextPath()%>/news">恶搞日报</a></li>
                         <li role="separator" class="divider"></li>
                         <li>
