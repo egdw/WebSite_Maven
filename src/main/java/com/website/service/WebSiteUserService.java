@@ -60,8 +60,9 @@ public class WebSiteUserService {
      *
      * @param id
      */
-    public void getUserById(Long id) {
+    public WebsiteUser getUserById(Long id) {
         WebsiteUser user = mapper.selectByPrimaryKey(id);
+        return user;
     }
 
     /**

@@ -50,24 +50,37 @@
                         <h3 class="page-header">用户管理</h3>
                         <div class="user-list">
                             <div class="filter">
-                                <form method="get" action="" name="filteuser">
+                                <form method="get" action="" name="filteuser" id="role_filter">
                                     <div class="row">
-                                        <div class="col-md-6"><select class="form-control">
-                                            <option value="1">全部用户</option>
-                                            <option value="2">普通用户</option>
-                                            <option value="3">管理员</option>
-                                            <option value="3">待审核</option>
-                                            <option value="3">禁止登录</option>
-                                            <option value="3">禁止发言</option>
-                                            <option value="3">审核通过</option>
+                                        <div class="col-md-6"><select name="roleId" class="form-control">
+                                            <option value="0" selected>角色筛选</option>
+                                            <option value="1">超级管理员</option>
+                                            <option value="2">管理员</option>
+                                            <option value="3">普通用户</option>
                                         </select></div>
 
                                         <div class="col-md-6">
-                                            <button class="btn btn-default" type="submit">筛选
-                                            </button>
+                                            <a href="javascript:void(0);" class="btn btn-default" onclick="findByRole()" >筛选</a>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="filter">
+                                <div class="row">
+                                    <form method="get" action="" name="filteuser" id="status_filter">
+
+                                        <div class="col-md-6"><select name="statusId" class="form-control">
+                                            <option value="0" selected>状态筛选</option>
+                                            <option value="1">待审核</option>
+                                            <option value="2">禁止登录</option>
+                                            <option value="3">禁止发言</option>
+                                            <option value="4">审核通过</option>
+                                        </select></div>
+                                        <div class="col-md-6">
+                                            <a href="javascript:void(0);" class="btn btn-default" onclick="findByStatus()">筛选</a>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                             <table class="table table-striped text-center">
                                 <thead>
@@ -85,13 +98,6 @@
                                 <div class="page-nav">
                                     <nav>
                                         <ul class="pagination" id="userListPagination">
-                                            <%--<li><a href="#">«</a></li>--%>
-                                            <%--<li class="active"><a href="#">1</a></li>--%>
-                                            <%--<li><a href="#">2</a></li>--%>
-                                            <%--<li><a href="#">3</a></li>--%>
-                                            <%--<li><a href="#">4</a></li>--%>
-                                            <%--<li><a href="#">5</a></li>--%>
-                                            <%--<li class="disabled"><a href="#">»</a></li>--%>
                                         </ul>
                                     </nav>
                                 </div>
@@ -151,21 +157,20 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="student">
                         <h3 class="page-header">用户搜索</h3>
-                        <form class="form-inline" role="form" method="post" name="searchStudent" id="searchStudent">
+                        <form class="form-inline" role="form" method="get" name="searchStudent" id="searchStudent">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <select class="form-control" name="searchType">
-                                        <option value="1">关键词搜索</option>
-                                        <option value="2">按姓名搜索</option>
+                                    <select class="form-control" name="type">
+                                        <option value="0" selected>关键词搜索</option>
+                                        <option value="1">按姓名搜索</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="text" name="searchValue">
+                                <input class="form-control" type="text" name="name">
                             </div>
-                            <button type="submit" class="btn btn-default" id="submitSearch">搜索</button>
+                            <a class="btn btn-default" id="submitSearch" onclick="getSearch()">搜索</a>
                         </form>
-
 
                         <table class="table table-striped text-center">
                             <thead>
@@ -177,81 +182,6 @@
                             </tr>
                             </thead>
                             <tbody id="searchList">
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>seadad</td>
-                                <td>
-                                    <select class="btn btn-success btn-xs">
-                                        <option value="1">设置角色</option>
-                                        <option value="2">普通用户</option>
-                                        <option value="3">管理员</option>
-                                    </select>
-                                    <select class="btn btn-primary btn-xs">
-                                        <option value="1">设置状态</option>
-                                        <option value="2">待审核</option>
-                                        <option value="3">禁止登录</option>
-                                        <option value="3">禁止发表</option>
-                                        <option value="4">审核通过</option>
-                                    </select>
-                                    <select class="btn btn-danger btn-xs">
-                                        <option value="1">谨慎操作</option>
-                                        <option value="2">删除</option>
-                                        <option value="3">设为管理</option>
-                                        <option value="3">重置密码</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>seadad</td>
-                                <td>
-                                    <select class="btn btn-success btn-xs">
-                                        <option value="1">设置角色</option>
-                                        <option value="2">普通用户</option>
-                                        <option value="3">管理员</option>
-                                    </select>
-                                    <select class="btn btn-primary btn-xs">
-                                        <option value="1">设置状态</option>
-                                        <option value="2">待审核</option>
-                                        <option value="3">禁止登录</option>
-                                        <option value="3">禁止发表</option>
-                                        <option value="4">审核通过</option>
-                                    </select>
-                                    <select class="btn btn-danger btn-xs">
-                                        <option value="1">谨慎操作</option>
-                                        <option value="2">删除</option>
-                                        <option value="3">设为管理</option>
-                                        <option value="3">重置密码</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Larry</td>
-                                <td>seadad</td>
-                                <td>
-                                    <select class="btn btn-success btn-xs">
-                                        <option value="1">设置角色</option>
-                                        <option value="2">普通用户</option>
-                                        <option value="3">管理员</option>
-                                    </select>
-                                    <select class="btn btn-primary btn-xs">
-                                        <option value="1">设置状态</option>
-                                        <option value="2">待审核</option>
-                                        <option value="3">禁止登录</option>
-                                        <option value="3">禁止发表</option>
-                                        <option value="4">审核通过</option>
-                                    </select>
-                                    <select class="btn btn-danger btn-xs">
-                                        <option value="1">谨慎操作</option>
-                                        <option value="2">删除</option>
-                                        <option value="3">设为管理</option>
-                                        <option value="3">重置密码</option>
-                                    </select>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
 
@@ -282,7 +212,9 @@
                                     </tbody>
                                 </table>
                                 <div class="filter">
-                                    <button type="button" class="btn btn-primary " id="addNewItem">新增</button>
+                                    <button type="button" class="btn btn-primary " id="addNewItem"
+                                            onclick="addUserList()">新增
+                                    </button>
                                     <button type="submit" class="btn btn-success " id="submitItems">提交</button>
                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                             data-target="#uploadXls">批量导入
@@ -369,6 +301,7 @@
 </body>
 
 <script>
+    //获取用户表
     function getUserPage(page) {
         $.ajax({
             type: 'get',
@@ -377,11 +310,13 @@
             dataType: 'json',
             success: function (data) {
                 console.log(data)
+                $("#userList").html("")
+                $("#userListPagination").html("");
                 for (var i = 0; i < data[0].pageCount; i++) {
-                    if ((i + 1) == data[0].page) {
-                        $("#userListPagination").append("<li class='active'><a href='#'>" + data[0].page + "</a></li>");
+                    if ((i) == data[0].page) {
+                        $("#userListPagination").append("<li class='active'><a href='javascript:void(0);' onclick='getUserPage(" + i + ")'>" + (data[0].page + 1) + "</a></li>");
                     } else {
-                        $("#userListPagination").append("<li><a href='#'>" + (i + 1) + "</a></li>");
+                        $("#userListPagination").append("<li><a href='javascript:void(0);' onclick='getUserPage(" + i + ")'>" + (i + 1) + "</a></li>");
                     }
 
                 }
@@ -397,6 +332,43 @@
                         "<td>" + content.user.loginAccount + "</td>" +
                         "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
                         "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td><select class='btn btn-success btn-xs'><option value='0'>设置角色</option><option value='1'>普通用户</option><option value='2'>管理员</option><option value='3'>普通用户</option></select>" +
+                        "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-danger btn-xs'><option value='0'>谨慎操作</option><option value='1'>删除</option><option value='2'>重置密码</option></select></td></tr>");
+                });
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+
+
+    //获取搜索
+    function getSearch() {
+        console.log("getSearch")
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/userController/findByName',
+            data: $('#searchStudent').serialize(),
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                console.log($('#searchStudent').serialize())
+                $("#searchList").html("");
+                $.each(data, function (index, content) {
+                    if (content.role.roleName == "super_admin") {
+                        content.role.roleName = "超级管理员";
+                    } else if (content.role.roleName == "admin") {
+                        content.role.roleName = "管理员";
+                    } else if (content.role.roleName == "normal") {
+                        content.role.roleName = "普通用户";
+                    }
+                    $("#searchList").append("<tr>" +
+                        "<td>" + content.user.loginAccount + "</td>" +
+                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
                         "<td><select class='btn btn-success btn-xs'><option value='1'>设置角色</option><option value='2'>普通用户</option><option value='3'>管理员</option></select>" +
                         "<select class='btn btn-primary btn-xs'><option value='1'>设置状态</option><option value='2'>待审核</option><option value='3'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
                         "<select class='btn btn-danger btn-xs'><option value='1'>谨慎操作</option><option value='2'>删除</option><option value='3'>重置密码</option></select></td></tr>");
@@ -404,11 +376,88 @@
             },
             error: function (e) {
                 console.log(e)
-//                window.location.reload();
             }
         });
     }
 
 
+    /**
+     * 添加用户行
+     */
+    function addUserList() {
+        $("#list").append("<tr> <td><input class='form-control input-sm' type='text' name='ids' id='id-1' placeholder='输入学号'></td>" +
+            "<td><input class='form-control input-sm' type='text' name='names' id='name-1' placeholder='输入姓名'> </td>" +
+            "<td> <button type='button' class='btn btn-danger btn-xs'>删除</button></td> </tr>");
+    }
+
+
+    function findByRole(){
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/userController/findByRole',
+            data: $('#role_filter').serialize(),
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                $("#userList").html("")
+                $("#userListPagination").html("");
+                $.each(data, function (index, content) {
+                    if (content.role.roleName == "super_admin") {
+                        content.role.roleName = "超级管理员";
+                    } else if (content.role.roleName == "admin") {
+                        content.role.roleName = "管理员";
+                    } else if (content.role.roleName == "normal") {
+                        content.role.roleName = "普通用户";
+                    }
+                    $("#userList").append("<tr>" +
+                        "<td>" + content.user.loginAccount + "</td>" +
+                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td><select class='btn btn-success btn-xs'><option value='0'>设置角色</option><option value='1'>普通用户</option><option value='2'>管理员</option><option value='3'>普通用户</option></select>" +
+                        "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-danger btn-xs'><option value='0'>谨慎操作</option><option value='1'>删除</option><option value='2'>重置密码</option></select></td></tr>");
+                });
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+    
+    
+    function findByStatus() {
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/userController/findByStatus',
+            data: $('#status_filter').serialize(),
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                $("#userList").html("")
+                $("#userListPagination").html("");
+                $.each(data, function (index, content) {
+                    if (content.role.roleName == "super_admin") {
+                        content.role.roleName = "超级管理员";
+                    } else if (content.role.roleName == "admin") {
+                        content.role.roleName = "管理员";
+                    } else if (content.role.roleName == "normal") {
+                        content.role.roleName = "普通用户";
+                    }
+                    $("#userList").append("<tr>" +
+                        "<td>" + content.user.loginAccount + "</td>" +
+                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td><select class='btn btn-success btn-xs'><option value='0'>设置角色</option><option value='1'>普通用户</option><option value='2'>管理员</option><option value='3'>普通用户</option></select>" +
+                        "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-danger btn-xs'><option value='0'>谨慎操作</option><option value='1'>删除</option><option value='2'>重置密码</option></select></td></tr>");
+                });
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
 </script>
 </html>

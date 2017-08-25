@@ -220,6 +220,6 @@
 	</select>
 
 	<select id="getBySearch" resultMap="BaseResultMap">
-		select * from website_user where login_account like '%#{0}%';
+		select * from website_user where login_account like CONCAT('%',#{0},'%')  ;
 	</select>
 </mapper>

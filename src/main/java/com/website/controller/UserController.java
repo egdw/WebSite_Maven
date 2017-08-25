@@ -1,6 +1,7 @@
 package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.sun.org.apache.regexp.internal.RE;
 import com.website.entites.*;
 import com.website.model.Message;
 import com.website.service.*;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -59,6 +62,101 @@ public class UserController {
         return "redirect:/manager/manager_person_setting.do";
     }
 
+
+    /**
+     * 进行用户的角色修改
+     *
+     * @param userId 用户id
+     * @param roleId 角色id
+     */
+    @RequestMapping(value = "/updateRole", method = RequestMethod.PUT)
+    @ResponseBody
+    public void updateRole(@RequestParam(required = true) Long userId, @RequestParam(required = true) Long roleId) {
+
+    }
+
+
+    /**
+     * 进行用户的状态更改
+     *
+     * @param userId   用户id
+     * @param statusId 角色id
+     */
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.PUT)
+    @ResponseBody
+    public void updateStatus(@RequestParam(required = true) Long userId, @RequestParam(required = true) Long statusId) {
+
+    }
+
+
+    @RequestMapping(value = "findByStatus", method = RequestMethod.GET)
+    @ResponseBody
+    public String findByStatus(@RequestParam(required = true) Long statusId) {
+        ArrayList<WebsiteUserStatus> statuses = userStatusService.selectByStatusId(statusId);
+        ArrayList<WebsiteUserRoleStatus> roleStatuses = new ArrayList<WebsiteUserRoleStatus>();
+        for (int i = 0; i < statuses.size(); i++) {
+            WebsiteUserStatus status = statuses.get(i);
+            Long userId = status.getWebsiteUserId();
+            WebsiteUser user = service.getUserById(userId);
+            WebsiteUserRoleKey userRoleServiceByUserId = userRoleService.getByUserId(user.getUserId());
+            WebsiteRole role = null;
+            if (userRoleServiceByUserId != null) {
+                role = roleService.getRoleById(userRoleServiceByUserId.getRoleId());
+            } else {
+                role = new WebsiteRole();
+                role.setRoleName("游客");
+            }
+            WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(user.getUserId());
+            WebsiteStatus websiteStatus = null;
+            if (websiteUserStatus != null) {
+                websiteStatus = statusService.selectById(websiteUserStatus.getWebsiteStatusId());
+            } else {
+                websiteStatus = new WebsiteStatus(0l, "审核通过");
+            }
+            WebsiteUserRoleStatus roleStatus = new WebsiteUserRoleStatus(user, role, websiteStatus);
+            roleStatuses.add(roleStatus);
+        }
+        return JSON.toJSONString(roleStatuses);
+    }
+
+    /**
+     * 分类查找状态
+     *
+     * @param roleId 角色id
+     * @return
+     */
+    @RequestMapping(value = "findByRole", method = RequestMethod.GET)
+    @ResponseBody
+    public String findByRole(@RequestParam(required = true) Integer roleId) {
+        ArrayList<WebsiteUserRoleKey> keys = userRoleService.selectByRoleId(roleId);
+        ArrayList<WebsiteUserRoleStatus> roleStatuses = new ArrayList<WebsiteUserRoleStatus>();
+        if (keys != null) {
+            for (int i = 0; i < keys.size(); i++) {
+                WebsiteUserRoleKey key = keys.get(i);
+                WebsiteUser user = service.getUserById(key.getUserId());
+                WebsiteUserRoleKey userRoleServiceByUserId = userRoleService.getByUserId(user.getUserId());
+                WebsiteRole role = null;
+                if (userRoleServiceByUserId != null) {
+                    role = roleService.getRoleById(userRoleServiceByUserId.getRoleId());
+                } else {
+                    role = new WebsiteRole();
+                    role.setRoleName("游客");
+                }
+                WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(user.getUserId());
+                WebsiteStatus websiteStatus = null;
+                if (websiteUserStatus != null) {
+                    websiteStatus = statusService.selectById(websiteUserStatus.getWebsiteStatusId());
+                } else {
+                    websiteStatus = new WebsiteStatus(0l, "审核通过");
+                }
+                WebsiteUserRoleStatus roleStatus = new WebsiteUserRoleStatus(user, role, websiteStatus);
+                roleStatuses.add(roleStatus);
+            }
+
+        }
+        return JSON.toJSONString(roleStatuses);
+    }
+
     /**
      * 通过参数查找用户
      *
@@ -68,14 +166,59 @@ public class UserController {
      */
     @RequestMapping(value = "findByName", method = RequestMethod.GET)
     @ResponseBody
-    public String findByName(String name, Integer type) {
+    public String findByName(@RequestParam(required = true) String name, @RequestParam(required = true) Integer type) {
+        ArrayList<WebsiteUserRoleStatus> roleStatuses = new ArrayList<WebsiteUserRoleStatus>();
         if (type == 0) {
             ArrayList<WebsiteUser> search = service.getBySearch(name);
-            return JSON.toJSONString(search);
+            if (search == null || search.size() == 0) {
+                return JSON.toJSONString(roleStatuses);
+            }
+            for (int i = 0; i < search.size(); i++) {
+                WebsiteUser user = search.get(i);
+                Long userId = user.getUserId();
+                WebsiteUserRoleKey userRoleServiceByUserId = userRoleService.getByUserId(userId);
+                WebsiteRole role = null;
+                if (userRoleServiceByUserId != null) {
+                    role = roleService.getRoleById(userRoleServiceByUserId.getRoleId());
+                } else {
+                    role = new WebsiteRole();
+                    role.setRoleName("游客");
+                }
+                WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(userId);
+                WebsiteStatus websiteStatus = null;
+                if (websiteUserStatus != null) {
+                    websiteStatus = statusService.selectById(websiteUserStatus.getWebsiteStatusId());
+                } else {
+                    websiteStatus = new WebsiteStatus(0l, "审核通过");
+                }
+                WebsiteUserRoleStatus roleStatus = new WebsiteUserRoleStatus(user, role, websiteStatus);
+                roleStatuses.add(roleStatus);
+            }
         } else {
             WebsiteUser user = service.getByUsername(name);
-            return JSON.toJSONString(user);
+            if (user == null) {
+                return JSON.toJSONString(roleStatuses);
+            }
+            Long userId = user.getUserId();
+            WebsiteUserRoleKey userRoleServiceByUserId = userRoleService.getByUserId(userId);
+            WebsiteRole role = null;
+            if (userRoleServiceByUserId != null) {
+                role = roleService.getRoleById(userRoleServiceByUserId.getRoleId());
+            } else {
+                role = new WebsiteRole();
+                role.setRoleName("游客");
+            }
+            WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(userId);
+            WebsiteStatus websiteStatus = null;
+            if (websiteUserStatus != null) {
+                websiteStatus = statusService.selectById(websiteUserStatus.getWebsiteStatusId());
+            } else {
+                websiteStatus = new WebsiteStatus(0l, "审核通过");
+            }
+            WebsiteUserRoleStatus roleStatus = new WebsiteUserRoleStatus(user, role, websiteStatus);
+            roleStatuses.add(roleStatus);
         }
+        return JSON.toJSONString(roleStatuses);
     }
 
     /**
