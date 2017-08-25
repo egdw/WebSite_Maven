@@ -212,7 +212,7 @@
 	</select>
 
 	<select id="getUserByNum" resultMap="BaseResultMap">
-	  	select * form website_user limit #{1},#{0};
+		select user_id,login_account,user_name,user_sex,register_date from website_user LIMIT #{1},#{0}
 	</select>
 
 	<select id="getUserCount" resultType="int">

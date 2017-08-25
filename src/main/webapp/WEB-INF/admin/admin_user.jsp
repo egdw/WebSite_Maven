@@ -4,7 +4,7 @@
 <head>
     <title>用户管理</title>
 </head>
-<body>
+<body onload="getUserPage(0)">
 <jsp:include page="/admin_top.jsp"></jsp:include>
 <script src="/css/MyBlog_files/lightbox.js"></script>
 <link rel="stylesheet" href="/css/MyBlog_files/lightbox.css">
@@ -78,92 +78,20 @@
                                     <th>操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Mark</td>
-                                    <td><span class="label label-success">普通用户</span></td>
-                                    <td><span class="label label-success">待审核</span></td>
-                                    <td>
-                                        <select class="btn btn-success btn-xs">
-                                            <option value="1">设置角色</option>
-                                            <option value="2">普通用户</option>
-                                            <option value="3">管理员</option>
-                                        </select>
-                                        <select class="btn btn-primary btn-xs">
-                                            <option value="1">设置状态</option>
-                                            <option value="2">待审核</option>
-                                            <option value="3">禁止登录</option>
-                                            <option value="3">禁止发表</option>
-                                            <option value="4">审核通过</option>
-                                        </select>
-                                        <select class="btn btn-danger btn-xs">
-                                            <option value="1">谨慎操作</option>
-                                            <option value="2">删除</option>
-                                            <option value="3">重置密码</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td><span class="label label-default">待审核</span></td>
-                                    <td><span class="label label-default">待审核</span></td>
-                                    <td>
-                                        <select class="btn btn-success btn-xs">
-                                            <option value="1">设置角色</option>
-                                            <option value="2">普通用户</option>
-                                            <option value="3">管理员</option>
-                                        </select>
-                                        <select class="btn btn-primary btn-xs">
-                                            <option value="1">设置状态</option>
-                                            <option value="2">待审核</option>
-                                            <option value="3">禁止登录</option>
-                                            <option value="3">禁止发表</option>
-                                            <option value="4">审核通过</option>
-                                        </select>
-                                        <select class="btn btn-danger btn-xs">
-                                            <option value="1">谨慎操作</option>
-                                            <option value="2">删除</option>
-                                            <option value="3">重置密码</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Larry</td>
-                                    <td><span class="label label-danger">管理员</span></td>
-                                    <td><span class="label label-danger">管理员</span></td>
-                                    <td>
-                                        <select class="btn btn-success btn-xs">
-                                            <option value="1">设置角色</option>
-                                            <option value="2">普通用户</option>
-                                            <option value="3">管理员</option>
-                                        </select>
-                                        <select class="btn btn-primary btn-xs">
-                                            <option value="1">设置状态</option>
-                                            <option value="2">待审核</option>
-                                            <option value="3">禁止登录</option>
-                                            <option value="3">禁止发表</option>
-                                            <option value="4">审核通过</option>
-                                        </select>
-                                        <select class="btn btn-danger btn-xs">
-                                            <option value="1">谨慎操作</option>
-                                            <option value="2">删除</option>
-                                            <option value="3">重置密码</option>
-                                        </select>
-                                    </td>
-                                </tr>
+                                <tbody id="userList">
                                 </tbody>
                             </table>
                             <center>
                                 <div class="page-nav">
                                     <nav>
-                                        <ul class="pagination">
-                                            <li><a href="#">«</a></li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li class="disabled"><a href="#">»</a></li>
+                                        <ul class="pagination" id="userListPagination">
+                                            <%--<li><a href="#">«</a></li>--%>
+                                            <%--<li class="active"><a href="#">1</a></li>--%>
+                                            <%--<li><a href="#">2</a></li>--%>
+                                            <%--<li><a href="#">3</a></li>--%>
+                                            <%--<li><a href="#">4</a></li>--%>
+                                            <%--<li><a href="#">5</a></li>--%>
+                                            <%--<li class="disabled"><a href="#">»</a></li>--%>
                                         </ul>
                                     </nav>
                                 </div>
@@ -248,7 +176,7 @@
                                 <th>操作</th>
                             </tr>
                             </thead>
-                            <tbody id="studentList">
+                            <tbody id="searchList">
                             <tr>
                                 <td>1</td>
                                 <td>Mark</td>
@@ -439,4 +367,48 @@
 </div>
 </div>
 </body>
+
+<script>
+    function getUserPage(page) {
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/userController?page=' + page,
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                for (var i = 0; i < data[0].pageCount; i++) {
+                    if ((i + 1) == data[0].page) {
+                        $("#userListPagination").append("<li class='active'><a href='#'>" + data[0].page + "</a></li>");
+                    } else {
+                        $("#userListPagination").append("<li><a href='#'>" + (i + 1) + "</a></li>");
+                    }
+
+                }
+                $.each(data, function (index, content) {
+                    if (content.role.roleName == "super_admin") {
+                        content.role.roleName = "超级管理员";
+                    } else if (content.role.roleName == "admin") {
+                        content.role.roleName = "管理员";
+                    } else if (content.role.roleName == "normal") {
+                        content.role.roleName = "普通用户";
+                    }
+                    $("#userList").append("<tr>" +
+                        "<td>" + content.user.loginAccount + "</td>" +
+                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td><select class='btn btn-success btn-xs'><option value='1'>设置角色</option><option value='2'>普通用户</option><option value='3'>管理员</option></select>" +
+                        "<select class='btn btn-primary btn-xs'><option value='1'>设置状态</option><option value='2'>待审核</option><option value='3'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-danger btn-xs'><option value='1'>谨慎操作</option><option value='2'>删除</option><option value='3'>重置密码</option></select></td></tr>");
+                });
+            },
+            error: function (e) {
+                console.log(e)
+//                window.location.reload();
+            }
+        });
+    }
+
+
+</script>
 </html>

@@ -118,11 +118,39 @@ public class WebSiteUserService {
 
     /**
      * 通过主键获取用户
+     *
      * @param userid
      * @return
      */
-    public WebsiteUser getPrimaryKeyByUser(Long userid){
+    public WebsiteUser getPrimaryKeyByUser(Long userid) {
         WebsiteUser user = mapper.selectByPrimaryKey(userid);
         return user;
+    }
+
+
+    /**
+     * 获取用户的数量
+     *
+     * @return
+     */
+    public int getAllNum() {
+        return mapper.getUserCount();
+    }
+
+    /**
+     * 获取分页的数量
+     *
+     * @return
+     */
+    public int getPageCount(int searchNum) {
+        int allNum = getAllNum();
+        if (allNum <= searchNum) {
+            return 1;
+        }
+        if (allNum % searchNum == 0) {
+            return allNum / searchNum;
+        } else {
+            return allNum / searchNum + 1;
+        }
     }
 }

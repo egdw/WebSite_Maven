@@ -102,9 +102,13 @@ public class MovieUtils {
         }
         String content = NetworkUtils.get(url);
         if (content == null || content.contains("您的访问出错了")) {
-            url = "http://dytt8.net/"+temp;
+            url = "http://dytt8.net/" + temp;
             content = NetworkUtils.get(url);
-            if(content == null){
+            if (content == null || content.contains("您的访问出错了")) {
+                url = "http://www.ygdy8.net/" + temp;
+                content = NetworkUtils.get(url);
+            }
+            if (content == null) {
                 return null;
             }
         }

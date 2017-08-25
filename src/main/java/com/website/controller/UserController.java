@@ -1,11 +1,9 @@
 package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.website.entites.WebsiteRole;
-import com.website.entites.WebsiteUserRoleKey;
+import com.website.entites.*;
 import com.website.model.Message;
-import com.website.service.WebSiteRoleService;
-import com.website.service.WebSiteUserRoleService;
+import com.website.service.*;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.website.entites.WebsiteUser;
-import com.website.service.WebSiteUserService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +25,10 @@ public class UserController {
     private WebSiteRoleService roleService;
     @Autowired
     private WebSiteUserRoleService userRoleService;
+    @Autowired
+    private WebsiteUserStatusService userStatusService;
+    @Autowired
+    private WebsiteStatusService statusService;
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(String username, String email, String phone,
@@ -66,6 +67,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "findByName", method = RequestMethod.GET)
+    @ResponseBody
     public String findByName(String name, Integer type) {
         if (type == 0) {
             ArrayList<WebsiteUser> search = service.getBySearch(name);
@@ -92,7 +94,47 @@ public class UserController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public String getByPage(Integer page) {
+        //需要加入缓存.待定....
+
+        if (page == null) {
+            page = 0;
+        }
+        ArrayList<WebsiteUser> users = service.getUserByNum(10, page);
+        ArrayList<WebsiteUserRoleStatus> roleStatuses = new ArrayList<WebsiteUserRoleStatus>();
+        int pageCount = service.getPageCount(10);
+        int count = service.getUserCount();
+        for (int i = 0; i < users.size(); i++) {
+            WebsiteUser user = users.get(i);
+            Long userId = user.getUserId();
+            WebsiteUserRoleKey userRoleServiceByUserId = userRoleService.getByUserId(userId);
+            WebsiteRole role = null;
+            if (userRoleServiceByUserId != null) {
+                role = roleService.getRoleById(userRoleServiceByUserId.getRoleId());
+            } else {
+                role = new WebsiteRole();
+                role.setRoleName("游客");
+            }
+            WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(userId);
+            WebsiteStatus websiteStatus = null;
+            if (websiteUserStatus != null) {
+                websiteStatus = statusService.selectById(websiteUserStatus.getWebsiteStatusId());
+            } else {
+                websiteStatus = new WebsiteStatus(0l, "审核通过");
+            }
+            WebsiteUserRoleStatus roleStatus = new WebsiteUserRoleStatus(user, role, websiteStatus);
+            roleStatus.setPage(page);
+            roleStatus.setPageCount(pageCount);
+            roleStatus.setCount(count);
+            roleStatuses.add(roleStatus);
+        }
+        return JSON.toJSONString(roleStatuses);
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
+    @ResponseBody
     public String updateUserRole(Long userId, Integer roleId) {
         WebsiteUser user = service.getPrimaryKeyByUser(userId);
         if (user != null) {
@@ -116,6 +158,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
     public String addUser(WebsiteUser user) {
         if (user.getLoginAccount() != null && user.getLoginPasswd() != null) {
             //判断用户名和密码是否为空

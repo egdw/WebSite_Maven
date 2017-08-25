@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.website.mapper.WebsiteStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteStatus" >
+    <id column="website_status_id" property="websiteStatusId" jdbcType="BIGINT" />
+    <result column="website_status" property="websiteStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <cache/>
+  <sql id="Base_Column_List" >
+    website_status_id, website_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from website_status
+    where website_status_id = #{websiteStatusId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from website_status
+    where website_status_id = #{websiteStatusId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.website.entites.WebsiteStatus" >
+    insert into website_status (website_status_id, website_status)
+    values (#{websiteStatusId,jdbcType=BIGINT}, #{websiteStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.website.entites.WebsiteStatus" >
+    insert into website_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="websiteStatusId != null" >
+        website_status_id,
+      </if>
+      <if test="websiteStatus != null" >
+        website_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="websiteStatusId != null" >
+        #{websiteStatusId,jdbcType=BIGINT},
+      </if>
+      <if test="websiteStatus != null" >
+        #{websiteStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteStatus" >
+    update website_status
+    <set >
+      <if test="websiteStatus != null" >
+        website_status = #{websiteStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where website_status_id = #{websiteStatusId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteStatus" >
+    update website_status
+    set website_status = #{websiteStatus,jdbcType=VARCHAR}
+    where website_status_id = #{websiteStatusId,jdbcType=BIGINT}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from website_status
+  </select>
+</mapper>

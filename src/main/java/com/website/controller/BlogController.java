@@ -378,6 +378,7 @@ public class BlogController {
      * @return
      */
     @RequestMapping(value = "delBlogType", method = RequestMethod.DELETE)
+    @RequiresRoles("super_admin")
     public String delBlogType(Integer id) {
         boolean b = service.removeTypeById(id);
         if (b) {
@@ -392,6 +393,7 @@ public class BlogController {
      * @return
      */
     @RequestMapping(value = "updateBlogType", method = RequestMethod.PUT)
+    @RequiresRoles("super_admin")
     public String updateBlogType(@RequestParam WebsiteBlogType type) {
         boolean b = service.updateTypeId(type);
         if (b) {

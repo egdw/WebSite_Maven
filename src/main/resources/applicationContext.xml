@@ -122,6 +122,7 @@
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
         <property name="filterChainDefinitions">
             <value>
+                /userController/** = anon
                 /css/** = anon
                 /images/** = anon
                 /AboutMy/** = anon
