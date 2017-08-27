@@ -4,8 +4,7 @@
 <head>
     <title>注册</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script
-            src="<%=request.getContextPath()%>/js/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -52,7 +51,6 @@
             success: function (data) {
                 var obj = eval("(" + data + ")");
                 var message = obj.message;
-                console.log(message);
                 if (message == 'password_short') {
                     $("#tip").text("密码太短");
                 } else if (message == 'code_fail') {
@@ -63,7 +61,8 @@
                     $("#tip").text("用户名已经存在");
                 } else if (message == 'success') {
                     //说明注册成功
-                    window.location.replace("/login/login.jsp");
+                    $("#tip2").text("很高兴在接下来的日子里为你提供持续的服务~");
+                    $("#successModal").modal("show");
                 } else if (message == 'username_short') {
                     $("#tip").text("用户名太短");
                 } else {
@@ -102,10 +101,10 @@
             <input type="text" name="verify" id="verify" placeholder="请输入以下验证码" required="required"><br><img id="image"
                                                                                                              onclick="loadImage()"
                                                                                                              src="/register/getVeriyImage"/>
-            <div class="signin">
-                <button id="addUser" onclick="addUser2()">注册</button>
-            </div>
         </form>
+        <div class="signin">
+            <button id="addUser" onclick="addUser2()">注册</button>
+        </div>
     </div>
     <a href="<%=request.getContextPath()%>/login/manager" style="color: #ffffff">已经注册账户?</a>
 </center>
@@ -114,11 +113,26 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">注册失败</h4>
+                <h4 class="modal-title" id="myModalLabel">错误~</h4>
             </div>
-            <div id="tip" class="modal-body">在这里添加一些文本</div>
+            <div id="tip" class="modal-body">很高兴在接下来的日子里为你提供持续的服务~</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel2">注册成功</h4>
+            </div>
+            <div id="tip2" class="modal-body">很高兴在接下来的日子里为你提供持续的服务~</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.replace('/login/login.jsp');">关闭</button>
             </div>
         </div>
     </div>
