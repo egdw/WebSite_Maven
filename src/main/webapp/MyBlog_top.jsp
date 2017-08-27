@@ -25,7 +25,7 @@
     <br>
     <center>
         <div>
-            <div id="nav_top_title1"><h1>低调</h1></div>
+            <div id="nav_top_title1"><h1>沉稳</h1></div>
             <div id="nav_top_title2" class="hidden-xs-block"><h2>恶搞大王的个人博客</h2></div>
         </div>
     </center>
@@ -96,23 +96,25 @@
                                     href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
                         <li role="separator" class="divider"></li>
                         <li>
-                            <form class="navbar-form navbar-center" action="/music/search" method="post" accept-charset="utf-8">
+                            <form class="navbar-form navbar-center" style="border-color:#594d4d " action="/music/search" method="post"
+                                  accept-charset="utf-8">
                                 <div class="input-group">
-                                    <input type="text" name="songsName"  class="form-control" placeholder="音乐搜索">
+                                    <input type="text" name="songsName" class="form-control" placeholder="音乐搜索">
                                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit" style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索</button>
+                        <button class="btn btn-default" type="submit"
+                                style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索</button>
                       </span>
                                 </div><!-- /input-group -->
                             </form>
                         </li>
                         <li>
-                            <form class="navbar-form navbar-center" action="/music/mvsearch" method="post"
+                            <form class="navbar-form navbar-center" style="border-color: #594d4d" action="/music/mvsearch" method="post"
                                   accept-charset="utf-8">
                                 <div class="input-group">
                                     <input type="text" name="songsName" class="form-control" placeholder="MV搜索">
-                                    <form class="input-group-btn">
-                        <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit" style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索</button></span>
+                                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"
+                                style="color: #ffffff;background-color:#d56464;border-color: #d56464">搜索</button></span>
                                 </div>
                             </form>
                         </li>

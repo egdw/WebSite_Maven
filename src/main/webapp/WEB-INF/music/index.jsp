@@ -27,7 +27,7 @@
             dataType: 'json',
             success: function (data) {
                 $.each(data.playlist, function (index, content) {
-                    $("#musicBody").append("<div id='p" + content.id + "' class='panel panel-default col-md-6'>" +
+                    $("#musicBody").append("<div id='p" + content.id + "' style='height: 300px;overflow: scroll;' class='panel panel-default col-md-6'>" +
                         "<div class='panel panel-default'>" +
                         " <div class='panel-heading' style='width: 100%;background-color:#594d4d;color: #FFFFFF'>" +
                         "<b>" + content.name + "(" + content.trackCount + ")首</b>" +
@@ -67,19 +67,16 @@
                 $.each(data.result.tracks, function (index, content) {
                     if (content.alias[0] != null) {
                         $(temp).append("<li class='news-item'>" +
-                            " <a style='font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block;;padding-left: 10px; padding-top: 10px;padding-bottom: 10px' target='_blank' href='/music/playMusic?id=" + content.id + "'><b>" + content.name + "(" + content.alias[0] + ")</b>-" + content.artists[0].name + " </span></b></a>" +
-                            "<button onclick='addSong(" + content.id + ")' class='btn btn-primary' style='float: right' role='button'>添加到播放列表</button>" +
+                            " <div><a style='font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block; padding-top: 10px;padding-bottom: 10px' target='_blank' href='/music/playMusic?id=" + content.id + "'><b>" + content.name + "(" + content.alias[0] + ")</b>-" + content.artists[0].name + " </span></b>" +
+                            "</a>" +
+                            "<span style='float: right' class='glyphicon glyphicon-plus'  onclick='addSong(" + content.id + ")' aria-hidden='true'></span></div>" +
                             "</li>");
                     } else {
                         $(temp).append("<li class='news-item'>" +
-                            " <a style='font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block;;padding-left: 10px; padding-top: 10px;padding-bottom: 10px' target='_blank' href='/music/playMusic?id=" + content.id + "'><b>" + content.name + "</b>-" + content.artists[0].name + " </span></b></a>" +
-                            "<button onclick='addSong(" + content.id + ")' class='btn btn-primary' style='float: right' role='button'>添加到播放列表</button>" +
+                            " <a style='font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block; padding-top: 10px;padding-bottom: 10px' target='_blank' href='/music/playMusic?id=" + content.id + "'><b>" + content.name + "</b>-" + content.artists[0].name + " </span></b></a>" +
+                            "<span style='float: right' class='glyphicon glyphicon-plus'  onclick='addSong(" + content.id + ")' aria-hidden='true'></span></div>" +
                             "</li>");
                     }
-                    //如果歌曲的数量大于100就停止解析
-//                    if (index > 50) {
-//                        return false;
-//                    }
                 });
             },
             error: function (xhr, textStatus) {

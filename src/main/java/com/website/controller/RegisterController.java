@@ -71,7 +71,7 @@ public class RegisterController {
                     return JSON.toJSONString(message);
                 } else {
                     //密码通过
-                    if (verify.equals(registerVeriyPass)) {
+                    if (verify.toLowerCase().equals(registerVeriyPass.toLowerCase())) {
                         //如果与验证码相同.说明可以注册了
                         WebsiteUser websiteUser = new WebsiteUser();
                         websiteUser.setLoginAccount(username);
@@ -113,6 +113,8 @@ public class RegisterController {
         String uuid = UUIDUtils.getUUID();
         SecurityUtils.getSubject().getSession().setAttribute("registerTemp", uuid);
         RedisUtils utils = new RedisUtils(jedisPool.getResource(), "registerVeriyPass:" + uuid);
+        System.out.println("registerVeriyPass:" + uuid);
+        System.out.println(objects[0]);
         utils.setAndExpire((String) objects[0], 60, true);
         BufferedImage image = (BufferedImage) objects[1];
         response.setContentType("image/png");

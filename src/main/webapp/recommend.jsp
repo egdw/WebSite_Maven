@@ -30,7 +30,6 @@
             async: true,
             dataType: 'json',
             success: function (data) {
-                console.log(data)
                 $.each(data, function (index, content) {
                     $("#ad_ul").append(" <li class='news-item'>" +
                         "<a style='color: slategray;padding: 10px'" +

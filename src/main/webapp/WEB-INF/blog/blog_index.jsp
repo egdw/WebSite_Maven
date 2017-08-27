@@ -10,7 +10,6 @@
 </head>
 <body onload="getUserTable()">
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
-<link rel="stylesheet" type="text/css" href="/css/MyBlog_files/default.css">
 <link href="/css/MyBlog_files/site.css" rel="stylesheet" type="text/css"/>
 <script src="/layui/dist/APlayer.min.js"></script>
 <div class="col-md-9">
@@ -89,12 +88,11 @@
     <div class="htmleaf-container">
         <div class="row-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
+                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
                     最新照片 <span class="glyphicon glyphicon-camera" aria-hidden="true" style="color:#d56464"></span>
                 </div>
                 <div class="panel-body">
                     <div id="myCarousel" class="carousel slide">
-                        <!-- 轮播（Carousel）指标 -->
                         <ol class="carousel-indicators">
                             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                             <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -102,7 +100,6 @@
                             <li data-target="#myCarousel" data-slide-to="3"></li>
                             <li data-target="#myCarousel" data-slide-to="4"></li>
                         </ol>
-                        <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <c:forEach items="${requestScope.images}" var="index" varStatus="i">
                                 <c:if test="${i.index == 0}">
@@ -127,7 +124,6 @@
                                 </c:if>
                             </c:forEach>
                         </div>
-                        <!-- 轮播（Carousel）导航 -->
                         <a class="carousel-control left" href="#myCarousel"
                            data-slide="prev"><span
                                 class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -142,7 +138,7 @@
 
         <div class="row-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
+                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
                     <b>阅读排行</b> <span
                         class="glyphicon glyphicon-book" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
@@ -185,7 +181,7 @@
         </div>
         <div class="row-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
+                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
                     <b>评论排行</b> <span
                         class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
@@ -208,7 +204,7 @@
         </div>
         <div class="row-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading"style="background-color:#594d4d;color: #FFFFFF">
+                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
                     <b>最新评论</b> <span
                         class="glyphicon glyphicon-comment" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
@@ -231,14 +227,14 @@
         </div>
         <div class="row-md-2">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
                     <b>音乐盒</b> <span
                         class="glyphicon glyphicon-music" aria-hidden="true" style="color:#d56464"></span></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12">
                             <shiro:notAuthenticated>
-                                请<a href="<%=request.getContextPath()%>/login/manager">登录</a>且<a href="<%=request.getContextPath()%>/login/register.jsp">注册</a>后方可使用~
+                                请<a href="<%=request.getContextPath()%>/login/register.jsp">注册</a>且<a href="<%=request.getContextPath()%>/login/manager">登录</a>后方可使用~
                             </shiro:notAuthenticated>
                             <div id="player1" class="aplayer"></div>
                         </div>
