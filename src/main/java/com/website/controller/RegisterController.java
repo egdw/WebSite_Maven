@@ -113,8 +113,6 @@ public class RegisterController {
         String uuid = UUIDUtils.getUUID();
         SecurityUtils.getSubject().getSession().setAttribute("registerTemp", uuid);
         RedisUtils utils = new RedisUtils(jedisPool.getResource(), "registerVeriyPass:" + uuid);
-        System.out.println(objects[0]);
-        System.out.println(objects[1]);
         utils.setAndExpire((String) objects[0], 60, true);
         BufferedImage image = (BufferedImage) objects[1];
         response.setContentType("image/png");

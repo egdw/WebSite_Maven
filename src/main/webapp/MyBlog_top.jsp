@@ -91,7 +91,7 @@
                         <li role="separator" class="divider"></li>
                         <li>
                             <a href="##" data-toggle="modal"
-                               data-target="#about-modal">我的历程</a>
+                               data-target="#about-modal">赞赏</a>
                             <a
                                     href="<%=request.getContextPath()%>/AboutMy/index.html" target="_blank">关于我</a></li>
                         <li role="separator" class="divider"></li>

@@ -78,7 +78,6 @@ public class MovieController {
             return utils.get(true);
         } else {
             MovieDetail detail = MovieUtils.detail(url);
-            System.out.println(detail);
             if (detail == null) {
                 utils.close();
                 return null;

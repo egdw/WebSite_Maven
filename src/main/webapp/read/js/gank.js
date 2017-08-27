@@ -34,7 +34,8 @@ function pageChange(page) {
 
 function getData(page, page_type, scrollTop) {
     pageType = page_type;
-    var web = "http://gank.io/api/data/" + page_type + "/100/" + page;
+    // var web = "http://gank.io/api/data/" + page_type + "/100/" + page;
+    var web = "/readController/data/" + page_type + "/100/" + page;
     console.log(web);
     loadAnimation();
     $.ajax({
@@ -146,7 +147,8 @@ function search(page,scrollTop) {
         searchType = 'all';
     }
     searchValue = $("#search_input").val();
-    var web = 'http://gank.io/api/search/query/' + searchValue + '/category/' + searchType + '/count/10/page/' + page;
+    // var web = 'http://gank.io/api/search/query/' + searchValue + '/category/' + searchType + '/count/10/page/' + page;
+    var web = '/readController/query/' + searchValue + '/category/' + searchType + '/count/10/page/' + page;
     console.log(web);
     loadAnimation();
     $.ajax({

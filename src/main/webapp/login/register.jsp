@@ -38,7 +38,6 @@
         document.getElementById("image").src = "/register/getVeriyImage?" + Math.random();
     }
 
-
     function addUser2() {
         $.ajax({
             type: 'post',

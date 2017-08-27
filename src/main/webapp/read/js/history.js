@@ -15,7 +15,7 @@ var iteartorIndex = 0;
 //判断是否遍历失败
 var isFail = false;
 function getPublishData() {
-    var url = "http://gank.io/api/day/history";
+    var url = "/readController/history";
     $.ajax({
         url: url,
         type: 'GET', //GET
@@ -46,7 +46,7 @@ function getPublishData() {
 
 var myArray = new Array();
 function addInfo(request) {
-    var url = "http://gank.io/api/history/content/day/" + request;
+    var url = "/readController/day/" + request;
     $.ajax({
         url: url,
         type: 'GET', //GET
