@@ -1,7 +1,6 @@
 package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.org.apache.regexp.internal.RE;
 import com.website.entites.*;
 import com.website.model.Message;
 import com.website.service.*;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -228,6 +226,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
     public String removeUser(Long userId) {
         boolean user = service.delUser(userId);
         if (user) {
@@ -278,7 +277,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public String updateUserRole(Long userId, Integer roleId) {
+    public String updateUserRole(@RequestParam(required = true) Long userId, @RequestParam(required = true) Integer roleId) {
         WebsiteUser user = service.getPrimaryKeyByUser(userId);
         if (user != null) {
             //说明用户存在
@@ -300,20 +299,52 @@ public class UserController {
         return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "updateUserStatus", method = RequestMethod.PUT)
     @ResponseBody
-    public String addUser(WebsiteUser user) {
-        if (user.getLoginAccount() != null && user.getLoginPasswd() != null) {
-            //判断用户名和密码是否为空
-            user.setRegisterDate(new Date());
-            boolean addUser = service.addUser(user);
-            if (addUser) {
-                return JSON.toJSONString(new Message(200, "添加成功", null, null, null));
-            } else {
-                return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
-            }
+    public String updateUserStatus(@RequestParam(required = true) Long userId, @RequestParam(required = true) Integer statusId) {
+        WebsiteUser userById = service.getUserById(userId);
+        if (userById == null) {
+            return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
         }
-        return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
+        WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(userId);
+        WebsiteStatus websiteStatus = null;
+        if (websiteUserStatus != null) {
+            WebsiteStatus status = statusService.selectById(statusId);
+            if (status == null) {
+                return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            }
+            websiteUserStatus.setWebsiteStatusId(status.getWebsiteStatusId());
+            boolean update = userStatusService.update(websiteUserStatus);
+            if (update) {
+                websiteUserStatus = userStatusService.selectByUserId(userId);
+                return JSON.toJSONString(websiteUserStatus);
+            } else {
+                return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            }
+        } else {
+            return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+        }
     }
 
+//    @RequestMapping(method = RequestMethod.POST)
+//    @ResponseBody
+//    public String addUser(WebsiteUser user) {
+//        if (user.getLoginAccount() != null && user.getLoginPasswd() != null) {
+//            //判断用户名和密码是否为空
+//            user.setRegisterDate(new Date());
+//            boolean addUser = service.addUser(user);
+//            if (addUser) {
+//                return JSON.toJSONString(new Message(200, "添加成功", null, null, null));
+//            } else {
+//                return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
+//            }
+//        }
+//        return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
+//    }
+
+
+    public WebsiteUser getIdByName(String name) {
+        WebsiteUser websiteUser = service.getByUsername(name);
+        return websiteUser;
+    }
 }
