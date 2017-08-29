@@ -11,6 +11,12 @@
     </context:component-scan>
     <!-- 从配置文件读取数据库信息 -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--从配置文件读取设置信息-->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:setting.properties</value>
+        </property>
+    </bean>
 
     <!-- 配置数据源 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -56,20 +62,20 @@
 
     <!-- remenberMe配置 -->
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="rememberMe" />
-        <property name="httpOnly" value="true" />
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
         <!-- 默认记住7天（单位：秒） -->
-        <property name="maxAge" value="604800" />
+        <property name="maxAge" value="604800"/>
     </bean>
     <!-- rememberMe管理器 -->
     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
-        <property name="cookie" ref="rememberMeCookie" />
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 
     <!-- 核心,安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="rememberMeManager" ref="rememberMeManager" />
+        <property name="rememberMeManager" ref="rememberMeManager"/>
         <!-- 传入相应的realm,如果有多个realm,那么久需要<Realms>标签 -->
         <property name="realm" ref="AuthUsernameAndPasswordRealm"/>
         <property name="cacheManager" ref="cacheManager"/>
@@ -100,18 +106,18 @@
     </bean>
 
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxTotal" value="200" />
-        <property name="maxIdle" value="50" />
-        <property name="minIdle" value="8" />
-        <property name="maxWaitMillis" value="10000" />
-        <property name="testOnBorrow" value="true" />
+        <property name="maxTotal" value="200"/>
+        <property name="maxIdle" value="50"/>
+        <property name="minIdle" value="8"/>
+        <property name="maxWaitMillis" value="10000"/>
+        <property name="testOnBorrow" value="true"/>
     </bean>
 
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
-        <constructor-arg index="0" ref="jedisPoolConfig" />
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
         <constructor-arg index="1" value="${redis.url}" type="java.lang.String"/>
-        <constructor-arg index="2" value="6379" type="int" />
-        <constructor-arg index="3" value="60000" type="int" />
+        <constructor-arg index="2" value="6379" type="int"/>
+        <constructor-arg index="3" value="60000" type="int"/>
     </bean>
 
     <!-- shiro过滤器 -->
@@ -176,6 +182,6 @@
 
 
     <!--<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
-        <!--<property name="configLocation" value="classpath:mybatis_ehcache.xml"/>-->
+    <!--<property name="configLocation" value="classpath:mybatis_ehcache.xml"/>-->
     <!--</bean>-->
 </beans>
