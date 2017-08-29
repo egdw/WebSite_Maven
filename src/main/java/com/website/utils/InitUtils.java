@@ -14,7 +14,6 @@ import java.util.Set;
 /**
  * Created by hdy on 2017/8/29.
  */
-@Component
 public class InitUtils {
     //文件保存地址
     private String filePath;
