@@ -11,6 +11,8 @@
 <script src="/js/jquery.validate.min.js"></script>
 <script src="/js/additional-methods.js"></script>
 <script src="/js/person-admin.js"></script>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-3">
@@ -38,7 +40,6 @@
         <div class="col-md-9" role="main">
             <div class="col-md-9" role="main">
 
-                <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#user" role="tab" data-toggle="tab">用户管理</a></li>
                     <li role="presentation" class=""><a href="#student" role="tab" data-toggle="tab">用户搜索</a></li>
@@ -60,7 +61,8 @@
                                         </select></div>
 
                                         <div class="col-md-6">
-                                            <a href="javascript:void(0);" class="btn btn-default" onclick="findByRole()" >筛选</a>
+                                            <a href="javascript:void(0);" class="btn btn-default"
+                                               onclick="findByRole()">筛选</a>
                                         </div>
                                     </div>
                                 </form>
@@ -77,7 +79,8 @@
                                             <option value="4">审核通过</option>
                                         </select></div>
                                         <div class="col-md-6">
-                                            <a href="javascript:void(0);" class="btn btn-default" onclick="findByStatus()">筛选</a>
+                                            <a href="javascript:void(0);" class="btn btn-default"
+                                               onclick="findByStatus()">筛选</a>
                                         </div>
                                     </form>
                                 </div>
@@ -184,112 +187,7 @@
                             <tbody id="searchList">
                             </tbody>
                         </table>
-
-                        <div class="upload-banner">
-                            <h3 class="page-header">添加用户</h3>
-                            <form class="form" role="form" method="post" id="addStudent" name="addStudent">
-                                <table class="table text-center">
-                                    <thead>
-                                    <tr>
-                                        <th>用户名</th>
-                                        <th>姓名</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody id="list">
-                                    <tr>
-                                        <td><input class="form-control input-sm" type="text" name="ids" id="id-1"
-                                                   placeholder="输入学号">
-                                        </td>
-                                        <td><input class="form-control input-sm" type="text" name="names" id="name-1"
-                                                   placeholder="输入姓名">
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-xs">删除</button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <div class="filter">
-                                    <button type="button" class="btn btn-primary " id="addNewItem"
-                                            onclick="addUserList()">新增
-                                    </button>
-                                    <button type="submit" class="btn btn-success " id="submitItems">提交</button>
-                                    <button type="button" class="btn btn-info" data-toggle="modal"
-                                            data-target="#uploadXls">批量导入
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
-
-                </div>
-            </div>
-            <!--封禁用户-->
-            <div class="modal fade" id="confirmBand">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><span
-                                    aria-hidden="true">&times;</span><span
-                                    class="sr-only">Close</span></button>
-                            <h4 class="modal-title">封禁用户</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>当前封禁用户为: ,你确认要执行此操作吗?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary">确认封禁</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div>
-        <!--删除用户-->
-        <div class="modal fade" id="confirmDel">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span
-                                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">删除用户</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>当前删除用户为: ,你确认要执行此操作吗?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary">确认删除</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-        <!-- 批量导入 -->
-        <div class="modal fade" id="uploadXls" tabindex="-1" role="dialog" aria-labelledby="xls" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span
-                                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="xls">批量导入</h4>
-                    </div>
-                    <form method="post">
-                        <div class="modal-body">
-                            <h4>导入注意事项：</h4>
-                            <p class="text-danger">Excel表格为2列，分别为学号、姓名。</p>
-                            <div class="form-group">
-                                <h4>选择文件</h4>
-                                <input type="file" accept="" name="upload" id="xlsUploader">
-                                <p class="help-block">请选择Excel格式文件上传,支持文件类型（xls）</p>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="submit" class="btn btn-primary">确认提交</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -329,18 +227,66 @@
                         content.role.roleName = "普通用户";
                     }
                     $("#userList").append("<tr>" +
-                        "<td>" + content.user.loginAccount + "</td>" +
-                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
-                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td title='" + content.user.userId + "'>" + content.user.loginAccount + "</td>" +
+                        "<td title='" + content.role.roleId + "'><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td title='" + content.status.websiteStatusId + "'><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
                         "<td><select class='btn btn-success btn-xs'><option value='0'>设置角色</option><option value='1'>普通用户</option><option value='2'>管理员</option><option value='3'>普通用户</option></select>" +
                         "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
-                        "<select class='btn btn-danger btn-xs'><option value='0'>谨慎操作</option><option value='1'>删除</option><option value='2'>重置密码</option></select></td></tr>");
+                        "<select class='btn btn-danger btn-xs' onchange='remove(this)'><option value='0'>谨慎操作</option><option value='1'>删除</option></select></td></tr>");
                 });
             },
             error: function (e) {
                 console.log(e)
             }
         });
+    }
+
+    function remove(obj) {
+        var index = obj.options[obj.selectedIndex].value;
+        var text = obj.options[obj.selectedIndex].innerHTML;
+        //获取id
+        var id = $($(obj).parent().parent().children()[0]).attr("title");
+        //获取姓名
+        var name = $(obj).parent().parent().children()[0].innerHTML;
+        swal({
+            title: "您确定要删除" + name + "吗？",
+            text: "您确定要删除这条数据？",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "是的，我要删除",
+            confirmButtonColor: "#ec6c62"
+        }, function () {
+            $.ajax({
+                url: '/userController',
+                type: 'POST', //GET
+                async: true,    //或false,是否异步
+                data: {
+                    userId: id, _method: "DELETE"
+                },
+                timeout: 5000,    //超时时间
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data, textStatus, jqXHR) {
+                    if (data.code == 200) {
+                        swal("操作成功!", "已成功删除数据！", "success");
+                        $(obj).parent().parent().remove();
+                    } else {
+                        swal("OMG", "删除操作失败了!", "error");
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    swal("OMG", "删除操作失败了!", "error");
+                }
+            })
+        });
+    }
+
+    function updateRole(obj) {
+
+    }
+
+    function updateStatus(obj) {
+
     }
 
 
@@ -381,17 +327,7 @@
     }
 
 
-    /**
-     * 添加用户行
-     */
-    function addUserList() {
-        $("#list").append("<tr> <td><input class='form-control input-sm' type='text' name='ids' id='id-1' placeholder='输入学号'></td>" +
-            "<td><input class='form-control input-sm' type='text' name='names' id='name-1' placeholder='输入姓名'> </td>" +
-            "<td> <button type='button' class='btn btn-danger btn-xs'>删除</button></td> </tr>");
-    }
-
-
-    function findByRole(){
+    function findByRole() {
         $.ajax({
             type: 'get',
             url: '<%=request.getContextPath()%>/userController/findByRole',
@@ -424,8 +360,8 @@
             }
         });
     }
-    
-    
+
+
     function findByStatus() {
         $.ajax({
             type: 'get',
