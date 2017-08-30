@@ -285,6 +285,11 @@ public class UserController {
             WebsiteUserRoleKey userRoleKey = userRoleService.getByUserId(userId);
             if (roleById != null) {
                 //说明角色存在
+                if (userRoleKey == null) {
+                    userRoleKey = new WebsiteUserRoleKey();
+                    userRoleKey.setUserId(userId);
+                    userRoleKey.setRoleId(roleById.getRoleId());
+                }
                 userRoleKey.setRoleId(roleById.getRoleId());
                 boolean role = userRoleService.updateRole(userRoleKey);
                 if (role) {

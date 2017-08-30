@@ -49,7 +49,7 @@
 
     <update id="updateWebSite" parameterType="com.website.entites.WebsiteUserRoleKey">
 	  	UPDATE website_user_role
-	  	SET user_id = #{userId,jdbcType=BIGINT}
+	  	SET user_id = #{userId,jdbcType=BIGINT},
 	  	role_id = #{roleId,jdbcType=INTEGER}
 	  	WHERE user_id = #{userId,jdbcType=BIGINT}
 	</update>
