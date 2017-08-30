@@ -145,18 +145,6 @@
                             </tr>
                             </tbody>
                         </table>
-
-                        <div class="upload-banner">
-                            <h3 class="page-header">上传图片</h3>
-                            <form role="form" method="post">
-                                <div class="form-group">
-                                    <input type="file" accept="image/png,image/gif,image/jpeg" name="upload"
-                                           id="fileupload">
-                                    <p class="help-block">请选择图片格式文件上传,支持文件类型（jpg,png,gif）</p>
-                                </div>
-                                <button type="submit" class="btn btn-primary">上传图片</button>
-                            </form>
-                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="student">
                         <h3 class="page-header">用户搜索</h3>
@@ -197,12 +185,6 @@
 </div>
 </div>
 </body>
-<form action="/userController/updateUserStatus" method="post">
-    <input type="hidden" name="userId" value="9"/>
-    <input type="hidden" name="statusId" value="1"/>
-    <input type="hidden" name="_method" value="PUT"/>
-    <input type="submit" value="submit"/>
-</form>
 <script>
     var currentPage = null;
 
