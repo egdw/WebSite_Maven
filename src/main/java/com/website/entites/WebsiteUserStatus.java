@@ -7,6 +7,15 @@ public class WebsiteUserStatus {
 
     private Long websiteUserId;
 
+    public WebsiteUserStatus(Long websiteStatusUserId, Long websiteStatusId, Long websiteUserId) {
+        this.websiteStatusUserId = websiteStatusUserId;
+        this.websiteStatusId = websiteStatusId;
+        this.websiteUserId = websiteUserId;
+    }
+
+    public WebsiteUserStatus() {
+    }
+
     public Long getWebsiteStatusUserId() {
         return websiteStatusUserId;
     }
@@ -29,5 +38,14 @@ public class WebsiteUserStatus {
 
     public void setWebsiteUserId(Long websiteUserId) {
         this.websiteUserId = websiteUserId;
+    }
+
+    @Override
+    public String toString() {
+        return "WebsiteUserStatus{" +
+                "websiteStatusUserId=" + websiteStatusUserId +
+                ", websiteStatusId=" + websiteStatusId +
+                ", websiteUserId=" + websiteUserId +
+                '}';
     }
 }

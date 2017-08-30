@@ -12,6 +12,9 @@ public class WebsiteStatus implements Serializable {
         this.websiteStatus = websiteStatus;
     }
 
+    public WebsiteStatus() {
+    }
+
     public Long getWebsiteStatusId() {
         return websiteStatusId;
     }

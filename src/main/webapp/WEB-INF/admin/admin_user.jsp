@@ -197,9 +197,9 @@
 </div>
 </div>
 </body>
-<form action="/userController" method="post">
-    <input type="hidden" name="userId" value="2"/>
-    <input type="hidden" name="roleId" value="3"/>
+<form action="/userController/updateUserStatus" method="post">
+    <input type="hidden" name="userId" value="9"/>
+    <input type="hidden" name="statusId" value="1"/>
     <input type="hidden" name="_method" value="PUT"/>
     <input type="submit" value="submit"/>
 </form>
@@ -242,7 +242,7 @@
                         "<td title='" + content.role.roleId + "'><span class='label label-success'>" + content.role.roleName + "</span></td>" +
                         "<td title='" + content.status.websiteStatusId + "'><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
                         "<td><select class='btn btn-success btn-xs' onchange='updateRole(this)'><option value='0'>设置角色</option><option value='1'>管理员</option><option value='2'>普通用户</option><option value='3'>游客</option></select>" +
-                        "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-primary btn-xs' onchange='updateStatus(this)'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
                         "<select class='btn btn-danger btn-xs' onchange='remove(this)'><option value='0'>谨慎操作</option><option value='1'>删除</option></select></td></tr>");
                 });
             },
@@ -300,7 +300,6 @@
         if (index == 0) {
             return;
         }
-        console.log("values:" + (parseInt(index) + 1));
         var text = obj.options[obj.selectedIndex].innerHTML;
         //获取id
         var id = $($(obj).parent().parent().children()[0]).attr("title");
@@ -345,7 +344,55 @@
     }
 
     function updateStatus(obj) {
+        var index = obj.options[obj.selectedIndex].value;
+        if (index == 0) {
+            return;
+        }
+        var text = obj.options[obj.selectedIndex].innerHTML;
+        //获取id
+        var id = $($(obj).parent().parent().children()[0]).attr("title");
+        //获取姓名
+        var name = $(obj).parent().parent().children()[0].innerHTML;
+        var statusName = $($(obj).parent().parent().children()[2]).children()[0].innerHTML;
+        console.log(text)
+        console.log(index)
+        console.log(id)
+        console.log(name)
+        console.log(statusName)
+        swal({
+            title: "您确定要将" + name + "的" + statusName + "状态修改为" + text + "吗？",
+            text: "您确定要修改这条数据？",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "是的，我要修改",
+            confirmButtonColor: "#ec6c62"
+        }, function () {
+            $.ajax({
+                url: '/userController/updateUserStatus',
+                type: 'POST', //GET
+                async: true,    //或false,是否异步
+                data: {
+                    userId: id, statusId: index, _method: "PUT"
+                },
+                timeout: 5000,    //超时时间
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data, textStatus, jqXHR) {
+                    if (data.code == 200) {
+                        swal("操作成功!", "已成功更新数据！", "success");
+                        getUserPage(currentPage);
+                    } else {
+                        swal("OMG", "更新操作失败了!", "error");
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    console.log(xhr)
+                    console.log(textStatus)
 
+                    swal("OMG", "更新操作失败了!", "error");
+                }
+            })
+        });
     }
 
 

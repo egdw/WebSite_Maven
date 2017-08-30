@@ -38,7 +38,7 @@ public class UserController {
         Subject subject = SecurityUtils.getSubject();
         String id = (String) subject.getPrincipal();
         WebsiteUser user = service.getByUsername(id);
-        if (newPassword != null && !newPassword.isEmpty()) {
+        if (newPassword != null && !"".equals(newPassword)) {
             isChangePassword = true;
             user.setLoginPasswd(newPassword);
         }
@@ -314,6 +314,8 @@ public class UserController {
             return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
         }
         WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(userId);
+        System.err.println(websiteUserStatus
+        );
         WebsiteStatus websiteStatus = null;
         if (websiteUserStatus != null) {
             WebsiteStatus status = statusService.selectById(statusId);
@@ -323,13 +325,21 @@ public class UserController {
             websiteUserStatus.setWebsiteStatusId(status.getWebsiteStatusId());
             boolean update = userStatusService.update(websiteUserStatus);
             if (update) {
-                websiteUserStatus = userStatusService.selectByUserId(userId);
-                return JSON.toJSONString(websiteUserStatus);
+                return JSON.toJSONString(new Message(200, "更新成功", null, null, null));
             } else {
                 return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
             }
         } else {
-            return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            WebsiteUserStatus status = new WebsiteUserStatus();
+            WebsiteStatus status2 = statusService.selectById(statusId);
+            System.err.println(status2);
+            if (status2 == null) {
+                return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            }
+            status.setWebsiteStatusId(status2.getWebsiteStatusId());
+            status.setWebsiteUserId(userById.getUserId());
+            userStatusService.add(status);
+            return JSON.toJSONString(new Message(200, "更新成功", null, null, null));
         }
     }
 
