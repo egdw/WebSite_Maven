@@ -241,7 +241,7 @@
                         "<td title='" + content.user.userId + "'>" + content.user.loginAccount + "</td>" +
                         "<td title='" + content.role.roleId + "'><span class='label label-success'>" + content.role.roleName + "</span></td>" +
                         "<td title='" + content.status.websiteStatusId + "'><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
-                        "<td><select class='btn btn-success btn-xs' onchange='updateRole(this)'><option value='0'>设置角色</option><option value='1'>普通用户</option><option value='2'>管理员</option></select>" +
+                        "<td><select class='btn btn-success btn-xs' onchange='updateRole(this)'><option value='0'>设置角色</option><option value='1'>管理员</option><option value='2'>普通用户</option><option value='3'>游客</option></select>" +
                         "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
                         "<select class='btn btn-danger btn-xs' onchange='remove(this)'><option value='0'>谨慎操作</option><option value='1'>删除</option></select></td></tr>");
                 });
@@ -254,6 +254,9 @@
 
     function remove(obj) {
         var index = obj.options[obj.selectedIndex].value;
+        if (index == 0) {
+            return;
+        }
         var text = obj.options[obj.selectedIndex].innerHTML;
         //获取id
         var id = $($(obj).parent().parent().children()[0]).attr("title");
@@ -294,6 +297,10 @@
 
     function updateRole(obj) {
         var index = obj.options[obj.selectedIndex].value;
+        if (index == 0) {
+            return;
+        }
+        console.log("values:" + (parseInt(index) + 1));
         var text = obj.options[obj.selectedIndex].innerHTML;
         //获取id
         var id = $($(obj).parent().parent().children()[0]).attr("title");
@@ -315,7 +322,7 @@
                 type: 'POST', //GET
                 async: true,    //或false,是否异步
                 data: {
-                    userId: id, roleId: role, _method: "PUT"
+                    userId: id, roleId: (parseInt(index) + 1), _method: "PUT"
                 },
                 timeout: 5000,    //超时时间
                 dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text

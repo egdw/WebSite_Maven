@@ -289,6 +289,8 @@ public class UserController {
                     userRoleKey = new WebsiteUserRoleKey();
                     userRoleKey.setUserId(userId);
                     userRoleKey.setRoleId(roleId);
+                    userRoleService.addUserRole(userRoleKey);
+                    return JSON.toJSONString(new Message(200, "更新成功", null, null, null));
                 }
                 userRoleKey.setRoleId(roleId);
                 boolean role = userRoleService.updateRole(userRoleKey);
