@@ -241,8 +241,8 @@
                         "<td title='" + content.user.userId + "'>" + content.user.loginAccount + "</td>" +
                         "<td title='" + content.role.roleId + "'><span class='label label-success'>" + content.role.roleName + "</span></td>" +
                         "<td title='" + content.status.websiteStatusId + "'><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
-                        "<td><select class='btn btn-success btn-xs' onchange='updateRole(this)'><option value='0'>设置角色</option><option value='1'>管理员</option><option value='2'>普通用户</option><option value='3'>游客</option></select>" +
-                        "<select class='btn btn-primary btn-xs' onchange='updateStatus(this)'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<td><select class='btn btn-success btn-xs' onchange='updateRole(this,0)'><option value='0'>设置角色</option><option value='1'>管理员</option><option value='2'>普通用户</option><option value='3'>游客</option></select>" +
+                        "<select class='btn btn-primary btn-xs' onchange='updateStatus(this,0)'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
                         "<select class='btn btn-danger btn-xs' onchange='remove(this)'><option value='0'>谨慎操作</option><option value='1'>删除</option></select></td></tr>");
                 });
             },
@@ -295,7 +295,7 @@
         });
     }
 
-    function updateRole(obj) {
+    function updateRole(obj, type) {
         var index = obj.options[obj.selectedIndex].value;
         if (index == 0) {
             return;
@@ -328,7 +328,16 @@
                 success: function (data, textStatus, jqXHR) {
                     if (data.code == 200) {
                         swal("操作成功!", "已成功更新数据！", "success");
-                        getUserPage(currentPage);
+                        if (type == 0) {
+                            getUserPage(currentPage);
+                        } else if (type == 1) {
+                            findByStatus();
+                        } else if (type == 2) {
+                            findByRole();
+                        } else if (type == 3) {
+                            console.log("重新搜索")
+                            getSearch();
+                        }
                     } else {
                         swal("OMG", "更新操作失败了!", "error");
                     }
@@ -343,7 +352,7 @@
         });
     }
 
-    function updateStatus(obj) {
+    function updateStatus(obj, type) {
         var index = obj.options[obj.selectedIndex].value;
         if (index == 0) {
             return;
@@ -380,7 +389,16 @@
                 success: function (data, textStatus, jqXHR) {
                     if (data.code == 200) {
                         swal("操作成功!", "已成功更新数据！", "success");
-                        getUserPage(currentPage);
+                        if (type == 0) {
+                            getUserPage(currentPage);
+                        } else if (type == 1) {
+                            findByStatus();
+                        } else if (type == 2) {
+                            findByRole();
+                        } else if (type == 3) {
+                            console.log("重新搜索")
+                            getSearch();
+                        }
                     } else {
                         swal("OMG", "更新操作失败了!", "error");
                     }
@@ -416,14 +434,17 @@
                         content.role.roleName = "管理员";
                     } else if (content.role.roleName == "normal") {
                         content.role.roleName = "普通用户";
+                    } else {
+                        content.role.roleName = "游客";
+                        content.role.roleId = "4";
                     }
                     $("#searchList").append("<tr>" +
-                        "<td>" + content.user.loginAccount + "</td>" +
-                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
-                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
-                        "<td><select class='btn btn-success btn-xs'><option value='1'>设置角色</option><option value='2'>普通用户</option><option value='3'>管理员</option></select>" +
-                        "<select class='btn btn-primary btn-xs'><option value='1'>设置状态</option><option value='2'>待审核</option><option value='3'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
-                        "<select class='btn btn-danger btn-xs'><option value='1'>谨慎操作</option><option value='2'>删除</option><option value='3'>重置密码</option></select></td></tr>");
+                        "<td title='" + content.user.userId + "'>" + content.user.loginAccount + "</td>" +
+                        "<td title='" + content.role.roleId + "'><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td title='" + content.status.websiteStatusId + "'><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td><select class='btn btn-success btn-xs' onchange='updateRole(this,3)'><option value='0'>设置角色</option><option value='1'>管理员</option><option value='2'>普通用户</option><option value='3'>游客</option></select>" +
+                        "<select class='btn btn-primary btn-xs' onchange='updateStatus(this,3)'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-danger btn-xs' onchange='remove(this)'><option value='0'>谨慎操作</option><option value='1'>删除</option></select></td></tr>");
                 });
             },
             error: function (e) {
@@ -451,14 +472,17 @@
                         content.role.roleName = "管理员";
                     } else if (content.role.roleName == "normal") {
                         content.role.roleName = "普通用户";
+                    } else {
+                        content.role.roleName = "游客";
+                        content.role.roleId = "4";
                     }
                     $("#userList").append("<tr>" +
-                        "<td>" + content.user.loginAccount + "</td>" +
-                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
-                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
-                        "<td><select class='btn btn-success btn-xs'><option value='0'>设置角色</option><option value='1'>普通用户</option><option value='2'>管理员</option><option value='3'>普通用户</option></select>" +
-                        "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
-                        "<select class='btn btn-danger btn-xs'><option value='0'>谨慎操作</option><option value='1'>删除</option><option value='2'>重置密码</option></select></td></tr>");
+                        "<td title='" + content.user.userId + "'>" + content.user.loginAccount + "</td>" +
+                        "<td title='" + content.role.roleId + "'><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td title='" + content.status.websiteStatusId + "'><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td><select class='btn btn-success btn-xs' onchange='updateRole(this,2)'><option value='0'>设置角色</option><option value='1'>管理员</option><option value='2'>普通用户</option><option value='3'>游客</option></select>" +
+                        "<select class='btn btn-primary btn-xs' onchange='updateStatus(this,2)'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-danger btn-xs' onchange='remove(this)'><option value='0'>谨慎操作</option><option value='1'>删除</option></select></td></tr>");
                 });
             },
             error: function (e) {
@@ -486,14 +510,17 @@
                         content.role.roleName = "管理员";
                     } else if (content.role.roleName == "normal") {
                         content.role.roleName = "普通用户";
+                    } else {
+                        content.role.roleName = "游客";
+                        content.role.roleId = "4";
                     }
                     $("#userList").append("<tr>" +
-                        "<td>" + content.user.loginAccount + "</td>" +
-                        "<td><span class='label label-success'>" + content.role.roleName + "</span></td>" +
-                        "<td><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
-                        "<td><select class='btn btn-success btn-xs'><option value='0'>设置角色</option><option value='1'>普通用户</option><option value='2'>管理员</option><option value='3'>普通用户</option></select>" +
-                        "<select class='btn btn-primary btn-xs'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
-                        "<select class='btn btn-danger btn-xs'><option value='0'>谨慎操作</option><option value='1'>删除</option><option value='2'>重置密码</option></select></td></tr>");
+                        "<td title='" + content.user.userId + "'>" + content.user.loginAccount + "</td>" +
+                        "<td title='" + content.role.roleId + "'><span class='label label-success'>" + content.role.roleName + "</span></td>" +
+                        "<td title='" + content.status.websiteStatusId + "'><span class='label label-success'>" + content.status.websiteStatus + "</span></td>" +
+                        "<td><select class='btn btn-success btn-xs' onchange='updateRole(this,1)'><option value='0'>设置角色</option><option value='1'>管理员</option><option value='2'>普通用户</option><option value='3'>游客</option></select>" +
+                        "<select class='btn btn-primary btn-xs' onchange='updateStatus(this,1)'><option value='0'>设置状态</option><option value='1'>待审核</option><option value='2'>禁止登录</option><option value='3'>禁止发表</option><option value='4'>审核通过</option></select>" +
+                        "<select class='btn btn-danger btn-xs' onchange='remove(this)'><option value='0'>谨慎操作</option><option value='1'>删除</option></select></td></tr>");
                 });
             },
             error: function (e) {

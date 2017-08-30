@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.website.entites.*;
 import com.website.model.Message;
 import com.website.service.*;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class UserController {
     private WebsiteStatusService statusService;
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
+    @RequiresRoles("super_admin")
     public String update(String username, String email, String phone,
                          String newPassword) {
         boolean isChangePassword = false;
@@ -68,6 +70,7 @@ public class UserController {
      * @param roleId 角色id
      */
     @RequestMapping(value = "/updateRole", method = RequestMethod.PUT)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public void updateRole(@RequestParam(required = true) Long userId, @RequestParam(required = true) Long roleId) {
 
@@ -81,6 +84,7 @@ public class UserController {
      * @param statusId 角色id
      */
     @RequestMapping(value = "/updateStatus", method = RequestMethod.PUT)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public void updateStatus(@RequestParam(required = true) Long userId, @RequestParam(required = true) Long statusId) {
 
@@ -88,6 +92,7 @@ public class UserController {
 
 
     @RequestMapping(value = "findByStatus", method = RequestMethod.GET)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String findByStatus(@RequestParam(required = true) Long statusId) {
         ArrayList<WebsiteUserStatus> statuses = userStatusService.selectByStatusId(statusId);
@@ -124,6 +129,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "findByRole", method = RequestMethod.GET)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String findByRole(@RequestParam(required = true) Integer roleId) {
         ArrayList<WebsiteUserRoleKey> keys = userRoleService.selectByRoleId(roleId);
@@ -163,6 +169,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "findByName", method = RequestMethod.GET)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String findByName(@RequestParam(required = true) String name, @RequestParam(required = true) Integer type) {
         ArrayList<WebsiteUserRoleStatus> roleStatuses = new ArrayList<WebsiteUserRoleStatus>();
@@ -226,6 +233,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String removeUser(Long userId) {
         boolean user = service.delUser(userId);
@@ -237,6 +245,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String getByPage(Integer page) {
         //需要加入缓存.待定....
@@ -276,6 +285,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String updateUserRole(@RequestParam(required = true) Long userId, @RequestParam(required = true) Integer roleId) {
         WebsiteUser user = service.getPrimaryKeyByUser(userId);
@@ -307,6 +317,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "updateUserStatus", method = RequestMethod.PUT)
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String updateUserStatus(@RequestParam(required = true) Long userId, @RequestParam(required = true) Integer statusId) {
         WebsiteUser userById = service.getUserById(userId);
