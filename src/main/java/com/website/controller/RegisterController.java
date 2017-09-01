@@ -14,6 +14,7 @@ import com.website.utils.AuthCodeGenerator;
 import com.website.utils.RedisUtils;
 import com.website.utils.UUIDUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -158,6 +159,7 @@ public class RegisterController {
      * 返回当前注册的相关的设置
      */
     @RequestMapping("getRegisterSettings")
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String getRegisterSettings() {
         Map<String, String> map = new HashMap<String, String>();
@@ -167,6 +169,7 @@ public class RegisterController {
     }
 
     @RequestMapping("updateCheck")
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String updateCheck(Integer flag) {
         if (flag == 1) {
@@ -179,6 +182,7 @@ public class RegisterController {
     }
 
     @RequestMapping("updateClose")
+    @RequiresRoles("super_admin")
     @ResponseBody
     public String updateClose(Integer flag) {
         if (flag == 1) {
