@@ -13,8 +13,9 @@
         }
     </script>
     <link href="css/style.css" rel='stylesheet' type='text/css'/>
-    <script
-            src="<%=request.getContextPath()%>/js/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 </head>
 <body>
 <script>
@@ -43,18 +44,43 @@
             <img src="http://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
                  alt="" width="100" height="100"/>
         </div>
-        <form action="Login.do" method="post">
+        <form id="loginForm" action="Login.do" method="post">
             <input type="text" name="username" class="text" placeholder="请在此处输入账户" required="required">
             <input type="password" name="password" placeholder="请在此处输入密码" required="required">
             <div class="signin">
                 <input type="text" id="verify" name="verify" placeholder="请输入以下验证码" required="required"><img id="image"
                                                                                                              onclick="loadImage()"
                                                                                                              src="/login/getVeriyImage"/>
-                <input type="submit" value="登录">
             </div>
         </form>
+        <div class="signin">
+            <button id="addUser" onclick="login()">登录</button>
+        </div>
     </div>
     <a href="<%=request.getContextPath()%>/login/register.jsp" style="color: #ffffff">还没有账户?</a>
 </center>
 </body>
+<script>
+    function login() {
+        $.ajax({
+            type: 'post',
+            url: 'Login.do',
+            data: $('#loginForm').serialize(),
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 500) {
+                    swal("OMG", data.message, "error");
+                    loadImage();
+                } else {
+                    swal("登录成功!", "即将跳转", "success");
+                    window.location.replace('<%=request.getContextPath()%>/login/manager');
+                }
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+</script>
 </html>

@@ -4,7 +4,7 @@
 <head>
     <title>用户管理</title>
 </head>
-<body onload="getUserPage(0)">
+<body onload="getUserPage(0);getSetting()">
 <jsp:include page="/admin_top.jsp"></jsp:include>
 <script src="/css/MyBlog_files/lightbox.js"></script>
 <link rel="stylesheet" href="/css/MyBlog_files/lightbox.css">
@@ -13,6 +13,9 @@
 <script src="/js/person-admin.js"></script>
 <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap-checkbox/1.4.0/bootstrap-checkbox.min.js"></script>
+<link href="https://cdn.bootcss.com/awesome-bootstrap-checkbox/1.0.0-alpha.5/awesome-bootstrap-checkbox.min.css"
+      rel="stylesheet">
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-3">
@@ -109,42 +112,18 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="index">
                         <h3 class="page-header">注册设置</h3>
-                        <table class="table table-striped text-center">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>图片1</th>
-                                <th>预览图</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td><img src="img/banner_1.jpg" alt="" height="40"></td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-xs">删除</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td><img src="img/banner_1.jpg" alt="" height="40"></td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-xs">删除</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Larry</td>
-                                <td><img src="img/banner_1.jpg" alt="" height="40"></td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-xs">删除</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="alert alert-warning" role="alert">
+                            <label>注册审核</label>
+                            <input id="register_needcheck" type="checkbox">
+                            <br>
+                            <label><strong>一旦开启.用户注册之后都需要经过管理员进行审核才能够通过</strong></label>
+                        </div>
+                        <div class="alert alert-warning" role="alert">
+                            <label>注册关闭</label>
+                            <input id="register_close" type="checkbox">
+                            <br>
+                            <label><strong>一旦开启.将关闭注册功能</strong></label>
+                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="student">
                         <h3 class="page-header">用户搜索</h3>
@@ -510,5 +489,93 @@
             }
         });
     }
+    function getSetting() {
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/register/getRegisterSettings',
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                console.error(data)
+                var close = data.close;
+                var needcheck = data.needcheck;
+                if (needcheck == "true") {
+                    $("#register_needcheck").attr("checked", "true");
+                } else {
+                    $("#register_needcheck").removeAttr("checked");
+                }
+                if (close == "true") {
+                    $("#register_close").attr("checked", "true");
+                } else {
+                    $("#register_close").removeAttr("checked");
+                }
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+
+    function setNeedCheck(flag) {
+        var data = 0;
+        if (flag == true) {
+            data = 1;
+        }
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/register/updateCheck',
+            cache: false,
+            data: {'flag': data},
+            dataType: 'json',
+            success: function (data) {
+                console.error(data)
+                if(data.code == 200){
+                    swal("操作成功!", "操作成功了！", "success");
+                }else{
+                    swal("OMG", "操作失败了!", "error");
+                }
+                getSetting();
+            },
+            error: function (e) {
+                swal("OMG", "操作失败了!", "error");
+            }
+        });
+    }
+
+    function setClose(flag) {
+        var data = 0;
+        if (flag == true) {
+            data = 1;
+        }
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/register/updateClose',
+            cache: false,
+            data: {'flag': data},
+            dataType: 'json',
+            success: function (data) {
+                console.error(data)
+                if(data.code == 200){
+                    swal("操作成功!", "操作成功了！", "success");
+                    getSetting();
+                }else{
+                    swal("OMG", "操作失败了!", "error");
+                }
+            },
+            error: function (e) {
+                swal("OMG", "操作失败了!", "error");
+            }
+        });
+    }
+
+    $("#register_needcheck").change(function () {
+        var flag = $("#register_needcheck").is(':checked');
+        setNeedCheck(flag);
+    });
+
+    $("#register_close").change(function () {
+        var flag = $("#register_close").is(':checked');
+        setClose(flag);
+    });
 </script>
 </html>

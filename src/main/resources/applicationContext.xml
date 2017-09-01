@@ -10,12 +10,20 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     <!-- 从配置文件读取数据库信息 -->
-    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
+    <context:property-placeholder location="classpath:setting.properties" ignore-unresolvable="true"/>
     <!--从配置文件读取设置信息-->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
             <value>classpath:setting.properties</value>
         </property>
+    </bean>
+
+    <bean id="initModel" class="com.website.model.InitModel">
+        <constructor-arg index="0" value="${blog.register.needcheck}"/>
+        <constructor-arg index="1" value="${blog.register.close}"/>
+        <!--<property name="blog_register_needcheck" value="${blog.register.needcheck}"/>-->
+        <!--<property name="blog_register_close" value="${blog.register.close}"/>-->
     </bean>
 
     <!-- 配置数据源 -->

@@ -1,17 +1,18 @@
 package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.website.entites.WebsiteRole;
 import com.website.entites.WebsiteUser;
 import com.website.entites.WebsiteUserRoleKey;
+import com.website.entites.WebsiteUserStatus;
+import com.website.model.InitModel;
 import com.website.model.Message;
 import com.website.service.WebSiteRoleService;
 import com.website.service.WebSiteUserRoleService;
 import com.website.service.WebSiteUserService;
+import com.website.service.WebsiteUserStatusService;
 import com.website.utils.AuthCodeGenerator;
 import com.website.utils.RedisUtils;
 import com.website.utils.UUIDUtils;
-import com.website.utils.UserUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.imageio.ImageIO;
@@ -29,7 +29,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hdy on 2017/7/30.
@@ -45,7 +46,12 @@ public class RegisterController {
     @Autowired
     private WebSiteRoleService roleService;
     @Autowired
+    private WebsiteUserStatusService userStatusService;
+
+    @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private InitModel initModel;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
@@ -55,6 +61,11 @@ public class RegisterController {
         String registerVeriyPass = utils.get();
         utils.remove();
         utils.close();
+        if ("true".equals(initModel.getBlog_register_close())) {
+            //说明管理员禁止注册
+            Message message = new Message(200, "ban_register", null, null, null);
+            return JSON.toJSONString(message);
+        }
         if (username.isEmpty()) {
             Message message = new Message(200, "username_short", null, null, null);
             return JSON.toJSONString(message);
@@ -83,6 +94,21 @@ public class RegisterController {
                         websiteUserRoleKey.setRoleId(roleService.findRoleByName("normal").getRoleId());
                         websiteUserRoleKey.setUserId(user.getUserId());
                         userRoleService.addUserRole(websiteUserRoleKey);
+                        if ("true".equals(initModel.getBlog_register_needcheck())) {
+                            //设置状态为审核不通过
+                            WebsiteUserStatus status = new WebsiteUserStatus();
+                            status.setWebsiteStatusId(1l);
+                            status.setWebsiteUserId(user.getUserId());
+                            userStatusService.add(status);
+                        } else {
+                            //说明没有开启验证
+                            //设置状态为审核通过
+                            WebsiteUserStatus status = new WebsiteUserStatus();
+                            status.setWebsiteStatusId(4l);
+                            status.setWebsiteUserId(user.getUserId());
+                            userStatusService.add(status);
+                        }
+
                         return JSON.toJSONString(new Message(200, "success", null, null, null));
                     } else {
                         //验证码验证失败
@@ -124,6 +150,43 @@ public class RegisterController {
             ImageIO.write(image, "PNG", os);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 返回当前注册的相关的设置
+     */
+    @RequestMapping("getRegisterSettings")
+    @ResponseBody
+    public String getRegisterSettings() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("needcheck", initModel.getBlog_register_needcheck());
+        map.put("close", initModel.getBlog_register_close());
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping("updateCheck")
+    @ResponseBody
+    public String updateCheck(Integer flag) {
+        if (flag == 1) {
+            initModel.setBlog_register_needcheck("true");
+            return JSON.toJSONString(new Message(200, "true", null, null, null));
+        } else {
+            initModel.setBlog_register_needcheck("false");
+            return JSON.toJSONString(new Message(200, "false", null, null, null));
+        }
+    }
+
+    @RequestMapping("updateClose")
+    @ResponseBody
+    public String updateClose(Integer flag) {
+        if (flag == 1) {
+            initModel.setBlog_register_close("true");
+            return JSON.toJSONString(new Message(200, "true", null, null, null));
+        } else {
+            initModel.setBlog_register_close("false");
+            return JSON.toJSONString(new Message(200, "false", null, null, null));
         }
     }
 

@@ -64,7 +64,9 @@
                     $("#successModal").modal("show");
                 } else if (message == 'username_short') {
                     $("#tip").text("用户名太短");
-                } else {
+                }else if(message = 'ban_register'){
+                    $("#tip").text("注册功能已关闭");
+                }else {
                     //注册失败
                     $("#tip").text("注册失败");
                 }
@@ -74,10 +76,15 @@
             complete: function () {
                 $("#addUser").removeAttr("disabled");
             },
-            error: function (e) {
-                alert("网络错误，请重试！！");
-                $("#addUser").removeAttr("disabled");
-            }
+//            error: function (e) {
+//                alert("网络错误，请重试！！");
+//                $("#addUser").removeAttr("disabled");
+//            }
+            error:function(xhr,textStatus){
+                console.log('错误')
+                console.log(xhr)
+                console.log(textStatus)
+            },
         });
     }
 </script>

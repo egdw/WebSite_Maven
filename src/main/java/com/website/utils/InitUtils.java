@@ -2,10 +2,7 @@ package com.website.utils;
 
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -35,7 +32,11 @@ public class InitUtils {
 
     public void set(String key, String value) {
         FileOutputStream outputStream = null;
+        FileInputStream inputStream = null;
         try {
+            inputStream = new FileInputStream(file);
+            pps.load(inputStream);
+            inputStream.close();
             outputStream = new FileOutputStream(file);
             pps.setProperty(key, value);
             pps.store(outputStream, null);

@@ -1,8 +1,12 @@
 package com.website.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.website.entites.WebsiteUser;
+import com.website.model.InitModel;
+import com.website.model.Message;
 import com.website.service.WebSiteRoleService;
 import com.website.service.WebSiteUserService;
+import com.website.service.WebsiteUserStatusService;
 import com.website.utils.AuthCodeGenerator;
 import com.website.utils.RedisUtils;
 import com.website.utils.UUIDUtils;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import redis.clients.jedis.JedisPool;
 
 import javax.imageio.ImageIO;
@@ -33,7 +38,10 @@ public class LoginController {
     @Autowired
     private WebSiteRoleService roleService;
     @Autowired
+    private WebsiteUserStatusService userStatusService;
+    @Autowired
     private JedisPool jedisPool;
+
 
     /**
      * 用户登录操作
@@ -42,6 +50,7 @@ public class LoginController {
      * @param password 密码
      */
     @RequestMapping(value = "Login.do", method = RequestMethod.POST)
+    @ResponseBody
     public String loginByUsernamePasswd(@RequestParam(required = true) String username, @RequestParam(required = true) String password,
                                         Map<String, Object> requests, @RequestParam(required = true) String verify, HttpSession session) {
         String uuid = (String) SecurityUtils.getSubject().getSession().getAttribute("loginTemp");
@@ -55,7 +64,8 @@ public class LoginController {
             if (Integer.valueOf(times) > 5) {
                 //说明超过登录限制
                 utils.close();
-                return "redirect:/login/login.jsp";
+                return JSON.toJSONString(new Message(500, "登录次数过多,请稍后再试", null, null, null));
+//                return "redirect:/login/login.jsp";
             }
         }
         if (verifyPass == null || !(verify.toLowerCase()).equals(verifyPass.toLowerCase())) {
@@ -69,7 +79,8 @@ public class LoginController {
             } else {
                 utils.setAndExpire("1", 60 * 15, true);
             }
-            return "redirect:/login/login.jsp";
+            return JSON.toJSONString(new Message(500, "验证码错误!", null, null, null));
+//            return "redirect:/login/login.jsp";
         }
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username,
@@ -89,16 +100,19 @@ public class LoginController {
             } else {
                 utils.setAndExpire("1", 60 * 15, true);
             }
-            return "redirect:/login/login.jsp";
+            return JSON.toJSONString(new Message(500, "登录异常!" + e.getMessage(), null, null, null));
+//            return "redirect:/login/login.jsp";
             // 说明登陆失败
         }
         if (subject.isAuthenticated()) {
             // 判断是否验证成功
             WebsiteUser user = service.getByUsername(username);
             requests.put("user", user);
-            return "redirect:/login/manager";
+            return JSON.toJSONString(new Message(200, "登录成功!", null, null, null));
+//            return "redirect:/login/manager";
         } else {
-            return "redirect:/login/login.jsp";
+            return JSON.toJSONString(new Message(500, "登录异常!", null, null, null));
+//            return "redirect:/login/login.jsp";
         }
     }
 
