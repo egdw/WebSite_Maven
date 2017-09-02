@@ -149,6 +149,7 @@ public class LoginController {
                 //说明是其他用戶。统一跳转到用户界面
                 WebsiteUser user = service.getByUsername((String) subject
                         .getPrincipal());
+                map.put("user", user);
                 return "/user/user_index";
             }
 

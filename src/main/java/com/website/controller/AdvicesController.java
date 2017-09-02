@@ -28,6 +28,8 @@ import java.util.Date;
 /**
  * Created by hdy on 17-8-18.
  * 留言板控制器
+ * 留言功能取消...
+ * 放弃更新.进行最后维护
  */
 @SuppressWarnings("ALL")
 @RestController

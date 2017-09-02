@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.website.entites.*;
 import com.website.model.Message;
 import com.website.service.*;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Controller
 @RequestMapping("userController")
@@ -325,8 +326,6 @@ public class UserController {
             return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
         }
         WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(userId);
-        System.err.println(websiteUserStatus
-        );
         WebsiteStatus websiteStatus = null;
         if (websiteUserStatus != null) {
             WebsiteStatus status = statusService.selectById(statusId);
@@ -343,7 +342,6 @@ public class UserController {
         } else {
             WebsiteUserStatus status = new WebsiteUserStatus();
             WebsiteStatus status2 = statusService.selectById(statusId);
-            System.err.println(status2);
             if (status2 == null) {
                 return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
             }
@@ -374,5 +372,89 @@ public class UserController {
     public WebsiteUser getIdByName(String name) {
         WebsiteUser websiteUser = service.getByUsername(name);
         return websiteUser;
+    }
+
+    @RequiresAuthentication
+    @RequestMapping(value = "updateUser", method = RequestMethod.PUT)
+    public String updateUser(@RequestParam String name, @RequestParam String email, @RequestParam String phone, String password, HttpSession session) {
+        WebsiteUser user = (WebsiteUser) session.getAttribute("currentUser");
+        user = service.getUserById(user.getUserId());
+        user.setUserName(name);
+        user.setUserEmail(email);
+        user.setUserPhone(phone);
+        if (password.length() >= 6) {
+            user.setLoginPasswd(password);
+        }
+        boolean b = service.updateUser(user);
+        System.out.println("更改用户是否成功"+b);
+        return "redirect:/login/manager";
+    }
+
+
+    /**
+     * 分类查找状态
+     * <p>
+     * <p>
+     * 用于给管理员调用查找未审核的用户
+     *
+     * @return
+     */
+    @RequestMapping(value = "findByRole2", method = RequestMethod.GET)
+    @RequiresRoles("admin")
+    @ResponseBody
+    public String findByStatus2() {
+        ArrayList<WebsiteUserStatus> statuses = userStatusService.selectByStatusId(1l);
+        ArrayList<WebsiteUserRoleStatus> roleStatuses = new ArrayList<WebsiteUserRoleStatus>();
+        for (int i = 0; i < statuses.size(); i++) {
+            WebsiteUserStatus status = statuses.get(i);
+            Long userId = status.getWebsiteUserId();
+            WebsiteUser user = service.getUserById(userId);
+            WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(user.getUserId());
+            WebsiteStatus websiteStatus = null;
+            if (websiteUserStatus != null) {
+                websiteStatus = statusService.selectById(websiteUserStatus.getWebsiteStatusId());
+            } else {
+                websiteStatus = new WebsiteStatus(0l, "审核通过");
+            }
+            WebsiteUserRoleStatus roleStatus = new WebsiteUserRoleStatus(user, null, websiteStatus);
+            roleStatuses.add(roleStatus);
+        }
+        return JSON.toJSONString(roleStatuses);
+    }
+
+    @RequestMapping(value = "updateUserStatus2", method = RequestMethod.PUT)
+    @RequiresRoles("admin")
+    @ResponseBody
+    public String updateUserStatus2(@RequestParam(required = true) Long userId) {
+        long statusId = 4;
+        WebsiteUser userById = service.getUserById(userId);
+        if (userById == null) {
+            return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+        }
+        WebsiteUserStatus websiteUserStatus = userStatusService.selectByUserId(userId);
+        WebsiteStatus websiteStatus = null;
+        if (websiteUserStatus != null) {
+            WebsiteStatus status = statusService.selectById(statusId);
+            if (status == null) {
+                return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            }
+            websiteUserStatus.setWebsiteStatusId(status.getWebsiteStatusId());
+            boolean update = userStatusService.update(websiteUserStatus);
+            if (update) {
+                return JSON.toJSONString(new Message(200, "更新成功", null, null, null));
+            } else {
+                return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            }
+        } else {
+            WebsiteUserStatus status = new WebsiteUserStatus();
+            WebsiteStatus status2 = statusService.selectById(statusId);
+            if (status2 == null) {
+                return JSON.toJSONString(new Message(500, "更新失败", null, null, null));
+            }
+            status.setWebsiteStatusId(status2.getWebsiteStatusId());
+            status.setWebsiteUserId(userById.getUserId());
+            userStatusService.add(status);
+            return JSON.toJSONString(new Message(200, "更新成功", null, null, null));
+        }
     }
 }

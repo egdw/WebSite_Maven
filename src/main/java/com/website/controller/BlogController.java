@@ -12,6 +12,7 @@ import com.website.service.WebSiteCommentService;
 import com.website.utils.RedisUtils;
 import com.website.utils.UUIDUtils;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -291,7 +292,7 @@ public class BlogController {
      */
     @RequestMapping(value = "del", method = RequestMethod.POST)
     @ResponseBody
-    @RequiresRoles("super_admin")
+    @RequiresRoles(value = {"super_admin"})
     public String delBlog(Integer blogId) {
         if (blogId == null) {
             return "error";

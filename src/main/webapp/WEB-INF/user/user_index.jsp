@@ -14,30 +14,34 @@
     <script src="/layui/dist/APlayer.min.js"></script>
     <script src="/js/user_top_js.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 </head>
-<body style="background-color: #c2c2c2" onload="getUserTable()">
-<ul class="layui-nav" lay-filter="" style="width: 100%">
-    <li class="layui-nav-item">
-        <a href="javascript:">功能菜单</a>
-        <dl class="layui-nav-child">
-            <dd><a href="<%=request.getContextPath()%>/">首页</a></dd>
-            <dd><a href="<%=request.getContextPath()%>/blog/">我的博客</a></dd>
-            <dd><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></dd>
-            <dd><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></dd>
-            <dd><a href="<%=request.getContextPath()%>/music">我的音乐</a></dd>
-            <dd><a href="<%=request.getContextPath()%>/image">我的相册</a></dd>
-        </dl>
-    </li>
-    <li class="layui-nav-item">
-        <a href="javascript:">关于</a>
-        <dl class="layui-nav-child">
-            <dd><a href="<%=request.getContextPath()%>/AboutMy/index2.html">关于我</a></dd>
-        </dl>
-    </li>
-    <li class="layui-nav-item">
-        <dd><a href="<%=request.getContextPath()%>/login/logout.do">注销</a></dd>
-    </li>
-</ul>
+<body style="background-color: #c2c2c2" onload="getUserTable();findByStatus()">
+<jsp:include page="/MyBlog_top.jsp"></jsp:include>
+
+<%--<ul class="layui-nav" lay-filter="" style="width: 100%">--%>
+    <%--<li class="layui-nav-item">--%>
+        <%--<a href="javascript:">功能菜单</a>--%>
+        <%--<dl class="layui-nav-child">--%>
+            <%--<dd><a href="<%=request.getContextPath()%>/">首页</a></dd>--%>
+            <%--<dd><a href="<%=request.getContextPath()%>/blog/">我的博客</a></dd>--%>
+            <%--<dd><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></dd>--%>
+            <%--<dd><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></dd>--%>
+            <%--<dd><a href="<%=request.getContextPath()%>/music">我的音乐</a></dd>--%>
+            <%--<dd><a href="<%=request.getContextPath()%>/image">我的相册</a></dd>--%>
+        <%--</dl>--%>
+    <%--</li>--%>
+    <%--<li class="layui-nav-item">--%>
+        <%--<a href="javascript:">关于</a>--%>
+        <%--<dl class="layui-nav-child">--%>
+            <%--<dd><a href="<%=request.getContextPath()%>/AboutMy/index2.html">关于我</a></dd>--%>
+        <%--</dl>--%>
+    <%--</li>--%>
+    <%--<li class="layui-nav-item">--%>
+        <%--<dd><a href="<%=request.getContextPath()%>/login/logout.do">注销</a></dd>--%>
+    <%--</li>--%>
+<%--</ul>--%>
 <fieldset class="layui-elem-field">
     <legend>个人中心</legend>
     <div class="layui-field-box">
@@ -46,9 +50,11 @@
                 <ul class="layui-tab-title">
                     <li class="layui-this">个人信息</li>
                     <li>我的音乐</li>
-                    <li>留言板</li>
-                    <li>设置</li>
-                    <li>管理员管理</li>
+                    <%--<li>留言板</li>--%>
+                    <li>个人设置</li>
+                    <shiro:hasRole name="admin">
+                        <li>管理员管理</li>
+                    </shiro:hasRole>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
@@ -57,12 +63,6 @@
                         </div>
                         <div class="layui-field-box">
                             <blockquote class="layui-elem-quote">用户组:普通用户</blockquote>
-                        </div>
-                        <div class="layui-field-box">
-                            <blockquote class="layui-elem-quote">引用区域的文字</blockquote>
-                        </div>
-                        <div class="layui-field-box">
-                            <blockquote class="layui-elem-quote">引用区域的文字</blockquote>
                         </div>
                     </div>
                     <div class="layui-tab-item">
@@ -80,91 +80,67 @@
                                     onmouseenter="layer.tips('下一首', this)"><i class="layui-icon">&#xe602;</i>
                             </button>
                         </div>
-                        <br>
-                        <br>
-                        <div class="layui-btn-group" style="margin-left: 3px">
-                            <button class="layui-btn" onclick="updateUserTable()">刷新<i class="layui-icon">&#x1002;</i>
-                            </button>
-                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('编辑', this)"><i
-                                    class="layui-icon">&#xe642;</i></button>
-                            <button class="layui-btn" onclick="loadMusicInfoWebSite();"
-                                    onmouseenter="layer.tips('删除', this)"><i
-                                    class="layui-icon">&#xe640;</i></button>
-                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('下载', this)"><i
-                                    class="layui-icon">&#xe601;</i></button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"
-                                    onmouseenter="layer.tips('设置', this)"><i class="layui-icon">&#xe620;</i>
-                            </button>
-                        </div>
+                        <%--<br>--%>
+                        <%--<br>--%>
+                        <%--<div class="layui-btn-group" style="margin-left: 3px">--%>
+                        <%--<button class="layui-btn" onclick="updateUserTable()">刷新<i class="layui-icon">&#x1002;</i>--%>
+                        <%--</button>--%>
+                        <%--<button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('编辑', this)"><i--%>
+                        <%--class="layui-icon">&#xe642;</i></button>--%>
+                        <%--<button class="layui-btn" onclick="loadMusicInfoWebSite();"--%>
+                        <%--onmouseenter="layer.tips('删除', this)"><i--%>
+                        <%--class="layui-icon">&#xe640;</i></button>--%>
+                        <%--<button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('下载', this)"><i--%>
+                        <%--class="layui-icon">&#xe601;</i></button>--%>
+                        <%--<button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"--%>
+                        <%--onmouseenter="layer.tips('设置', this)"><i class="layui-icon">&#xe620;</i>--%>
+                        <%--</button>--%>
+                        <%--</div>--%>
                     </div>
-                    <div class="layui-tab-item">
-                        <form id="advicesForm" method="post">
-                            <textarea id="demo" name="websiteText" style="display: none;"></textarea>
-                            <input type="text" id="verify" name="verfiy" placeholder="请输入以下验证码" required="required">
-                            <img id="image"
-                                 onclick="loadImage()"
-                                 src="/advices/getVeriyImage"/>
-                        </form>
-                        <button id="advicesButton" style="float:right;" class="layui-btn">提交</button>
-                    </div>
+                    <%--<div class="layui-tab-item">--%>
+                    <%--<form id="advicesForm" method="post">--%>
+                    <%--<textarea id="demo" name="websiteText" style="display: none;"></textarea>--%>
+                    <%--<input type="text" id="verify" name="verfiy" placeholder="请输入以下验证码" required="required">--%>
+                    <%--<img id="image"--%>
+                    <%--onclick="loadImage()"--%>
+                    <%--src="/advices/getVeriyImage"/>--%>
+                    <%--</form>--%>
+                    <%--<button id="advicesButton" style="float:right;" class="layui-btn">提交</button>--%>
+                    <%--</div>--%>
                     <div class="layui-tab-item">
 
-                        <form class="layui-form" action="">
+                        <form class="layui-form" action="/userController/updateUser" method="post">
                             <div class="layui-form-item">
-                                <label class="layui-form-label">输入框</label>
+                                <label class="layui-form-label">真实姓名</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题"
+                                    <input type="text" maxlength="4" name="name" required lay-verify="required" placeholder="您的真实姓名"
+                                           autocomplete="off" class="layui-input" value="${requestScope.user.userName}">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">邮箱设置</label>
+                                <div class="layui-input-block">
+                                    <input type="email" maxlength="25" name="email" required lay-verify="required"
+                                           placeholder="更改你在本站设置的邮箱地址"
+                                           autocomplete="off" class="layui-input" value="${requestScope.user.userEmail}">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">手机设置</label>
+                                <div class="layui-input-block">
+                                    <input type="text" minlength="11" maxlength="11" name="phone" required lay-verify="required"
+                                           placeholder="更改你在本站设置的手机号码"
+                                           autocomplete="off" class="layui-input" value="${requestScope.user.userPhone}">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">更改密码</label>
+                                <div class="layui-input-block">
+                                    <input type="password" name="password" placeholder="留空表示不更改密码"
                                            autocomplete="off" class="layui-input">
                                 </div>
                             </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">密码框</label>
-                                <div class="layui-input-inline">
-                                    <input type="password" name="password" required lay-verify="required"
-                                           placeholder="请输入密码" autocomplete="off" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid layui-word-aux">辅助文字</div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">选择框</label>
-                                <div class="layui-input-block">
-                                    <select name="city" lay-verify="required">
-                                        <option value=""></option>
-                                        <option value="0">北京</option>
-                                        <option value="1">上海</option>
-                                        <option value="2">广州</option>
-                                        <option value="3">深圳</option>
-                                        <option value="4">杭州</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">复选框</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" name="like[write]" title="写作">
-                                    <input type="checkbox" name="like[read]" title="阅读" checked>
-                                    <input type="checkbox" name="like[dai]" title="发呆">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">开关</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" name="switch" lay-skin="switch">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">单选框</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="sex" value="男" title="男">
-                                    <input type="radio" name="sex" value="女" title="女" checked>
-                                </div>
-                            </div>
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">文本域</label>
-                                <div class="layui-input-block">
-                                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
-                                </div>
-                            </div>
+                            <input type="hidden" name="_method" value="put"/>
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
                                     <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
@@ -188,9 +164,34 @@
 
                     </div>
 
-                    <div class="layui-tab-item">
-                        这里显示的是管理员管理,普通用户看不见
-                    </div>
+                    <shiro:hasRole name="admin">
+                        <div class="layui-tab-item">
+                            需要审核的用户
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="150">
+                                    <col width="200">
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>昵称</th>
+                                    <th>签名</th>
+                                </tr>
+                                </thead>
+                                <tbody id="userList">
+                                    <%--<tr>--%>
+                                    <%--<td>贤心</td>--%>
+                                    <%--<td>2016-11-29</td>--%>
+                                    <%--</tr>--%>
+                                    <%--<tr>--%>
+                                    <%--<td>许闲心</td>--%>
+                                    <%--<td>2016-11-28</td>--%>
+                                    <%--</tr>--%>
+                                </tbody>
+                            </table>
+                        </div>
+                    </shiro:hasRole>
                 </div>
             </div>
         </div>
@@ -316,6 +317,72 @@
         });
 
     });
+
+    function findByStatus() {
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/userController/findByRole2',
+            data: $('#status_filter').serialize(),
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                $("#userList").html("")
+                $("#userListPagination").html("");
+                $.each(data, function (index, content) {
+                    $("#userList").append("<tr>" +
+                        "<td title='" + content.user.userId + "'>" + content.user.loginAccount + "</td>" +
+                        "<td>" +
+                        "<button class='btn btn-primary btn-xs' onclick='updateStatus(this)'>审核通过</button>" +
+                        "</td></tr>");
+                });
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+
+    function updateStatus(obj) {
+        //获取id
+        var id = $($(obj).parent().parent().children()[0]).attr("title");
+        //获取姓名
+        var name = $(obj).parent().parent().children()[0].innerHTML;
+        swal({
+            title: "您确定要将" + name + "的状态修改为审核通过吗？",
+            text: "您确定要修改这条数据？",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "是的，我要修改",
+            confirmButtonColor: "#ec6c62"
+        }, function () {
+            $.ajax({
+                url: '/userController/updateUserStatus2',
+                type: 'POST', //GET
+                async: true,    //或false,是否异步
+                data: {
+                    userId: id, _method: "PUT"
+                },
+                timeout: 5000,    //超时时间
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data, textStatus, jqXHR) {
+                    if (data.code == 200) {
+                        swal("操作成功!", "已成功更新数据！", "success");
+                        $(obj).parent().parent().remove();
+                    } else {
+                        swal("OMG", "更新操作失败了!", "error");
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    console.log(xhr)
+                    console.log(textStatus)
+
+                    swal("OMG", "更新操作失败了!", "error");
+                }
+            })
+        });
+    }
 
 </script>
 </body>
