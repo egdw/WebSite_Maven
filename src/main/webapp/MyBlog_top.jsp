@@ -67,14 +67,6 @@
                         <li><a href="/blog/type?pageNum=0&typeId=9">其他</a></li>
                     </ul>
                 </li>
-                <shiro:authenticated>
-                    <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
-                </shiro:authenticated>
-                <shiro:notAuthenticated>
-                    <li><a href="<%=request.getContextPath()%>/login/manager">登录</a></li>
-                </shiro:notAuthenticated>
-            </ul>
-            <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown"><a href="#" class="dropdown-toggle"
                                         data-toggle="dropdown" role="button" aria-haspopup="true"
                                         aria-expanded="false">更多内容 <span class="caret"></span></a>
@@ -122,6 +114,12 @@
                         </li>
                     </ul>
                 </li>
+                <shiro:authenticated>
+                    <li><a href="<%=request.getContextPath()%>/login/manager">个人中心</a></li>
+                </shiro:authenticated>
+                <shiro:notAuthenticated>
+                    <li><a href="<%=request.getContextPath()%>/login/manager">登录</a></li>
+                </shiro:notAuthenticated>
             </ul>
             <form class="navbar-form navbar-right" action="blogFind" method="post">
                 <div class="form-group">

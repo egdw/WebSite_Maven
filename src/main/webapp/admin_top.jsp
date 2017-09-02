@@ -50,8 +50,6 @@
                     <ul class="dropdown-menu">
                         <li class=""><a
                                 href="<%=request.getContextPath()%>/login/manager"> 管理首页</a></li>
-                        <li class=""><a
-                                href="<%=request.getContextPath()%>/index.jsp"> 个人主页</a></li>
                         <li class=""><a href="<%=request.getContextPath()%>/blog/"> 博客首页</a></li>
                         <li class=""><a
                                 href="<%=request.getContextPath()%>/manager/manager_person_setting.do"> 个人设置</a></li>

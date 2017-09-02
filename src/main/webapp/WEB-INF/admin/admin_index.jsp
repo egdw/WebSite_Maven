@@ -48,7 +48,7 @@
                     <h3 class="panel-title">用户信息</h3>
                 </div>
                 <ul class="list-group">
-                    <li class="list-group-item"> <b>用户组：</b> 管理员
+                    <li class="list-group-item"><b>用户组：</b> 管理员
                     </li>
                     <li class="list-group-item"><c:if
                             test="${not empty requestScope.user.userEmail}">
@@ -68,8 +68,21 @@
                     </c:if></li>
                 </ul>
             </div>
+
+
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">基础设置</h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"><label>注册审核</label><input id="register_needcheck" type="checkbox"><br>
+                        <label><strong>一旦开启.用户注册之后都需要经过管理员进行审核才能够通过</strong></label>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

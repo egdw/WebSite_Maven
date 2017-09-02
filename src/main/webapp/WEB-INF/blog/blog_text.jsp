@@ -7,14 +7,13 @@
 <head>
     <title>博客文章</title>
 </head>
-
 <body onload="addImageClass()">
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <!-- 下面是举例的文章内容 -->
 <div class="container table_box">
     <!-- <h2 >36</h2> -->
     <h2 style="text-align:left;">
-        <b>${requestScope.blog.title}</b>
+        <b style="font-size:50px;">${requestScope.blog.title}</b>
     </h2>
     <div style="font-size:17px;">
         <i>欢迎访问恶搞大王的博客!</i>
@@ -52,6 +51,60 @@
         ${requestScope.blog.content}</div>
     <!-- 从这里往下是评论区 -->
     <hr style="border: 1px solid silver;">
+    <center>
+        <form id="comment_id" method="post">
+            <fieldset>
+                <input value="${requestScope.blog.id}" type="hidden" name="blogId">
+                <shiro:notAuthenticated>
+                    <div class="form-inline" style="padding-top: 20px">
+                        <div class="input-group form-group  col-lg-offset-1">
+                            <span class="input-group-addon" id="sizing-addon1">* 姓 名：</span>
+                            <input name="username" required maxlength="30" class="form-control" placeholder="请输入你的名称"
+                                   aria-describedby="sizing-addon1" type="text" minlength="2">
+                        </div>
+                    </div>
+                    <div class="form-inline" style="padding-top: 20px">
+                        <div class="input-group form-group  col-lg-offset-1">
+                            <span class="input-group-addon">* 邮 箱：</span>
+                            <input type="email" name="email" required maxlength="30" class="form-control"
+                                   placeholder="请输入你的邮箱"
+                                   aria-describedby="sizing-addon1" type="text" minlength="2">
+                        </div>
+                    </div>
+                </shiro:notAuthenticated>
+                <shiro:authenticated>
+                    <input name="username" required maxlength="30" class="form-control"
+                           aria-describedby="sizing-addon1" type="hidden" minlength="2" value="${sessionScope.currentUser.loginAccount}">
+                    <input name="email" required maxlength="30" class="form-control"
+                           aria-describedby="sizing-addon1" type="hidden" minlength="2" value="${sessionScope.currentUser.userEmail}">
+                </shiro:authenticated>
+                <div class="form-inline" style="padding-top: 20px">
+                    <div class="form-group  col-lg-offset-1">
+                        <textarea id="demo" required name="content" style="display: none;"></textarea>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <div class="input-group form-group  col-lg-offset-1">
+                        <span class="input-group-addon">*验证：</span>
+                        <input name="verify" required maxlength="30" class="form-control" placeholder="请输入验证码"
+                               aria-describedby="sizing-addon1" type="text" minlength="2">
+                    </div>
+                    <img id="verify"
+                         src="/comment/getVeriyImage"
+                         alt="验证码"
+                         onclick="loadImage()">
+                    <button type="button" style="width: 113px;text-align: center"
+                            id="submitBtn" class="btn btn-info" onclick="return false;">评论
+                    </button>
+                </div>
+                <div class="col-lg-offset-1"
+                     style="padding-top: 20px;padding-left: 60px;padding-bottom: 15px">
+
+                </div>
+            </fieldset>
+        </form>
+    </center>
+    <hr style="border: 1px solid silver;">
     <c:if test="${requestScope.comments ==null}">
         <h3>暂无评论</h3>
     </c:if>
@@ -66,9 +119,9 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span class="glyphicon glyphicon-envelope"
                   style="color: gray;width:300px" aria-hidden="true">&nbsp;${index.email}</span>
-            <shiro:hasRole name="super_admin">
+            <shiro:hasAnyRoles name="super_admin,admin">
                 <input type="button" class="delBtn btn btn-default" name="${index.id}" value="删除"/>
-            </shiro:hasRole>
+            </shiro:hasAnyRoles>
             <div style="font-size:16px;padding: 20px 50px 10px 45px;">${index.content}</div>
             <div style="color:gray;float: right">
                 <i>评论于 <fmt:formatDate value="${index.createTime}"
@@ -82,57 +135,6 @@
             document.getElementById("verify").src = "/comment/getVeriyImage?" + Math.random();
         }
     </script>
-    <form id="comment_id" method="post">
-        <fieldset>
-            <input value="${requestScope.blog.id}" type="hidden" name="blogId">
-            <shiro:notAuthenticated>
-                <div class="form-inline" style="padding-top: 20px">
-                    <div class="input-group form-group  col-lg-offset-1">
-                        <span class="input-group-addon" id="sizing-addon1">* 姓 名：</span>
-                        <input name="username" required maxlength="30" class="form-control" placeholder="请输入你的名称"
-                               aria-describedby="sizing-addon1" type="text" minlength="2">
-                    </div>
-                </div>
-                <div class="form-inline" style="padding-top: 20px">
-                    <div class="input-group form-group  col-lg-offset-1">
-                        <span class="input-group-addon">* 邮 箱：</span>
-                        <input type="email" name="email" required maxlength="30" class="form-control"
-                               placeholder="请输入你的邮箱"
-                               aria-describedby="sizing-addon1" type="text" minlength="2">
-                    </div>
-                </div>
-            </shiro:notAuthenticated>
-            <shiro:authenticated>
-                <input name="username" required maxlength="30" class="form-control"
-                       aria-describedby="sizing-addon1" type="hidden" minlength="2" value="${sessionScope.currentUser.loginAccount}">
-                <input name="email" required maxlength="30" class="form-control"
-                       aria-describedby="sizing-addon1" type="hidden" minlength="2" value="${sessionScope.currentUser.userEmail}">
-            </shiro:authenticated>
-            <div class="form-inline" style="padding-top: 20px">
-                <div class="form-group  col-lg-offset-1">
-                    <textarea id="demo" required name="content" style="display: none;"></textarea>
-                </div>
-            </div>
-            <div class="form-inline">
-                <div class="input-group form-group  col-lg-offset-1">
-                    <span class="input-group-addon">*验证：</span>
-                    <input name="verify" required maxlength="30" class="form-control" placeholder="请输入验证码"
-                           aria-describedby="sizing-addon1" type="text" minlength="2">
-                </div>
-                <img id="verify"
-                     src="/comment/getVeriyImage"
-                     alt="验证码"
-                     onclick="loadImage()">
-                <button type="button" style="width: 113px;text-align: center"
-                        id="submitBtn" class="btn btn-info" onclick="return false;">评论
-                </button>
-            </div>
-            <div class="col-lg-offset-1"
-                 style="padding-top: 20px;padding-left: 60px;padding-bottom: 15px">
-
-            </div>
-        </fieldset>
-    </form>
 
     <script type="text/javascript">
 

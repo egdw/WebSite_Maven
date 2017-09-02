@@ -48,6 +48,7 @@
                     <li>我的音乐</li>
                     <li>留言板</li>
                     <li>设置</li>
+                    <li>管理员管理</li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
@@ -112,13 +113,15 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">输入框</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                    <input type="text" name="title" required lay-verify="required" placeholder="请输入标题"
+                                           autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">密码框</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                                    <input type="password" name="password" required lay-verify="required"
+                                           placeholder="请输入密码" autocomplete="off" class="layui-input">
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">辅助文字</div>
                             </div>
@@ -172,17 +175,21 @@
 
                         <script>
                             //Demo
-                            layui.use('form', function(){
+                            layui.use('form', function () {
                                 var form = layui.form;
 
                                 //监听提交
-                                form.on('submit(formDemo)', function(data){
+                                form.on('submit(formDemo)', function (data) {
                                     layer.msg(JSON.stringify(data.field));
                                     return false;
                                 });
                             });
                         </script>
 
+                    </div>
+
+                    <div class="layui-tab-item">
+                        这里显示的是管理员管理,普通用户看不见
                     </div>
                 </div>
             </div>
