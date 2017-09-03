@@ -1,3 +1,4 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head>
@@ -7,7 +8,7 @@
     <script type='text/javascript' src='/blog/banner/js/modernizr.min.js?ver=2.6.1'></script>
     <script type='text/javascript'>
         /* <![CDATA[ */
-        var CSSettings = {"pluginPath": "banner"};
+        var CSSettings = {"pluginPath": "/blog/banner"};
         /* ]]> */
     </script>
     <script type='text/javascript' src='/blog/banner/js/cute.slider.js?ver=2.0.0'></script>

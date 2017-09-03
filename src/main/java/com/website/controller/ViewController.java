@@ -1,16 +1,14 @@
 package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.website.entites.WebsiteAlbum;
-import com.website.entites.WebsiteFunny;
-import com.website.entites.WebsiteTemp;
-import com.website.service.WebSiteAlbumService;
-import com.website.service.WebSiteFunnyService;
-import com.website.service.WebSiteTempService;
+import com.website.entites.*;
+import com.website.service.*;
 import com.website.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
@@ -22,6 +20,7 @@ import java.util.Map;
  * @author hdy
  */
 @Controller
+@RequestMapping("/")
 public class ViewController {
     @Autowired
     private WebSiteFunnyService funnyService;
@@ -31,6 +30,13 @@ public class ViewController {
     private WebSiteAlbumService albumService;
     @Autowired
     private JedisPool jedisPool;
+
+    @Autowired
+    private WebSiteBlogService service;
+    @Autowired
+    private WebSiteCommentService commentService;
+
+    @Autowired
 
     /**
      * 进入趣味网站主页
@@ -100,5 +106,79 @@ public class ViewController {
     @RequestMapping("news")
     public String entryNews() {
         return "/blog/blog_news";
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String index(@RequestParam(required = false) Integer pageNum,
+                        Map<String, Object> map) {
+        if (pageNum == null) {
+            pageNum = 0;
+        }
+        RedisUtils redisUtils = new RedisUtils(jedisPool.getResource(), "index_page_list:" + pageNum);
+        //获取首页的文章
+        ArrayList<WebsiteBlog> list = null;
+        if (redisUtils.exist()) {
+            list = (ArrayList<WebsiteBlog>) JSON.parseArray(redisUtils.get(), WebsiteBlog.class);
+        } else {
+            list = service.selectBlogByNum(pageNum, null);
+            redisUtils.setAndExpire(JSON.toJSONString(list), 60 * 60, false);
+        }
+
+
+        Integer pageCount = service.getPageNum(null);
+        // 从数据库中获取最新的前五张图片
+        ArrayList<WebsiteAlbum> albumbyPage = null;
+        redisUtils.setKey("albumbyPage");
+        if (redisUtils.exist()) {
+            albumbyPage = (ArrayList<WebsiteAlbum>) JSON.parseArray(redisUtils.get(), WebsiteAlbum.class);
+        } else {
+            albumbyPage = albumService.selectAlbumbyPage(0,
+                    10);
+            redisUtils.setAndExpire(JSON.toJSONString(albumbyPage), 60 * 60, false);
+        }
+
+
+        //从数据库获取评论
+        ArrayList<WebsiteComment> comments = null;
+        redisUtils.setKey("index_comments");
+        if (redisUtils.exist()) {
+            comments = (ArrayList<WebsiteComment>) JSON.parseArray(redisUtils.get(), WebsiteComment.class);
+        } else {
+            comments = commentService.getCommentByNum(5);
+            redisUtils.setAndExpire(JSON.toJSONString(comments), 60 * 60, false);
+        }
+
+        //从数据库获取评论数最高的文章
+        ArrayList<WebsiteBlog> selectBlogByNumAndComment = null;
+        redisUtils.setKey("index_blog_top_comment");
+        if (redisUtils.exist()) {
+            selectBlogByNumAndComment = (ArrayList<WebsiteBlog>) JSON.parseArray(redisUtils.get(), WebsiteBlog.class);
+        } else {
+            selectBlogByNumAndComment = service
+                    .selectBlogByNumAndComment(10);
+            redisUtils.setAndExpire(JSON.toJSONString(selectBlogByNumAndComment), 60 * 60, false);
+        }
+
+        //从数据库获取阅读数最高的文章
+        ArrayList<WebsiteBlog> selectBlogByNumAndReader = null;
+        redisUtils.setKey("index_blog_top_reader");
+        if (redisUtils.exist()) {
+            selectBlogByNumAndReader = (ArrayList<WebsiteBlog>) JSON.parseArray(redisUtils.get(), WebsiteBlog.class);
+            redisUtils.close();
+        } else {
+            selectBlogByNumAndReader = service
+                    .selectBlogByNumAndReader(10);
+            redisUtils.set(JSON.toJSONString(selectBlogByNumAndReader), true);
+        }
+
+        map.put("list", list);
+        map.put("pageCount", pageCount);
+        map.put("currentPage", pageNum);
+        map.put("comments", comments);
+        map.put("topComments", selectBlogByNumAndComment);
+        map.put("topReader", selectBlogByNumAndReader);
+        map.put("images", albumbyPage);
+        return "/blog/blog_index";
     }
 }

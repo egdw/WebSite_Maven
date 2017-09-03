@@ -83,8 +83,10 @@ public class LoginController {
 //            return "redirect:/login/login.jsp";
         }
         Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         UsernamePasswordToken token = new UsernamePasswordToken(username,
                 password);
+        token.setRememberMe(true);
         try {
             subject.login(token);
             //如果登录成功,就删除所有的登录失败记录

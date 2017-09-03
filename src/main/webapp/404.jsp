@@ -10,10 +10,10 @@
 <body>
 <div class="wrap">
 	<div class="banner">
-		<a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/css/404/images/banner.png" alt="" /></a>
+		<a href="<%=request.getContextPath()%>/index2.jsp"><img src="<%=request.getContextPath()%>/css/404/images/banner.png" alt="" /></a>
 	</div>
 	<div class="page">
-		<h2>对不起!网站丢了!<a href="<%=request.getContextPath()%>/index.jsp">返回主页</a></h2>
+		<h2>对不起!网站丢了!<a href="<%=request.getContextPath()%>/index2.jsp">返回主页</a></h2>
 	</div>
 </div>
 </body>

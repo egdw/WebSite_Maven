@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import com.sun.media.sound.SoftTuning;
 import com.website.entites.*;
 import com.website.model.InitModel;
 import com.website.service.*;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -20,8 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AuthUsernameAndPasswordRealm extends AuthorizingRealm {
     @Autowired
     private WebSiteUserService userService;
-    @Autowired
-    private HttpSession session;
     @Autowired
     private WebSiteUserRoleService roleUserService;
     @Autowired
@@ -71,9 +71,12 @@ public class AuthUsernameAndPasswordRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(
             AuthenticationToken arg0) throws AuthenticationException {
         String principal = (String) arg0.getPrincipal();
+        System.err.println(principal);
         String credentials = new String((char[]) arg0.getCredentials());
+        System.out.println(credentials);
         WebsiteUser user = userService.loginByUsernamePasswd(principal,
                 credentials);
+        System.out.println(user.getLoginAccount() +" "+user.getLoginPasswd());
         WebsiteUserStatus status = userStatusService.selectByUserId(user.getUserId());
         if (status == null) {
             status = new WebsiteUserStatus();
@@ -84,16 +87,19 @@ public class AuthUsernameAndPasswordRealm extends AuthorizingRealm {
         Long statusId = status.getWebsiteStatusId();
         if (statusId == 1) {
             //待审核
+            System.out.println("待审核");
             throw new AuthenticationException("您还未通过管理员审核");
         } else if (statusId == 2) {
             //禁止登录
+            System.out.println("禁止登录");
             throw new AuthenticationException("您已被禁止登录");
         }
         if (user != null) {
-            session.setAttribute("currentUser", user);
+            SecurityUtils.getSubject().getSession().setAttribute("currentUser", user);
             return new SimpleAuthenticationInfo(principal, credentials,
                     getName());
         } else {
+            System.out.println("用户密码错误");
             throw new AuthenticationException("用户名或密码错误");
         }
     }

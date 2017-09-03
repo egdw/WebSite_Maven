@@ -128,6 +128,8 @@
         <constructor-arg index="3" value="60000" type="int"/>
     </bean>
 
+    <bean id="rememberAuthFilter" class="com.website.interceptor.RememberAuthenticationFilter"></bean>
+
     <!-- shiro过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -183,7 +185,7 @@
                 /ckeditor/** = anon
                 /ckfinder/** = anon
                 /chat/size = anon
-                /** = authc
+                /** = rememberAuthFilter
             </value>
         </property>
     </bean>

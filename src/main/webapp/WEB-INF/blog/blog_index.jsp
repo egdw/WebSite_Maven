@@ -15,7 +15,7 @@
 <div class="col-md-9">
     <div class="row-md-1">
         <div id="bannerDiv">
-            <%@include file="/banner.html" %>
+            <%@include file="/banner.jsp" %>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">

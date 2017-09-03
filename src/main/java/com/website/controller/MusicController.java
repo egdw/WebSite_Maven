@@ -12,6 +12,7 @@ import com.website.utils.NeteaseMusicUtils;
 import com.website.utils.Netease_AES;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -324,7 +325,8 @@ public class MusicController {
      *
      * @return
      */
-    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
+//    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
+    @RequiresUser
     @RequestMapping(value = "/getSongsTable", method = RequestMethod.GET)
     @ResponseBody
     public String getUserSongsTable(Integer page, HttpSession session) {
@@ -371,7 +373,8 @@ public class MusicController {
      *
      * @return
      */
-    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
+//    @RequiresRoles(value = {"super_admin", "admin", "normal", "ban_say"}, logical = Logical.OR)
+    @RequiresUser
     @RequestMapping(value = "addUserSongsTable", method = RequestMethod.POST)
     @ResponseBody
     public String addUserSongsTable(@RequestParam(required = true) String param, HttpSession session) {

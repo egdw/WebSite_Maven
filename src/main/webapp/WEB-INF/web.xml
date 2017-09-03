@@ -7,7 +7,6 @@
         <error-code>404</error-code>
         <location>/404.jsp</location>
     </error-page>
-
     <context-param>
         <param-name>log4jConfigLocation</param-name>
         <param-value>classpath:log4j.properties</param-value>
@@ -94,10 +93,22 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>springMVC</servlet-name>-->
+        <!--<url-pattern>/blog</url-pattern>-->
+    <!--</servlet-mapping>-->
+
     <servlet-mapping>
         <servlet-name>springMVC</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>blog</welcome-file>-->
+    <!--</welcome-file-list>-->
+
+
     <!-- ckfinder文件上传配置 start -->
     <servlet>
         <servlet-name>ConnectorServlet</servlet-name>
