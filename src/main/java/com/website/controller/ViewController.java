@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.website.entites.*;
 import com.website.service.*;
 import com.website.utils.RedisUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import redis.clients.jedis.JedisPool;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -30,7 +36,8 @@ public class ViewController {
     private WebSiteAlbumService albumService;
     @Autowired
     private JedisPool jedisPool;
-
+    @Autowired
+    private WebSiteUserService userService;
     @Autowired
     private WebSiteBlogService service;
     @Autowired
@@ -112,6 +119,7 @@ public class ViewController {
     @RequestMapping(method = RequestMethod.GET)
     public String index(@RequestParam(required = false) Integer pageNum,
                         Map<String, Object> map) {
+        isAccessAllowed();
         if (pageNum == null) {
             pageNum = 0;
         }
@@ -180,5 +188,36 @@ public class ViewController {
         map.put("topReader", selectBlogByNumAndReader);
         map.put("images", albumbyPage);
         return "/blog/blog_index";
+    }
+
+
+    /**
+     * 进入首页时判断是否已经是记住密码了.
+     * @return
+     */
+    public void isAccessAllowed() {
+        Subject subject = SecurityUtils.getSubject();
+        //如果 isAuthenticated 为 false 证明不是登录过的，同时 isRememberd 为true 证明是没登陆直接通过记住我功能进来的
+        if (!subject.isAuthenticated() && subject.isRemembered()) {
+            //获取session看看是不是空的
+            Session session = subject.getSession(true);
+            //随便拿session的一个属性来看session当前是否是空的，我用userId，你们的项目可以自行发挥
+            if (session.getAttribute("currentUser") == null || !subject.isAuthenticated()) {
+                //如果是空的才初始化，否则每次都要初始化，项目得慢死
+                //这边根据前面的前提假设，拿到的是username
+                String username = subject.getPrincipal().toString();
+                //在这个方法里面做初始化用户上下文的事情，比如通过查询数据库来设置session值，你们自己发挥
+                WebsiteUser user = userService.getByUsername(username);
+                subject.logout();
+                UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginAccount(),
+                        user.getLoginPasswd());
+                token.setRememberMe(true);
+                try {
+                    SecurityUtils.getSubject().login(token);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

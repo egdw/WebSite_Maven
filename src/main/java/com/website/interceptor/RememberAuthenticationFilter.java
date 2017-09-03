@@ -30,7 +30,6 @@ public class RememberAuthenticationFilter extends FormAuthenticationFilter {
         Subject subject = getSubject(request, response);
         //如果 isAuthenticated 为 false 证明不是登录过的，同时 isRememberd 为true 证明是没登陆直接通过记住我功能进来的
         if (!subject.isAuthenticated() && subject.isRemembered()) {
-            System.out.println("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
             //获取session看看是不是空的
             Session session = subject.getSession(true);
             //随便拿session的一个属性来看session当前是否是空的，我用userId，你们的项目可以自行发挥
@@ -46,10 +45,7 @@ public class RememberAuthenticationFilter extends FormAuthenticationFilter {
                         user.getLoginPasswd());
                 token.setRememberMe(true);
                 try {
-                    System.out.println(user.getLoginAccount() + " " + user.getLoginPasswd());
-//                    SecurityUtils.getSubject().logout();
                     SecurityUtils.getSubject().login(token);
-                    System.out.println("登录成功");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
