@@ -45,7 +45,7 @@
                 <div class="tab-pane fade active in" id="newid">
                     <a name="#adminid"></a>
                     <div class="projects_list">
-                        <table border="1">
+                        <table border="1" class="table table-bordered">
                             <th>项目编号</th>
                             <th>项目标题</th>
                             <th>项目内容</th>
@@ -71,24 +71,26 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                        <div class="page-nav">
-                            <nav>
-                                <ul class="pagination">
-                                    <c:forEach var="i" begin="1" end="${requestScope.allNum}">
-                                        <c:if test="${i==pageNum}">
-                                            <li class="active"><a
-                                                    href="<%=request.getContextPath()%>/manager/manager_project_manager.do?pageNum=${i-1}">${i}</a>
-                                            </li>
-                                        </c:if>
-                                        <c:if test="${i!=pageNum}">
-                                            <li><a
-                                                    href="<%=request.getContextPath()%>/manager/manager_project_manager.do?pageNum=${i-1}">${i}</a>
-                                            </li>
-                                        </c:if>
-                                    </c:forEach>
-                                </ul>
-                            </nav>
-                        </div>
+                        <center>
+                            <div class="page-nav">
+                                <nav>
+                                    <ul class="pagination">
+                                        <c:forEach var="i" begin="1" end="${requestScope.allNum}">
+                                            <c:if test="${i==pageNum}">
+                                                <li class="active"><a
+                                                        href="<%=request.getContextPath()%>/manager/manager_project_manager.do?pageNum=${i-1}">${i}</a>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${i!=pageNum}">
+                                                <li><a
+                                                        href="<%=request.getContextPath()%>/manager/manager_project_manager.do?pageNum=${i-1}">${i}</a>
+                                                </li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </center>
                     </div>
                 </div>
                 <!-- END PAGE1 -->

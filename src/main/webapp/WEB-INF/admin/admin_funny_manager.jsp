@@ -53,7 +53,7 @@
                        class="btn btn-info btn-sm">添加</a><br/>
                     <a name="#adminid"></a>
                     <div class="projects_list">
-                        <table border="1">
+                        <table border="1" class="table table-bordered">
                             <th>项目编号</th>
                             <th>项目标题</th>
                             <th>项目内容</th>

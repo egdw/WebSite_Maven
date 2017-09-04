@@ -39,7 +39,6 @@ public class RememberAuthenticationFilter extends FormAuthenticationFilter {
                 String username = subject.getPrincipal().toString();
                 //在这个方法里面做初始化用户上下文的事情，比如通过查询数据库来设置session值，你们自己发挥
                 WebsiteUser user = service.getByUsername(username);
-//                session.setAttribute("currentUser", user);
                 subject.logout();
                 UsernamePasswordToken token = new UsernamePasswordToken(user.getLoginAccount(),
                         user.getLoginPasswd());
