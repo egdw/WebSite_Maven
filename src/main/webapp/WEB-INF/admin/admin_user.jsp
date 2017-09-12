@@ -36,6 +36,8 @@
                             href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li class="active"><a
                             href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_banner.do"> Banner管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_friend_link.do"> 友情链接管理</a></li>
 
                 </ul>
             </div>

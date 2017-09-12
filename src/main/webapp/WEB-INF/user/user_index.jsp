@@ -20,37 +20,14 @@
 <body style="background-color: #c2c2c2" onload="getUserTable();findByStatus()">
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 
-<%--<ul class="layui-nav" lay-filter="" style="width: 100%">--%>
-    <%--<li class="layui-nav-item">--%>
-        <%--<a href="javascript:">功能菜单</a>--%>
-        <%--<dl class="layui-nav-child">--%>
-            <%--<dd><a href="<%=request.getContextPath()%>/">首页</a></dd>--%>
-            <%--<dd><a href="<%=request.getContextPath()%>/blog/">我的博客</a></dd>--%>
-            <%--<dd><a href="<%=request.getContextPath()%>/funnyView.do">趣味网页</a></dd>--%>
-            <%--<dd><a href="<%=request.getContextPath()%>/tempView.do">临时网页</a></dd>--%>
-            <%--<dd><a href="<%=request.getContextPath()%>/music">我的音乐</a></dd>--%>
-            <%--<dd><a href="<%=request.getContextPath()%>/image">我的相册</a></dd>--%>
-        <%--</dl>--%>
-    <%--</li>--%>
-    <%--<li class="layui-nav-item">--%>
-        <%--<a href="javascript:">关于</a>--%>
-        <%--<dl class="layui-nav-child">--%>
-            <%--<dd><a href="<%=request.getContextPath()%>/AboutMy/index2.html">关于我</a></dd>--%>
-        <%--</dl>--%>
-    <%--</li>--%>
-    <%--<li class="layui-nav-item">--%>
-        <%--<dd><a href="<%=request.getContextPath()%>/login/logout.do">注销</a></dd>--%>
-    <%--</li>--%>
-<%--</ul>--%>
 <fieldset class="layui-elem-field">
-    <legend>个人中心</legend>
+    <legend>个人中心<a href="/login/logout.do" style="color: red">注销</a></legend>
     <div class="layui-field-box">
         <div id="right_page" style="float: left">
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                 <ul class="layui-tab-title">
                     <li class="layui-this">个人信息</li>
                     <li>我的音乐</li>
-                    <%--<li>留言板</li>--%>
                     <li>个人设置</li>
                     <shiro:hasRole name="admin">
                         <li>管理员管理</li>
@@ -80,40 +57,15 @@
                                     onmouseenter="layer.tips('下一首', this)"><i class="layui-icon">&#xe602;</i>
                             </button>
                         </div>
-                        <%--<br>--%>
-                        <%--<br>--%>
-                        <%--<div class="layui-btn-group" style="margin-left: 3px">--%>
-                        <%--<button class="layui-btn" onclick="updateUserTable()">刷新<i class="layui-icon">&#x1002;</i>--%>
-                        <%--</button>--%>
-                        <%--<button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('编辑', this)"><i--%>
-                        <%--class="layui-icon">&#xe642;</i></button>--%>
-                        <%--<button class="layui-btn" onclick="loadMusicInfoWebSite();"--%>
-                        <%--onmouseenter="layer.tips('删除', this)"><i--%>
-                        <%--class="layui-icon">&#xe640;</i></button>--%>
-                        <%--<button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('下载', this)"><i--%>
-                        <%--class="layui-icon">&#xe601;</i></button>--%>
-                        <%--<button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"--%>
-                        <%--onmouseenter="layer.tips('设置', this)"><i class="layui-icon">&#xe620;</i>--%>
-                        <%--</button>--%>
-                        <%--</div>--%>
                     </div>
-                    <%--<div class="layui-tab-item">--%>
-                    <%--<form id="advicesForm" method="post">--%>
-                    <%--<textarea id="demo" name="websiteText" style="display: none;"></textarea>--%>
-                    <%--<input type="text" id="verify" name="verfiy" placeholder="请输入以下验证码" required="required">--%>
-                    <%--<img id="image"--%>
-                    <%--onclick="loadImage()"--%>
-                    <%--src="/advices/getVeriyImage"/>--%>
-                    <%--</form>--%>
-                    <%--<button id="advicesButton" style="float:right;" class="layui-btn">提交</button>--%>
-                    <%--</div>--%>
                     <div class="layui-tab-item">
 
                         <form class="layui-form" action="/userController/updateUser" method="post">
                             <div class="layui-form-item">
                                 <label class="layui-form-label">真实姓名</label>
                                 <div class="layui-input-block">
-                                    <input type="text" maxlength="4" name="name" required lay-verify="required" placeholder="您的真实姓名"
+                                    <input type="text" maxlength="4" name="name" required lay-verify="required"
+                                           placeholder="您的真实姓名"
                                            autocomplete="off" class="layui-input" value="${requestScope.user.userName}">
                                 </div>
                             </div>
@@ -122,15 +74,18 @@
                                 <div class="layui-input-block">
                                     <input type="email" maxlength="25" name="email" required lay-verify="required"
                                            placeholder="更改你在本站设置的邮箱地址"
-                                           autocomplete="off" class="layui-input" value="${requestScope.user.userEmail}">
+                                           autocomplete="off" class="layui-input"
+                                           value="${requestScope.user.userEmail}">
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">手机设置</label>
                                 <div class="layui-input-block">
-                                    <input type="text" minlength="11" maxlength="11" name="phone" required lay-verify="required"
+                                    <input type="text" minlength="11" maxlength="11" name="phone" required
+                                           lay-verify="required"
                                            placeholder="更改你在本站设置的手机号码"
-                                           autocomplete="off" class="layui-input" value="${requestScope.user.userPhone}">
+                                           autocomplete="off" class="layui-input"
+                                           value="${requestScope.user.userPhone}">
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -180,14 +135,6 @@
                                 </tr>
                                 </thead>
                                 <tbody id="userList">
-                                    <%--<tr>--%>
-                                    <%--<td>贤心</td>--%>
-                                    <%--<td>2016-11-29</td>--%>
-                                    <%--</tr>--%>
-                                    <%--<tr>--%>
-                                    <%--<td>许闲心</td>--%>
-                                    <%--<td>2016-11-28</td>--%>
-                                    <%--</tr>--%>
                                 </tbody>
                             </table>
                         </div>

@@ -10,6 +10,8 @@
     <meta http-equiv="charset" content="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
 <div class="container bs-docs-container">
@@ -31,6 +33,8 @@
                     <li class="active"><a
                             href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li><a href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_banner.do"> Banner管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_friend_link.do"> 友情链接管理</a></li>
 
                 </ul>
             </div>
@@ -231,7 +235,8 @@
                                     <br>
                                     <div>
                                         <label style="font-size: 15px">描述:</label>
-                                        <textarea name="description" id="description" cols="20" rows="5" maxlength="183"></textarea>
+                                        <textarea name="description" id="description" cols="20" rows="5"
+                                                  maxlength="183"></textarea>
                                     </div>
                                     <div style="padding-top: 5px">
                                         <label style="font-size: 15px">分类:</label> <select
@@ -311,7 +316,7 @@
                                         <label style="font-size: 15px">分类:</label> <select
                                             name="type" id="blog.type" class="form-control"
                                             style="font-size:15px;width:250px;display: inline">
-                             w           <option value="0">学习</option>
+                                        <option value="0">学习</option>
                                         <option value="1">生活</option>
                                         <option value="2">随笔</option>
                                     </select>
@@ -332,191 +337,196 @@
                                                     basePath="/ckeditor"></ck:replace>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal" id="blog_update_btn"
-                                            onclick="updateBlog()">更新
-                                    </button>
-                                    <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">了解
-                                    </button>
-                                </div>
                             </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal"
+                                        onclick="updateBlog()">更新
+                                </button>
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">了解
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- 隐藏窗体结束 -->
-                <script type="text/javascript"
-                        src="<%=request.getContextPath()%>/ckeditor/ckeditor.js"></script>
-                <script type="text/javascript"
-                        src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
-                <script
-                        src="<%=request.getContextPath()%>/css/MyBlog_files/lightbox.js"></script>
-                <script src="<%=request.getContextPath()%>/js/ajaxfileupload.js"></script>
-                <script type="text/javascript">
-                    //临时存放需要删除的文章ID号
-                    var delIdTemp;
-                    //临时存放删除的文章ID号所在的表中的位置.
-                    var delTableTemp;
-                    function clickDel(x, y, index) {
-                        delIdTemp = x;
-                        delTableTemp = y + 1;
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 隐藏窗体结束 -->
+<script type="text/javascript"
+        src="<%=request.getContextPath()%>/ckeditor/ckeditor.js"></script>
+<script type="text/javascript"
+        src="<%=request.getContextPath()%>/ckfinder/ckfinder.js"></script>
+<script
+        src="<%=request.getContextPath()%>/css/MyBlog_files/lightbox.js"></script>
+<script src="<%=request.getContextPath()%>/js/ajaxfileupload.js"></script>
+<script type="text/javascript">
+    //临时存放需要删除的文章ID号
+    var delIdTemp;
+    //临时存放删除的文章ID号所在的表中的位置.
+    var delTableTemp;
+    function clickDel(x, y, index) {
+        delIdTemp = x;
+        delTableTemp = y + 1;
+    }
+
+    function delPage() {
+        $.ajax({
+            type: 'post',
+            url: '<%=request.getContextPath()%>/blog/del?blogId=' + delIdTemp,
+            data: {blogId: delIdTemp},
+            dataType: 'text',
+            success: function (data) {
+                if (data == 'success') {
+                    document.getElementById("blog-table").deleteRow(delTableTemp);
+                    var rowsCount = document.getElementById("blog-table").rows.length;
+                    for (var z = 1; z < rowsCount; z++) {
+                        document.getElementById("blog-table").rows[z].cells[0].innerText = (z);
                     }
+                    alert("删除成功");
+                } else {
+                    swal("删除成功!", "删除项目成功", "success");
+                }
+            },
+            error: function (e) {
+                swal("删除成功!", "删除项目成功", "success");
+            }
+        });
+    }
 
-                    function delPage() {
-                        $.ajax({
-                            type: 'post',
-                            url: '<%=request.getContextPath()%>/blog/del?blogId=' + delIdTemp,
-                            data: {blogId: delIdTemp},
-                            dataType: 'text',
-                            success: function (data) {
-                                if (data == 'success') {
-                                    document.getElementById("blog-table").deleteRow(delTableTemp);
-                                    var rowsCount = document.getElementById("blog-table").rows.length;
-                                    for (var z = 1; z < rowsCount; z++) {
-                                        document.getElementById("blog-table").rows[z].cells[0].innerText = (z);
-                                    }
-                                    alert("删除成功");
-                                } else {
-                                    alert('删除失败');
-                                }
-                            },
-                            error: function (e) {
-                                alert("删除失败");
-                            }
-                        });
+    //更新博客
+    function updateBlog() {
+        var v = CKEDITOR.instances.update_content.getData();
+        console.log(v)
+        $("#update_content").val(v);
+        $.ajax({
+            type: 'post',
+            url: '<%=request.getContextPath()%>/blog/update',
+            data: $('#update_blog_form').serialize(),
+            cache: false,
+            success: function (data) {
+                if (data = 'success') {
+                    swal("更新成功", "更新文章成功", "success");
+//                    window.location.reload();
+                } else {
+                    swal("更新失败", "更新文章失败", "error");
+                }
+            },
+            error: function (e) {
+                console.log(e)
+//                window.location.reload();
+            }
+        });
+    }
+
+    //编辑-查看信息
+    function editInfo(obj) {
+        var id = $(obj).attr("name");
+        //获取表格中的一行数据
+        var id_db = document.getElementById("blog-table").rows[id].cells[3].innerText;
+        //向模态框中传值
+        $('#id').val(id_db);
+        $.ajax({
+            type: 'get',
+            url: '<%=request.getContextPath()%>/blog/get?id=' + id_db,
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#title').val(data.title);
+                $('#type').val(data.type);
+                //放入img的src
+                $('#blog_update_image').attr('src', '/' + data.picUrl);
+                $('#update_blog_image').val(data.picUrl);
+                CKEDITOR.instances.update_content.setData(data.content);
+            },
+        });
+        $('#update-blog-modal').modal('show');
+    }
+
+    $(document).ready(function () {
+        $("#upload").click(function () {
+            upload();
+        });
+
+        $("#addBlogBtn").click(function () {
+            addBlog();
+        });
+    });
+
+    function addBlog() {
+        var v = CKEDITOR.instances.addBlogInput.getData();
+        $("#addBlogInput").val(v);
+        $.ajax({
+            type: 'post',
+            url: '<%=request.getContextPath()%>/blog/add',
+            data: $("#addBlogForm").serialize(),
+            success: function (data) {
+                if (data == 'success') {
+                    $("#addBlogBtnCancle").click();
+                    swal("提交成功!", "提交文章成功", "success");
+                } else {
+                    $("#addBlogBtnCancle").click();
+                    swal("提交失败!", "提交文章失败", "error");
+                }
+            },
+            error: function (e) {
+                $("#addBlogBtnCancle").click();
+                swal("提交失败!", "提交文章失败", "error");
+            }
+        });
+    }
+
+    //上传图片专用
+    function uploadImage() {
+        $.ajaxFileUpload(
+            {
+                url: '<%=request.getContextPath()%>/blog/imageUpload',
+                secureuri: false,
+                fileElementId: 'imageFile2',
+                dataType: 'text',
+                success: function (data) {
+                    var obj = eval(data);
+                    if (obj != 'null') {
+                        $('#displayImg').attr("src", "/" + obj);
+                        $('#pictureSrc').attr("value", obj);
+                    } else {
+                        $('#displayImg').attr("src", "");
+                        $('#pictureSrc').attr("value", "");
+                        swal("上传失败!", "上传图片失败", "error");
                     }
+                },
+                error: function (data, status, e) {
+                    swal("上传失败!", "上传图片失败", "error");
+                }
+            }
+        );
+    }
 
-                    //更新博客
-                    function updateBlog() {
-                        var v = CKEDITOR.instances.update_content.getData();
-                        $("#update_content").val(v);
-                        $.ajax({
-                            type: 'post',
-                            url: '<%=request.getContextPath()%>/blog/update',
-                            data: $('#update_blog_form').serialize(),
-                            cache: false,
-                            dataType: 'json',
-                            success: function (data) {
-                                if (data = 'success') {
-                                    alert('更新成功');
-                                    window.location.reload();
-                                } else {
-                                    alert('更新失败');
-                                }
-                            },
-                            error: function (e) {
-                                window.location.reload();
-                            }
-                        });
+    function upload() {
+        $.ajaxFileUpload(
+            {
+                url: '<%=request.getContextPath()%>/blog/imageUpload',
+                secureuri: false,
+                fileElementId: 'imageFile',
+                dataType: 'text',
+                success: function (data) {
+                    if (data != 'null') {
+                        $('#displayImg').attr("src", "/" + data);
+                        $('#pictureSrc').attr("value", data);
+                    } else {
+                        $('#displayImg').attr("src", "");
+                        $('#pictureSrc').attr("value", "");
+                        swal("上传失败!", "上传失败", "error");
                     }
-
-                    //编辑-查看信息
-                    function editInfo(obj) {
-                        var id = $(obj).attr("name");
-                        //获取表格中的一行数据
-                        var id_db = document.getElementById("blog-table").rows[id].cells[3].innerText;
-                        //向模态框中传值
-                        $('#id').val(id_db);
-                        $.ajax({
-                            type: 'get',
-                            url: '<%=request.getContextPath()%>/blog/get?id=' + id_db,
-                            cache: false,
-                            dataType: 'json',
-                            success: function (data) {
-                                $('#title').val(data.title);
-                                $('#type').val(data.type);
-                                //放入img的src
-                                $('#blog_update_image').attr('src', '/' + data.picUrl);
-                                $('#update_blog_image').val(data.picUrl);
-                                CKEDITOR.instances.update_content.setData(data.content);
-                            },
-                        });
-                        $('#update-blog-modal').modal('show');
-                    }
-
-                    $(document).ready(function () {
-                        $("#upload").click(function () {
-                            upload();
-                        });
-
-                        $("#addBlogBtn").click(function () {
-                            addBlog();
-                        });
-                    });
-
-                    function addBlog() {
-                        var v = CKEDITOR.instances.addBlogInput.getData();
-                        $("#addBlogInput").val(v);
-                        $.ajax({
-                            type: 'post',
-                            url: '<%=request.getContextPath()%>/blog/add',
-                            data: $("#addBlogForm").serialize(),
-                            success: function (data) {
-                                if (data == 'success') {
-                                    $("#addBlogBtnCancle").click();
-                                    alert("提交成功");
-                                } else {
-                                    $("#addBlogBtnCancle").click();
-                                    alert("提交出错");
-                                }
-                            },
-                            error: function (e) {
-                                $("#addBlogBtnCancle").click();
-                                alert("提交出错");
-                            }
-                        });
-                    }
-
-                    //上传图片专用
-                    function uploadImage() {
-                        $.ajaxFileUpload(
-                            {
-                                url: '<%=request.getContextPath()%>/blog/imageUpload',
-                                secureuri: false,
-                                fileElementId: 'imageFile2',
-                                dataType: 'text',
-                                success: function (data) {
-                                    var obj = eval(data);
-                                    if (obj != 'null') {
-                                        $('#displayImg').attr("src", "/" + obj);
-                                        $('#pictureSrc').attr("value", obj);
-                                    } else {
-                                        $('#displayImg').attr("src", "");
-                                        $('#pictureSrc').attr("value", "");
-                                        alert("上传失败" + obj);
-                                    }
-                                },
-                                error: function (data, status, e) {
-                                    alert("上传失败");
-                                }
-                            }
-                        );
-                    }
-
-                    function upload() {
-                        $.ajaxFileUpload(
-                            {
-                                url: '<%=request.getContextPath()%>/blog/imageUpload',
-                                secureuri: false,
-                                fileElementId: 'imageFile',
-                                dataType: 'text',
-                                success: function (data) {
-                                    if (data != 'null') {
-                                        $('#displayImg').attr("src", "/" + data);
-                                        $('#pictureSrc').attr("value", data);
-                                    } else {
-                                        $('#displayImg').attr("src", "");
-                                        $('#pictureSrc').attr("value", "");
-                                        alert("上传失败" + data);
-                                    }
-                                },
-                                error: function (data, status, e) {
-                                    alert("上传失败");
-                                }
-                            }
-                        );
-                    }
-                </script>
+                },
+                error: function (data, status, e) {
+                    swal("上传失败!", "上传失败", "error");
+                }
+            }
+        );
+    }
+</script>
 </body>
 </html>

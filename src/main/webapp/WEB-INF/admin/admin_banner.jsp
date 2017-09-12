@@ -4,6 +4,8 @@
 <head>
     <title>Banner管理</title>
 </head>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
 <script src="/css/MyBlog_files/lightbox.js"></script>
@@ -28,7 +30,8 @@
                             href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li class="active"><a
                             href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
-
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_banner.do"> Banner管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_friend_link.do"> 友情链接管理</a></li>
                 </ul>
             </div>
         </div>
@@ -258,14 +261,15 @@
                             dataType: 'json',
                             success: function (data) {
                                 if (data.code == 200) {
-                                    alert("更新成功");
+                                    swal("OMG", "更新成功!", "success");
+                                    parent.location.reload();
                                 } else {
-                                    alert("更新失败");
+                                    swal("OMG", "更新失败!", "error");
                                 }
                                 $("#updateBlogBtnCancle").click();
                             },
                             error: function (e) {
-                                console.log("更新失败");
+                                swal("OMG", "更新失败!", "error");
                             }
                         });
                     }
@@ -283,13 +287,13 @@
                                     for (var z = 1; z < rowsCount; z++) {
                                         document.getElementById("blog-table").rows[z].cells[0].innerText = (z);
                                     }
-                                    alert("删除成功");
+                                    swal("OMG", "删除成功!", "success");
                                 } else {
-                                    alert('删除失败');
+                                    swal("OMG", "删除失败!", "error");
                                 }
                             },
                             error: function () {
-                                alert("删除失败");
+                                swal("OMG", "删除失败!", "error");
                             }
                         });
                     }
@@ -342,16 +346,16 @@
                                 var obj = eval("(" + data + ")");
                                 if (obj.code == 200) {
                                     $("#addBlogBtnCancle").click();
-                                    alert("提交成功");
-//                                    window.location.reload();
+                                    swal("OMG", "提交成功!", "success");
+                                    window.location.reload();
                                 } else {
                                     $("#addBlogBtnCancle").click();
-                                    alert("提交出错");
+                                    swal("OMG", "提交出错!", "error");
                                 }
                             },
                             error: function (e) {
                                 $("#addBlogBtnCancle").click();
-                                alert("提交出错");
+                                swal("OMG", "提交出错!", "error");
                             }
                         });
                     }
@@ -370,11 +374,11 @@
                                     } else {
                                         $('#displayImg').attr("src", "");
                                         $('#pictureSrc').attr("value", "");
-                                        alert("上传失败" + data);
+                                        swal("OMG", "上传失败!", "error");
                                     }
                                 },
                                 error: function (data, status, e) {
-                                    alert("上传失败");
+                                    swal("OMG", "上传失败!", "error");
                                 }
                             }
                         );
@@ -394,11 +398,11 @@
                                     } else {
                                         $('#blog_update_image').attr("src", "");
                                         $('#update_blog_image').attr("value", "");
-                                        alert("上传失败" + data);
+                                        swal("OMG", "上传失败!", "error");
                                     }
                                 },
                                 error: function (data, status, e) {
-                                    alert("上传失败");
+                                    swal("OMG", "上传失败!", "error");
                                 }
                             }
                         );

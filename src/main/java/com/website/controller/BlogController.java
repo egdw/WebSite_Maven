@@ -328,9 +328,12 @@ public class BlogController {
         record.setType(type.byteValue());
         record.setContent(content);
         record.setDescription(description);
+        System.out.println(record);
         boolean b = service.update(record);
-        if (b)
+        if (b) {
+            System.out.println(service.getBlogById(id));
             return "success";
+        }
         return "error";
     }
 

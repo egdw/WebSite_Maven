@@ -10,6 +10,8 @@
     <meta http-equiv="charset" content="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
 <div class="container bs-docs-container">
@@ -32,7 +34,8 @@
                             href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li class="active"><a
                             href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
-
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_banner.do"> Banner管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_friend_link.do"> 友情链接管理</a></li>
                 </ul>
             </div>
         </div>
@@ -40,13 +43,10 @@
             <div class="col-md-9" role="main">
                 <ul class="nav nav-tabs" id="PageTab">
                     <li class="active"><a
-                            href="http://love.kfj.cc/index.php?mod=baiduid#newid"
                             data-toggle="tab"
                             aria-expanded="true">相册</a></li>
                 </ul>
                 <br>
-                <!-- END NAVI -->
-                <!-- 第二个分组界面 -->
                 <div class="tab-pane fade active in" id="newid">
                     <div style="padding-top: 10px">
                         <a data-toggle="modal" data-target="#add-blog-modal"
@@ -94,7 +94,7 @@
                                     <td>
                                         <div class="btn-group btn-group-xs">
                                             <button type="button" class="btn btn-success"
-                                                    name="${i.index+1}" onclick="editInfo(this)">修改
+                                                    name="${i.index+1}" onclick="editInfo(this)">详情
                                             </button>
                                             <a data-toggle="modal" data-target="#deleteBlogModel"
                                                type="button" class="btn btn-warning"
@@ -113,7 +113,7 @@
                                                     <h4 class="modal-title">确认删除操作</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>您确认要删除这篇文章吗?</p>
+                                                    <p>您确认要删除这个相册吗?</p>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default"
                                                                 data-dismiss="modal" onclick="delPage()">确定
@@ -188,7 +188,7 @@
                                         <input type="file" name="image" id="imageFile">
                                     </div>
                                     <div style="padding-top: 5px">
-                                        <button id="upload" onclick="return false;">上传</button>
+                                        <button class="btn-group btn-group-xs"  id="upload" onclick="return false;">点击上传图片</button>
                                     </div>
                                 </div>
                                 <input type="hidden" name="userType" value="1">
@@ -274,13 +274,13 @@
                                     for (var z = 1; z < rowsCount; z++) {
                                         document.getElementById("blog-table").rows[z].cells[0].innerText = (z);
                                     }
-                                    alert("删除成功");
+                                    swal("OMG", "删除成功!", "success");
                                 } else {
-                                    alert('删除失败');
+                                    swal("OMG", "删除失败", "error");
                                 }
                             },
                             error: function () {
-                                alert("删除失败");
+                                swal("OMG", "删除失败", "error");
                             }
                         });
                     }
@@ -298,6 +298,7 @@
                             cache: false,
                             dataType: 'json',
                             success: function (data) {
+                                console.log(data);
                                 $('#title').val(data.title);
                                 //放入img的src
                                 $('#blog_update_image').attr('src', '/' + data.url);
@@ -325,15 +326,16 @@
                             success: function (data) {
                                 if (data == 'success') {
                                     $("#addBlogBtnCancle").click();
-                                    alert("提交成功");
+                                    swal("OMG", "提交成功!", "success");
+                                    parent.location.reload();
                                 } else {
                                     $("#addBlogBtnCancle").click();
-                                    alert("提交出错");
+                                    swal("OMG", "提交出错!", "error");
                                 }
                             },
                             error: function (e) {
                                 $("#addBlogBtnCancle").click();
-                                alert("提交出错");
+                                swal("OMG", "提交出错!", "error");
                             }
                         });
                     }
@@ -352,11 +354,11 @@
                                     } else {
                                         $('#displayImg').attr("src", "");
                                         $('#pictureSrc').attr("value", "");
-                                        alert("上传失败" + data);
+                                        swal("OMG", "上传失败了!", "error");
                                     }
                                 },
                                 error: function (data, status, e) {
-                                    alert("上传失败");
+                                    swal("OMG", "上传失败了!", "error");
                                 }
                             }
                         );

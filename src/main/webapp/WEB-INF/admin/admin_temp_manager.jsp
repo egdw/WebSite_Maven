@@ -25,7 +25,8 @@
                     </li>
                     <li><a href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li><a href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
-
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_banner.do"> Banner管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_friend_link.do"> 友情链接管理</a></li>
                 </ul>
             </div>
         </div>
@@ -162,10 +163,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                萨达萨达所
             </div>
             <div class="modal-body">
-                撒大声地
                 <form id="project_update_form">
                     <input type="hidden" id="project_update_id" name="projectId">
                     <div class="input-group">
@@ -195,7 +194,9 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<button style="VISIBILITY: hidden" id="startBtn" hidden class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="">开始演示模态框</button>
+<button style="VISIBILITY: hidden" id="startBtn" hidden class="btn btn-primary btn-lg" data-toggle="modal"
+        data-target="#myModal" onclick="">
+</button>
 <script type="text/javascript">
 
     function openAlert() {
@@ -231,13 +232,15 @@
                             $(this).remove();
                         });
                         tr.remove();
-                        alert("删除项目成功");
+                        swal("删除成功!", "删除项目成功", "success");
+//                        alert("删除项目成功");
                     } else {
-                        alert("删除项目失败");
+                        swal("删除失败!", "删除项目失败", "error");
+//                        alert("删除项目失败");
                     }
                 },
                 error: function () {
-                    alert("删除项目失败");
+                    swal("删除失败!", "删除项目失败", "error");
                 }
             });
         });
@@ -249,13 +252,14 @@
                 success: function (data) {
                     console.log(data);
                     if (data == '{project_update_success}') {
-                        alert("更新项目成功,请刷新界面");
+//                        alert("更新项目成功,请刷新界面");
+                        parent.location.reload();
                     } else {
-                        alert("更新项目失败");
+                        swal("更改失败!", "更改项目失败", "error");
                     }
                 },
                 error: function (e) {
-                    alert("更新项目失败");
+                    swal("更改失败!", "更改项目失败", "error");
                 }
             });
         });

@@ -13,6 +13,7 @@ import com.website.mapper.WebsiteBlogMapper;
 import com.website.utils.ConstantClass;
 
 @Service
+@Transactional
 public class WebSiteBlogService {
     @Autowired
     private WebsiteBlogMapper mapper;
@@ -33,13 +34,12 @@ public class WebSiteBlogService {
         return blog;
     }
 
-    @Transactional
+
     public boolean update(WebsiteBlog record) {
         int i = mapper.updateByPrimaryKey(record);
         return i > 0;
     }
 
-    @Transactional
     public boolean delete(Integer id) {
         int i = mapper.deleteByPrimaryKey(id);
         return i > 0;

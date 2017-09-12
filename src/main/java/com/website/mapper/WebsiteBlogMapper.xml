@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.website.entites.WebsiteBlog" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="click_times" property="clickTimes" jdbcType="INTEGER" />
@@ -53,6 +54,9 @@
       <if test="title != null" >
         title,
       </if>
+      <if test="content !=null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
       <if test="description != null" >
         description,
       </if>
@@ -84,6 +88,9 @@
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content !=null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
@@ -117,6 +124,9 @@
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
+      <if test="content !=null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
@@ -147,6 +157,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.website.entites.WebsiteBlog" >
     update website_blog
     set title = #{title,jdbcType=VARCHAR},
+    content = #{content,jdbcType=VARCHAR},
     description = #{description,jdbcType=VARCHAR},
     type = #{type,jdbcType=TINYINT},
     click_times = #{clickTimes,jdbcType=INTEGER},
@@ -160,6 +171,7 @@
   <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteBlog" >
     update website_blog
     set title = #{title,jdbcType=VARCHAR},
+    content = #{content,jdbcType=VARCHAR},
     description = #{description,jdbcType=VARCHAR},
     type = #{type,jdbcType=TINYINT},
     click_times = #{clickTimes,jdbcType=INTEGER},

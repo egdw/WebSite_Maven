@@ -7,6 +7,8 @@
 <link href="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/remodal/1.1.1/remodal.min.js"></script>
 <link href="https://cdn.bootcss.com/remodal/1.1.1/remodal-default-theme.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
 <div class="container bs-docs-container">
@@ -25,6 +27,8 @@
                     <li><a href="<%=request.getContextPath()%>/manager/manager_temp_manager.do"> 临时管理</a></li>
                     <li><a href="<%=request.getContextPath()%>/blog/admin"> 博客管理</a></li>
                     <li><a href="<%=request.getContextPath()%>/album/album"> 相册管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_banner.do"> Banner管理</a></li>
+                    <li><a href="<%=request.getContextPath()%>/manager/manager_friend_link.do"> 友情链接管理</a></li>
                 </ul>
             </div>
         </div>
@@ -34,7 +38,6 @@
                 <!-- NAVI -->
                 <ul class="nav nav-tabs" id="PageTab">
                     <li class="active"><a
-                            href="http://love.kfj.cc/index.php?mod=baiduid#newid"
                             data-toggle="tab"
                             aria-expanded="true">管理项目</a></li>
                 </ul>
@@ -51,7 +54,6 @@
                             <th>项目内容</th>
                             <th>项目地址</th>
                             <th>创建时间</th>
-                            <th>项目封面</th>
                             <th>操作</th>
                             <c:forEach items="${requestScope.projects}" var="index">
                                 <tr>
@@ -61,9 +63,6 @@
                                     <td>${index.projectUrl}</td>
                                     <td><fmt:formatDate value="${index.projectCreateDate}"
                                                         pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                    <td><img
-                                            src="http://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
-                                            width="50" height="50"></td>
                                     <td><input type="button" class="project_del_btn"
                                                value="删除"><br/>
                                         <input type="button"
@@ -136,156 +135,183 @@
                                                                                            placeholder="例如https://www.baidu.com"
                                                                                            required="">
                                     </div>
-                                    <br/> <a href="#modal"> <input type="button"
-                                                                   class="btn btn-primary" value="提交">
+                                    <br/> <a href="javascript:void(0)" onclick="openAlert()"> <input type="button"
+                                                                                                     class="btn btn-primary"
+                                                                                                     value="提交">
                                 </a><br>
                                 </form>
-                                <div class="remodal" data-remodal-id="modal" role="dialog"
-                                     aria-labelledby="modal1Title" aria-describedby="modal1Desc">
-                                    <button data-remodal-action="close" class="remodal-close"
-                                            aria-label="Close"></button>
-                                    <div>
-                                        <h2 id="modal1Title">项目提交</h2>
-                                        <p id="modal1Desc">确定要提交项目吗?</p>
-                                    </div>
-                                    <br>
-                                    <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
-                                    <button data-remodal-action="confirm" id="project_add_accpet_btn"
-                                            class="remodal-confirm">OK
-                                    </button>
-                                </div>
-
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal -->
                 </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#project_add_accpet_btn").click(function () {
-                            $.ajax({
-                                type: 'post',
-                                url: 'manager_project_add.do',
-                                data: $("#addbdid_form").serialize(),
-                                success: function (data) {
-                                    console.log(data);
-                                    if (data == '{add_project_true}') {
-                                        alert("添加项目成功");
-                                    } else {
-                                        alert("添加项目失败");
-                                    }
-                                },
-                                error: function (e) {
-                                    alert("添加项目失败");
-                                }
-                            });
-                        });
-                        $(".project_del_btn").click(function () {
-                            var tr = $(this).parent().parent();
-                            var tds = $(this).parent().parent().children();
-                            var data = tds.eq(0).html();
-                            $.ajax({
-                                url: 'manager_project_delete.do',
-                                type: 'POST',
-                                data: "projectId=" + data,
-                                success: function (data) {
-                                    if (data == '{project_del_success}') {
-                                        tds.each(function () {
-                                            $(this).remove();
-                                        });
-                                        tr.remove();
-                                        alert("删除项目成功");
-                                    } else {
-                                        alert("删除项目失败");
-                                    }
-                                },
-                                error: function () {
-                                    alert("删除项目失败");
-                                }
-                            });
-                        });
-                        $("#project_update_accpet_btn").click(function () {
-                            $.ajax({
-                                type: 'post',
-                                url: 'manager_project_update.do',
-                                data: $("#project_update_form").serialize(),
-                                success: function (data) {
-                                    console.log(data);
-                                    if (data == '{project_update_success}') {
-                                        alert("更新项目成功,请刷新界面");
-                                    } else {
-                                        alert("更新项目失败");
-                                    }
-                                },
-                                error: function (e) {
-                                    alert("更新项目失败");
-                                }
-                            });
-                        });
-                        $(".project_update_btn").click(function () {
-                            var tr = $(this).parent().parent();
-                            var tds = $(this).parent().parent().children();
-                            var id = tds.eq(0).html();
-                            var topic = tds.eq(1).html();
-                            var text = tds.eq(2).html();
-                            var url = tds.eq(3).html();
-                            window.location.href = "#modalupdate";
-                            $("#project_update_id").val(id);
-                            $("#project_update_topic").val(topic);
-                            $("#project_update_text").val(text);
-                            $("#project_update_url").val(url);
-                        });
-                    });
-                </script>
             </div>
         </div>
     </div>
-    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
-    <script
-            src="<%=request.getContextPath()%>/css/admin_project_manager_files/dist/remodal.js"></script>
 
-    <div class="remodal" data-remodal-id="modalupdate" role="dialog"
-         aria-labelledby="modal1Title" aria-describedby="modal1Desc">
-        <button data-remodal-action="close" class="remodal-close"
-                aria-label="Close"></button>
-        <div>
-            <form id="project_update_form">
-                <input type="hidden" id="project_update_id" name="projectId">
-                <div class="input-group">
-                    <span class="input-group-addon">项目标题</span> <input type="text"
-                                                                       class="form-control"
-                                                                       id="project_update_topic"
-                                                                       name="projectTopic"
-                                                                       placeholder="请输入项目标题"
-                                                                       required="">
-                </div>
-                <br>
-                <div class="input-group">
-                    <span class="input-group-addon">项目内容</span> <input type="text"
-                                                                       class="form-control"
-                                                                       name="projectText"
-                                                                       id="project_update_text"
-                                                                       placeholder="请输入项目内容"
-                                                                       required="">
-                </div>
-                <br>
-                <div class="input-group">
-                    <span class="input-group-addon">项目地址</span> <input type="text"
-                                                                       class="form-control"
-                                                                       name="projectUrl"
-                                                                       id="project_update_url"
-                                                                       placeholder="例如https://www.baidu.com"
-                                                                       required="">
-                </div>
-            </form>
-        </div>
-        <br>
-        <button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
-        <button data-remodal-action="confirm" id="project_update_accpet_btn"
-                class="remodal-confirm">OK
-        </button>
-    </div>
 </div>
 </div>
 </div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="project_update_form">
+                    <input type="hidden" id="project_update_id" name="projectId">
+                    <div class="input-group">
+                        <span class="input-group-addon">项目标题</span> <input type="text"
+                                                                           class="form-control"
+                                                                           id="project_update_topic"
+                                                                           name="projectTopic"
+                                                                           placeholder="请输入项目标题"
+                                                                           required="">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">项目内容</span> <input type="text"
+                                                                           class="form-control"
+                                                                           name="projectText"
+                                                                           id="project_update_text"
+                                                                           placeholder="请输入项目内容"
+                                                                           required="">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">项目地址</span> <input type="text"
+                                                                           class="form-control"
+                                                                           name="projectUrl"
+                                                                           id="project_update_url"
+                                                                           placeholder="例如https://www.baidu.com"
+                                                                           required="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="project_update_accpet_btn" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<button style="VISIBILITY: hidden" id="startBtn" hidden class="btn btn-primary btn-lg" data-toggle="modal"
+        data-target="#myModal" onclick="">
+</button>
 </body>
+
+<script type="text/javascript">
+
+    function openAlert() {
+        swal({
+            title: "您确定要添加吗？",
+            text: "您确定要添加这条数据？",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "是的，我要添加",
+            confirmButtonColor: "#ec6c62"
+        }, function () {
+//            $("#addbdid_form").submit();
+            $.ajax({
+                url: 'manager_project_add.do',
+                type: 'POST',
+                data: $("#addbdid_form").serialize(),
+                success: function (data) {
+                    if (data == '{add_project_true}') {
+                        swal("添加成功!", "添加项目成功", "success");
+                        parent.location.reload();
+                    } else {
+                        swal("添加失败!", "添加项目失败", "error");
+                    }
+                },
+                error: function () {
+                    swal("添加失败!", "添加项目失败", "error");
+                }
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        $("#project_add_accpet_btn").click(function () {
+            $.ajax({
+                type: 'post',
+                url: 'manager_project_add.do',
+                data: $("#addbdid_form").serialize(),
+                success: function (data) {
+                    if (data == '{add_project_true}') {
+                        swal("添加成功!", "添加项目成功", "success");
+                    } else {
+                        swal("添加失败!", "添加项目失败", "error");
+                    }
+                },
+                error: function (e) {
+                    swal("添加失败!", "添加项目失败", "error");
+                }
+            });
+        });
+        $(".project_del_btn").click(function () {
+            var tr = $(this).parent().parent();
+            var tds = $(this).parent().parent().children();
+            var data = tds.eq(0).html();
+            $.ajax({
+                url: 'manager_project_delete.do',
+                type: 'POST',
+                data: "projectId=" + data,
+                success: function (data) {
+                    if (data == '{project_del_success}') {
+                        tds.each(function () {
+                            $(this).remove();
+                        });
+                        tr.remove();
+                        swal("删除成功!", "删除项目成功", "success");
+                    } else {
+                        swal("删除失败!", "删除项目失败", "error");
+                    }
+                },
+                error: function () {
+                    swal("删除失败!", "删除项目失败", "error");
+                }
+            });
+        });
+        $("#project_update_accpet_btn").click(function () {
+            $.ajax({
+                type: 'post',
+                url: 'manager_project_update.do',
+                data: $("#project_update_form").serialize(),
+                success: function (data) {
+                    console.log(data);
+                    if (data == '{project_update_success}') {
+                        parent.location.reload();
+                    } else {
+                        swal("更改失败!", "更改项目失败", "error");
+                    }
+                },
+                error: function (e) {
+                    swal("更改失败!", "更改项目失败", "error");
+                }
+            });
+        });
+        $(".project_update_btn").click(function () {
+            var tr = $(this).parent().parent();
+            var tds = $(this).parent().parent().children();
+            var id = tds.eq(0).html();
+            var topic = tds.eq(1).html();
+            var text = tds.eq(2).html();
+            var url = tds.eq(3).html();
+            $("#startBtn").click();
+            $("#project_update_id").val(id);
+            $("#project_update_topic").val(topic);
+            $("#project_update_text").val(text);
+            $("#project_update_url").val(url);
+        });
+    });
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+<script
+        src="<%=request.getContextPath()%>/css/admin_project_manager_files/dist/remodal.js"></script>
 </html>
