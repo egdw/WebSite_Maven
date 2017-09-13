@@ -205,6 +205,9 @@ public class MusicController {
         String lyricsById = jedis.get("lyricsById:" + id);
         if (lyricsById == null) {
             lyricsById = NeteaseMusicUtils.getLyricsById(id);
+            if(lyricsById == null){
+                return "redirect:/404.jsp";
+            }
             jedis.set("lyricsById:" + id, lyricsById);
         }
         String musicResult = jedis.get("musicResult:" + id);

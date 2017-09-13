@@ -129,7 +129,7 @@
                                             placeholder="请输入指向地址或文章"/>
                                     </div>
                                     <div id="pic_div" style="padding-top: 5px;">
-                                        <label style="font-size: 15px">图片: </label>
+                                        <label style="font-size: 15px">图片(1000*438): </label>
                                         <div id="show"></div>
                                         <!-- 存储图片地址，并显示图片 -->
                                         <input type="hidden" name="img_url" id="pictureSrc">

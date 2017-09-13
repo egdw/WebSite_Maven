@@ -65,12 +65,13 @@
             <c:if test="${sessionScope.banners!=null}">
                 <ul data-type="slides">
                     <c:forEach items="${sessionScope.banners}" var="index">
+
                         <li data-delay="5" data-src="5"
-                            data-trans3d="tr6,tr17,tr22,tr23,tr29,tr27,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13,tr45"
+                            data-trans3d="tr6,tr17,tr22,tr23,tr26,tr27,tr29,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13"
                             data-trans2d="tr3,tr8,tr12,tr19,tr22,tr25,tr27,tr29,tr31,tr34,tr35,tr38,tr39,tr41"><img
-                                src="/${index.bannerImageUrl}" data-thumb="/upload/image/thumb_33a367e2-f363-48f4-a7b8-cbf9cf8dc86b.png"><a data-type="link"
-                                                                                                         href="##"
-                                                                                                         target="_blank"></a>
+                                src="/${index.bannerImageUrl}" data-src="/${index.bannerImageUrl}"
+                                data-thumb="/${index.bannerImageUrl}"><a data-type="link" href="##" target="_blank"></a>
+
                         </li>
                     </c:forEach>
                 </ul>

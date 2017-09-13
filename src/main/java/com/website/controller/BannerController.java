@@ -59,7 +59,6 @@ public class BannerController {
             return JSON.toJSONString(new Message(200, "添加成功", null, null, null));
         }
         return JSON.toJSONString(new Message(500, "添加失败", null, null, null));
-
     }
 
     /**

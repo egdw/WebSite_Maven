@@ -1,86 +1,98 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.website.mapper.WebsiteBannerMapper" >
-  <resultMap id="BaseResultMap" type="com.website.entites.WebsiteBanner" >
-    <id column="banner_id" property="bannerId" jdbcType="INTEGER" />
-    <result column="banner_title" property="bannerTitle" jdbcType="VARCHAR" />
-    <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR" />
-    <result column="banner_image_url" property="bannerImageUrl" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    banner_id, banner_title, banner_url, banner_image_url
+<mapper namespace="com.website.mapper.WebsiteBannerMapper">
+    <resultMap id="BaseResultMap" type="com.website.entites.WebsiteBanner">
+        <id column="banner_id" property="bannerId" jdbcType="INTEGER"/>
+        <result column="banner_title" property="bannerTitle" jdbcType="VARCHAR"/>
+        <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR"/>
+        <result column="banner_image_url" property="bannerImageUrl" jdbcType="VARCHAR"/>
+        <result column="banner_thumb_url" property="bannerThumbUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    banner_id, banner_title, banner_url, banner_image_url, banner_thumb_url
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from website_banner
-    where banner_id = #{bannerId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from website_banner
+        where banner_id = #{bannerId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from website_banner
     where banner_id = #{bannerId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.website.entites.WebsiteBanner" >
+    <insert id="insert" parameterType="com.website.entites.WebsiteBanner">
     insert into website_banner (banner_id, banner_title, banner_url, 
-      banner_image_url)
+      banner_image_url, banner_thumb_url)
     values (#{bannerId,jdbcType=INTEGER}, #{bannerTitle,jdbcType=VARCHAR}, #{bannerUrl,jdbcType=VARCHAR}, 
-      #{bannerImageUrl,jdbcType=VARCHAR})
+      #{bannerImageUrl,jdbcType=VARCHAR}, #{bannerThumbUrl,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.website.entites.WebsiteBanner" >
-    insert into website_banner
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="bannerId != null" >
-        banner_id,
-      </if>
-      <if test="bannerTitle != null" >
-        banner_title,
-      </if>
-      <if test="bannerUrl != null" >
-        banner_url,
-      </if>
-      <if test="bannerImageUrl != null" >
-        banner_image_url,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="bannerId != null" >
-        #{bannerId,jdbcType=INTEGER},
-      </if>
-      <if test="bannerTitle != null" >
-        #{bannerTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="bannerUrl != null" >
-        #{bannerUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="bannerImageUrl != null" >
-        #{bannerImageUrl,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteBanner" >
-    update website_banner
-    <set >
-      <if test="bannerTitle != null" >
-        banner_title = #{bannerTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="bannerUrl != null" >
-        banner_url = #{bannerUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="bannerImageUrl != null" >
-        banner_image_url = #{bannerImageUrl,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where banner_id = #{bannerId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteBanner" >
+    <insert id="insertSelective" parameterType="com.website.entites.WebsiteBanner">
+        insert into website_banner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bannerId != null">
+                banner_id,
+            </if>
+            <if test="bannerTitle != null">
+                banner_title,
+            </if>
+            <if test="bannerUrl != null">
+                banner_url,
+            </if>
+            <if test="bannerImageUrl != null">
+                banner_image_url,
+            </if>
+            <if test="bannerThumbUrl != null">
+                banner_thumb_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bannerId != null">
+                #{bannerId,jdbcType=INTEGER},
+            </if>
+            <if test="bannerTitle != null">
+                #{bannerTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerUrl != null">
+                #{bannerUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerImageUrl != null">
+                #{bannerImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerThumbUrl != null">
+                #{bannerThumbUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.website.entites.WebsiteBanner">
+        update website_banner
+        <set>
+            <if test="bannerTitle != null">
+                banner_title = #{bannerTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerUrl != null">
+                banner_url = #{bannerUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerImageUrl != null">
+                banner_image_url = #{bannerImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerThumbUrl != null">
+                banner_thumb_url = #{bannerThumbUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where banner_id = #{bannerId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.website.entites.WebsiteBanner">
     update website_banner
     set banner_title = #{bannerTitle,jdbcType=VARCHAR},
       banner_url = #{bannerUrl,jdbcType=VARCHAR},
-      banner_image_url = #{bannerImageUrl,jdbcType=VARCHAR}
+      banner_image_url = #{bannerImageUrl,jdbcType=VARCHAR},
+      banner_thumb_url = #{bannerThumbUrl,jdbcType=VARCHAR}
     where banner_id = #{bannerId,jdbcType=INTEGER}
   </update>
 
-  <select id="getAll" resultMap="BaseResultMap">
+
+    <select id="getAll" resultMap="BaseResultMap">
     select * from website_banner;
   </select>
 </mapper>

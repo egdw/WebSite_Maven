@@ -9,6 +9,8 @@ public class WebsiteBanner {
 
     private String bannerImageUrl;
 
+    private String bannerThumbUrl;
+
     public Integer getBannerId() {
         return bannerId;
     }
@@ -41,13 +43,11 @@ public class WebsiteBanner {
         this.bannerImageUrl = bannerImageUrl;
     }
 
-    @Override
-    public String toString() {
-        return "WebsiteBanner{" +
-                "bannerId=" + bannerId +
-                ", bannerTitle='" + bannerTitle + '\'' +
-                ", bannerUrl='" + bannerUrl + '\'' +
-                ", bannerImageUrl='" + bannerImageUrl + '\'' +
-                '}';
+    public String getBannerThumbUrl() {
+        return bannerThumbUrl;
+    }
+
+    public void setBannerThumbUrl(String bannerThumbUrl) {
+        this.bannerThumbUrl = bannerThumbUrl;
     }
 }

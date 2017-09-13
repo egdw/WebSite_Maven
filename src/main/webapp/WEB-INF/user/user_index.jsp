@@ -143,10 +143,10 @@
             </div>
         </div>
     </div>
-    <fieldset class="layui-elem-field layui-field-title">
-        <legend>音乐播放器</legend>
-        <div id="player1" class="aplayer"></div>
-    </fieldset>
+</fieldset>
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>音乐播放器</legend>
+    <div id="player1" class="aplayer"></div>
 </fieldset>
 <script>
     $("#advicesButton").click(function () {
