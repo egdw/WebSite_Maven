@@ -1,14 +1,12 @@
 package com.website.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.website.entites.WebsiteAlbum;
-import com.website.entites.WebsiteBlog;
-import com.website.entites.WebsiteBlogType;
-import com.website.entites.WebsiteComment;
+import com.website.entites.*;
 import com.website.model.Message;
 import com.website.service.WebSiteAlbumService;
 import com.website.service.WebSiteBlogService;
 import com.website.service.WebSiteCommentService;
+import com.website.service.WebsiteBannerService;
 import com.website.utils.RedisUtils;
 import com.website.utils.UUIDUtils;
 import net.coobird.thumbnailator.Thumbnails;
@@ -24,11 +22,13 @@ import redis.clients.jedis.JedisPool;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("blog")
@@ -42,18 +42,21 @@ public class BlogController {
     private WebSiteCommentService commentService;
     @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private WebsiteBannerService bannerService;
 
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
     public String shiroException2() {
         return "redirect:/401.jsp";
     }
 
+
     /**
      * 进入博客主页
      */
     @RequestMapping(value = "/")
     public String myBlogView(@RequestParam(required = false) Integer pageNum,
-                             Map<String, Object> map) {
+                             Map<String, Object> map, HttpSession session) {
         if (pageNum == null) {
             pageNum = 0;
         }
@@ -114,6 +117,16 @@ public class BlogController {
             redisUtils.set(JSON.toJSONString(selectBlogByNumAndReader), true);
         }
 
+
+        //获取Banner的数据
+        List<WebsiteBanner> all =
+                bannerService.getAll();
+        System.out.println(all);
+//        for (int i = 0; i < all.size(); i++) {
+//            WebsiteBanner banner = all.get(0);
+//            String url = banner.getBannerImageUrl();
+//        }
+        session.setAttribute("banners", all);
         map.put("list", list);
         map.put("pageCount", pageCount);
         map.put("currentPage", pageNum);

@@ -12,6 +12,9 @@
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 <link href="/css/MyBlog_files/site.css" rel="stylesheet" type="text/css"/>
 <script src="/layui/dist/APlayer.min.js"></script>
+<c:if test="${sessionScope.banners} != null">
+    萨迪晒单哈数据库大声道
+</c:if>
 <div class="col-md-9">
     <div class="row-md-1">
         <div id="bannerDiv">
