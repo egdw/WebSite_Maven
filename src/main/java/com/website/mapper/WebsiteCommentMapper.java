@@ -18,10 +18,12 @@ public interface WebsiteCommentMapper {
     int updateByPrimaryKeyWithBLOBs(WebsiteComment record);
 
     int updateByPrimaryKey(WebsiteComment record);
-    
+
     ArrayList<WebsiteComment> selectCommentByBlogId(Integer blogId);
-    
+
+    int delCommentByBlogId(Integer blogId);
+
     WebsiteComment getById(Integer id);
-    
+
     ArrayList<WebsiteComment> selectCommentByNum(Integer num);
 }

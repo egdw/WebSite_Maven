@@ -140,7 +140,7 @@ function loadInfoWebSite(src) {
             shadeClose: true,
             shade: true,
             maxmin: true, //开启最大化最小化按钮
-            area: [document.body.clientWidth - 40 + "px", '500px'],
+            area: [document.body.clientWidth - 40 + "px", '400px'],
             content: src,
         });
     });

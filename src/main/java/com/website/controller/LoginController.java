@@ -26,8 +26,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Map;
 
 @Controller
@@ -102,8 +101,7 @@ public class LoginController {
             } else {
                 utils.setAndExpire("1", 60 * 15, true);
             }
-            return JSON.toJSONString(new Message(500, "登录异常!" + e.getMessage(), null, null, null));
-//            return "redirect:/login/login.jsp";
+            return JSON.toJSONString(new Message(500, "登录异常!" + e.getMessage(), e.toString(), null, null));
             // 说明登陆失败
         }
         if (subject.isAuthenticated()) {
@@ -111,10 +109,8 @@ public class LoginController {
             WebsiteUser user = service.getByUsername(username);
             requests.put("user", user);
             return JSON.toJSONString(new Message(200, "登录成功!", null, null, null));
-//            return "redirect:/login/manager";
         } else {
             return JSON.toJSONString(new Message(500, "登录异常!", null, null, null));
-//            return "redirect:/login/login.jsp";
         }
     }
 

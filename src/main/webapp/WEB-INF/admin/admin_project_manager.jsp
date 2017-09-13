@@ -34,15 +34,12 @@
         </div>
         <div class="col-md-9" role="main">
             <div class="col-md-9" role="main">
-
-                <!-- NAVI -->
                 <ul class="nav nav-tabs" id="PageTab">
                     <li class="active"><a
                             data-toggle="tab"
                             aria-expanded="true">管理项目</a></li>
                 </ul>
                 <br>
-                <!-- END NAVI -->
                 <a data-toggle="modal" data-target="#addModal"
                    class="btn btn-info btn-sm">添加</a><br/>
                 <div class="tab-pane fade active in" id="newid">

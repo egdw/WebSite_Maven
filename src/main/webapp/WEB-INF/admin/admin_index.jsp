@@ -37,7 +37,7 @@
                 </div>
                 <div class="panel-body">
 						<span id="avatar" style="float:right;"><img
-                                src="http://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
+                                src="https://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
                                 class="img-rounded" height="80px" width="80px"></span>欢迎来到后台管理! <br> 此程序作者为 <a
                         href="<%=request.getContextPath()%>/AboutMy/index.html"
                         target="_blank">恶搞大王</a> <br> 恶搞大王保留所有权利

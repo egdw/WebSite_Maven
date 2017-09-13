@@ -385,13 +385,13 @@
                     for (var z = 1; z < rowsCount; z++) {
                         document.getElementById("blog-table").rows[z].cells[0].innerText = (z);
                     }
-                    alert("删除成功");
-                } else {
                     swal("删除成功!", "删除项目成功", "success");
+                } else {
+                    swal("删除失败!", "删除项目失败", "error");
                 }
             },
             error: function (e) {
-                swal("删除成功!", "删除项目成功", "success");
+                swal("删除失败!", "删除项目失败", "error");
             }
         });
     }

@@ -6,6 +6,8 @@
 </head>
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 <script src="/css/MyBlog_files/lightbox.js"></script>
 <link rel="stylesheet" href="/css/MyBlog_files/lightbox.css">
 <div class="container bs-docs-container">
@@ -213,9 +215,9 @@
                             dataType: 'json',
                             success: function (data) {
                                 if (data.code == 200) {
-                                    alert("更新成功");
+                                    swal("OMG", "跟新操作成功了!", "error");
                                 } else {
-                                    alert("更新失败");
+                                    swal("OMG", "更新操作失败了!", "error");
                                 }
                                 $("#updateBlogBtnCancle").click();
                             },
@@ -239,13 +241,13 @@
                                     for (var z = 1; z < rowsCount; z++) {
                                         document.getElementById("blog-table").rows[z].cells[0].innerText = (z);
                                     }
-                                    alert("删除成功");
+                                    swal("OMG", "删除操作成功了!", "success");
                                 } else {
-                                    alert('删除失败');
+                                    swal("OMG", "删除操作失败了!", "error");
                                 }
                             },
                             error: function () {
-                                alert("删除失败");
+                                swal("OMG", "删除操作失败了!", "error");
                             }
                         });
                     }
@@ -294,16 +296,16 @@
                                 var obj = eval("(" + data + ")");
                                 if (obj.code == 200) {
                                     $("#addBlogBtnCancle").click();
-                                    alert("提交成功");
+                                    swal("OMG", "提交操作成功了!", "success");
 //                                    window.location.reload();
                                 } else {
                                     $("#addBlogBtnCancle").click();
-                                    alert("提交出错");
+                                    swal("OMG", "提交操作失败了!", "error");
                                 }
                             },
                             error: function (e) {
                                 $("#addBlogBtnCancle").click();
-                                alert("提交出错");
+                                swal("OMG", "提交操作失败了!", "error");
                             }
                         });
                     }

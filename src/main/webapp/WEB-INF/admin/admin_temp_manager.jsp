@@ -233,10 +233,8 @@
                         });
                         tr.remove();
                         swal("删除成功!", "删除项目成功", "success");
-//                        alert("删除项目成功");
                     } else {
                         swal("删除失败!", "删除项目失败", "error");
-//                        alert("删除项目失败");
                     }
                 },
                 error: function () {
@@ -253,6 +251,7 @@
                     console.log(data);
                     if (data == '{project_update_success}') {
 //                        alert("更新项目成功,请刷新界面");
+                        swal("更改失败!", "更改项目失败", "error");
                         parent.location.reload();
                     } else {
                         swal("更改失败!", "更改项目失败", "error");

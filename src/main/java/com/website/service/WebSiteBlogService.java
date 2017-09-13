@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.website.entites.WebsiteBlogType;
 import com.website.mapper.WebsiteBlogTypeMapper;
+import com.website.mapper.WebsiteCommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,9 @@ public class WebSiteBlogService {
     private WebsiteBlogMapper mapper;
     @Autowired
     private WebsiteBlogTypeMapper typeMapper;
+
+    @Autowired
+    private WebsiteCommentMapper commentMapper;
 
     @Transactional
     public boolean addBlog(WebsiteBlog record) {
@@ -42,6 +46,7 @@ public class WebSiteBlogService {
 
     public boolean delete(Integer id) {
         int i = mapper.deleteByPrimaryKey(id);
+        int i1 = commentMapper.delCommentByBlogId(id);
         return i > 0;
     }
 
@@ -175,6 +180,7 @@ public class WebSiteBlogService {
 
     /**
      * 添加博客标签
+     *
      * @param blogType
      * @return
      */
@@ -186,6 +192,7 @@ public class WebSiteBlogService {
 
     /**
      * 删除博客标签
+     *
      * @param id
      * @return
      */
@@ -196,6 +203,7 @@ public class WebSiteBlogService {
 
     /**
      * 更改博客标签
+     *
      * @param blogType
      * @return
      */

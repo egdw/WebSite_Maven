@@ -144,7 +144,12 @@
   <select id="selectCommentByBlogId" resultMap="resultMap">
   	select * from website_comment where blog_id = #{0} ORDER BY id DESC ;
   </select>
-  
+
+  <delete id="delCommentByBlogId" parameterType="int">
+    delete from website_comment
+    where blog_id = #{0}
+  </delete>
+
   <select id="getById" resultMap="resultMap">
   	select * from website_comment where id = #{0};
   </select>

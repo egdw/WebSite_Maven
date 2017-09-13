@@ -97,7 +97,7 @@
         </div>
         <div class="clear"></div>
         <div class="avtar">
-            <img src="http://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
+            <img src="https://q.qlogo.cn/headimg_dl?dst_uin=378759617&spec=640&img_type=jpg"
                  alt="" width="100" height="100"/>
         </div>
         <form id="registerForm" action="/register/register" method="post">
