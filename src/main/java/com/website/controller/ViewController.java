@@ -120,7 +120,7 @@ public class ViewController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(@RequestParam(required = false) Integer pageNum,
-                        Map<String, Object> map, HttpSession session) {
+                        Map<String, Object> map) {
         isAccessAllowed();
         if (pageNum == null) {
             pageNum = 0;
@@ -185,7 +185,7 @@ public class ViewController {
         //获取Banner的数据
         List<WebsiteBanner> all =
                 bannerService.getAll();
-        session.setAttribute("banners", all);
+        map.put("banners", all);
         map.put("list", list);
         map.put("pageCount", pageCount);
         map.put("currentPage", pageNum);

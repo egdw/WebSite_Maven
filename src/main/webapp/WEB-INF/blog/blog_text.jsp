@@ -32,6 +32,34 @@
                 标签： <a href="##" class="label label-info"
                        style="font-size: 16px">随笔</a>
             </c:if>
+            <c:if test="${requestScope.blog.type == 3}">
+                标签： <a href="##" class="label label-info"
+                       style="font-size: 16px">JAVA</a>
+            </c:if>
+            <c:if test="${requestScope.blog.type == 4}">
+                标签： <a href="##" class="label label-info"
+                       style="font-size: 16px">PHP</a>
+            </c:if>
+            <c:if test="${requestScope.blog.type == 5}">
+                标签： <a href="##" class="label label-info"
+                       style="font-size: 16px">C/C++</a>
+            </c:if>
+            <c:if test="${requestScope.blog.type == 6}">
+                标签： <a href="##" class="label label-info"
+                       style="font-size: 16px">HTML</a>
+            </c:if>
+            <c:if test="${requestScope.blog.type == 7}">
+                标签： <a href="##" class="label label-info"
+                       style="font-size: 16px">JS</a>
+            </c:if>
+            <c:if test="${requestScope.blog.type == 8}">
+                标签： <a href="##" class="label label-info"
+                       style="font-size: 16px">Python</a>
+            </c:if>
+            <c:if test="${requestScope.blog.type == 9}">
+                标签： <a href="##" class="label label-info"
+                       style="font-size: 16px">其他</a>
+            </c:if>
         </div>
         <label style="font-size: 15px;text-align: left"><span
                 class="glyphicon glyphicon-eye-open" style="color: gray"

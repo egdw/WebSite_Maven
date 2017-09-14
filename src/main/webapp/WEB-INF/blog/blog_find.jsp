@@ -23,12 +23,12 @@
                             <c:if test="${!empty index.picUrl}">
                                 <a href="detail?pageId=${index.id}" target="_blank"><img
                                         src="<%=request.getContextPath()%>/${index.picUrl}"
-                                        alt="${index.title}" class="img-thumbnail" width="150"/></a>
+                                        alt="${index.title}" class="img-thumbnail" width="150" style="width: 150px;height: 150px;"/></a>
                             </c:if>
                             <c:if test="${empty index.picUrl}">
                                 <a href="detail?pageId=${index.id}" target="_blank"><img
                                         src="<%=request.getContextPath()%>/images/noimg.jpeg"
-                                        alt="图片找不到鸟" class="img-thumbnail" width="150"/></a>
+                                        alt="图片找不到鸟" class="img-thumbnail" width="150" style="width: 150px;height: 150px;"/></a>
                             </c:if>
                         </div>
                         <div class="media-body">

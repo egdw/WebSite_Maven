@@ -34,12 +34,12 @@
                                         <c:if test="${!empty index.picUrl}">
                                             <a href="<%=request.getContextPath()%>/blog/detail?pageId=${index.id}" target="_blank"><img
                                                     src="<%=request.getContextPath()%>/${index.picUrl}"
-                                                    alt="${index.title}" class="img-thumbnail" width="150"/></a>
+                                                    alt="${index.title}" class="img-thumbnail img-responsive" style="height: 150px;" width="150px" height="150px;"/></a>
                                         </c:if>
                                         <c:if test="${empty index.picUrl}">
                                             <a href="<%=request.getContextPath()%>/blog/detail?pageId=${index.id}" target="_blank"><img
                                                     src="<%=request.getContextPath()%>/images/noimg.jpeg"
-                                                    alt="图片找不到鸟" class="img-thumbnail" width="150" height="300px;"/></a>
+                                                    alt="图片找不到鸟" class="img-thumbnail img-responsive" style="height: 150px; width: 150px;"/></a>
                                         </c:if>
                                     </div>
                                     <div class="media-body">
@@ -158,8 +158,8 @@
                                             <td>
                                                 <c:if test="${!empty index.picUrl}">
                                                     <img src="<%=request.getContextPath()%>/${index.picUrl}"
-                                                         data-lightbox="example-set" alt="" width="60"
-                                                         style="overflow:hidden;padding-top: 10px;padding-bottom: 10px;"
+                                                         data-lightbox="example-set" alt=""
+                                                         style="overflow:hidden;padding-top: 10px;padding-bottom: 10px;height: 60px;width: 60px;"
                                                          class="img-rounded">
                                                 </c:if>
                                                 <c:if test="${empty index.picUrl}">

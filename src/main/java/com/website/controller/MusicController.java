@@ -205,7 +205,7 @@ public class MusicController {
         String lyricsById = jedis.get("lyricsById:" + id);
         if (lyricsById == null) {
             lyricsById = NeteaseMusicUtils.getLyricsById(id);
-            if(lyricsById == null){
+            if (lyricsById == null) {
                 return "redirect:/404.jsp";
             }
             jedis.set("lyricsById:" + id, lyricsById);
@@ -314,13 +314,13 @@ public class MusicController {
         jedis.close();
         response.setContentType("text/plain");
         try {
+            response.setCharacterEncoding("utf-8");
             ServletOutputStream outputStream = response.getOutputStream();
             outputStream.write(lyric.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 
     /**

@@ -20,7 +20,7 @@
     <div id="cuteslider_3_wrapper" class="cs-circleslight">
 
         <div id="cuteslider_3" class="cute-slider" data-width="960" data-height="420" data-overpause="true">
-            <c:if test="${sessionScope.banners == null}">
+            <c:if test="${requestScope.banners == null}">
                 <ul data-type="slides">
                     <li data-delay="5" data-src="5"
                         data-trans3d="tr6,tr17,tr22,tr23,tr29,tr27,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13,tr45"
@@ -62,9 +62,9 @@
                     </li>
                 </ul>
             </c:if>
-            <c:if test="${sessionScope.banners!=null}">
+            <c:if test="${requestScope.banners!=null}">
                 <ul data-type="slides">
-                    <c:forEach items="${sessionScope.banners}" var="index">
+                    <c:forEach items="${requestScope.banners}" var="index">
 
                         <li data-delay="5" data-src="5"
                             data-trans3d="tr6,tr17,tr22,tr23,tr26,tr27,tr29,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13"

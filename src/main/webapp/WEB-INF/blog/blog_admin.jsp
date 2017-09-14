@@ -386,6 +386,7 @@
                         document.getElementById("blog-table").rows[z].cells[0].innerText = (z);
                     }
                     swal("删除成功!", "删除项目成功", "success");
+                    window.location.reload();
                 } else {
                     swal("删除失败!", "删除项目失败", "error");
                 }
@@ -409,7 +410,7 @@
             success: function (data) {
                 if (data = 'success') {
                     swal("更新成功", "更新文章成功", "success");
-//                    window.location.reload();
+                    window.location.reload();
                 } else {
                     swal("更新失败", "更新文章失败", "error");
                 }
@@ -466,6 +467,7 @@
                 if (data == 'success') {
                     $("#addBlogBtnCancle").click();
                     swal("提交成功!", "提交文章成功", "success");
+                    window.location.reload();
                 } else {
                     $("#addBlogBtnCancle").click();
                     swal("提交失败!", "提交文章失败", "error");

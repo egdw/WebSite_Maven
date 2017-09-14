@@ -6,6 +6,8 @@
 
 <body>
 <jsp:include page="/admin_top.jsp"></jsp:include>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 <div class="container bs-docs-container">
     <div class="row">
         <div class="col-md-3">
@@ -82,9 +84,77 @@
                     </li>
                 </ul>
             </div>
+
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">缓存管理</h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <button onclick="clearCache()">清空缓存</button>
+                        <br>
+                        <label><strong>为了提高系统的性能.后台大量的使用了缓存,但是在必要的时候需要立即刷新.请点击这个按钮</strong></label>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 </div>
 </body>
+
+<script>
+    function clearCache() {
+        swal({
+            title: "您确定要清除缓存吗？",
+            text: "数据将不能恢复!",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "是的，我要清除",
+            confirmButtonColor: "#ec6c62"
+        }, function () {
+            $.ajax({
+                url: "<%=request.getContextPath()%>/manager/clear",
+                type: 'GET', //GET
+                async: true,    //或false,是否异步
+                timeout: 5000,    //超时时间
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                beforeSend: function (xhr) {
+                    console.log(xhr)
+                    console.log('发送前')
+                },
+                success: function (data, textStatus, jqXHR) {
+                    if (data.code == 200) {
+                        swal("操作成功!", "已成功删除缓存！", "success");
+                    } else {
+                        swal("OMG", "删除缓存失败了!", "error");
+                    }
+                    console.log(data)
+                    console.log(textStatus)
+                    console.log(jqXHR)
+                },
+                error: function (xhr, textStatus) {
+                    console.log('错误')
+                    console.log(xhr)
+                    console.log(textStatus)
+                    swal("OMG", "删除缓存失败了!", "error");
+                },
+                complete: function () {
+                    console.log('结束')
+                }
+            })
+
+
+            $.ajax({
+                url: "<%=request.getContextPath()%>/manager/clear",
+                type: "GET"
+            }).done(function (data) {
+
+            }).error(function (data) {
+
+            });
+        });
+    }
+</script>
 </html>

@@ -12,7 +12,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.website.entites.*;
+import com.website.model.Message;
 import com.website.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -25,6 +27,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.website.utils.ZipTools;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Controller
 @RequestMapping("manager")
@@ -41,6 +45,8 @@ public class BackgroundManagerController {
     private WebsiteBannerService bannerService;
     @Autowired
     private WebSiteFriendLinkService linkService;
+    @Autowired
+    private JedisPool jedisPool;
 
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
     public String shiroException2() {
@@ -426,11 +432,36 @@ public class BackgroundManagerController {
 
     /**
      * 用户管理.权限管理
+     *
      * @return
      */
     @RequiresRoles("super_admin")
-    @RequestMapping(value = "manager_user.do",method = RequestMethod.GET)
-    public String entryManagerUser(){
+    @RequestMapping(value = "manager_user.do", method = RequestMethod.GET)
+    public String entryManagerUser() {
         return "admin/admin_user";
+    }
+
+
+    /**
+     * 清空缓存
+     * 必要的时候可以通过使用这个函数,清除所有的redis缓存.以达到添加之后立即刷新,但是这样会造成缓存失效.
+     * 具体的利弊自己考虑
+     *
+     * @return
+     */
+    @RequiresRoles("super_admin")
+    @RequestMapping(value = "clear", method = RequestMethod.GET)
+    @ResponseBody
+    public String clearCache() {
+        Jedis jedis =
+                jedisPool.getResource();
+        String s = jedis.flushAll();
+        jedis.close();
+        if ("OK".equals(s)) {
+            //说明缓存清理成功
+            return JSON.toJSONString(new Message(200, "缓存清理成功", null, null, null));
+        } else {
+            return JSON.toJSONString(new Message(500, "缓存清理失败", null, null, null));
+        }
     }
 }
