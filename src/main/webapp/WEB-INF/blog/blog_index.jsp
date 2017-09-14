@@ -32,19 +32,19 @@
                                 <div class="media">
                                     <div style="float: left;padding-top: 10px;padding-left: 5px;">
                                         <c:if test="${!empty index.picUrl}">
-                                            <a href="detail?pageId=${index.id}" target="_blank"><img
+                                            <a href="<%=request.getContextPath()%>/blog/detail?pageId=${index.id}" target="_blank"><img
                                                     src="<%=request.getContextPath()%>/${index.picUrl}"
                                                     alt="${index.title}" class="img-thumbnail" width="150"/></a>
                                         </c:if>
                                         <c:if test="${empty index.picUrl}">
-                                            <a href="detail?pageId=${index.id}" target="_blank"><img
+                                            <a href="<%=request.getContextPath()%>/blog/detail?pageId=${index.id}" target="_blank"><img
                                                     src="<%=request.getContextPath()%>/images/noimg.jpeg"
-                                                    alt="图片找不到鸟" class="img-thumbnail" width="150"/></a>
+                                                    alt="图片找不到鸟" class="img-thumbnail" width="150" height="300px;"/></a>
                                         </c:if>
                                     </div>
                                     <div class="media-body">
                                         <h4 class="media-heading" style="margin-top: 10px">
-                                            <a href="detail?pageId=${index.id}" target="_blank"
+                                            <a href="<%=request.getContextPath()%>/blog/detail?pageId=${index.id}" target="_blank"
                                                style="font-size: 20px;color: #00a67c;padding: 10px">${index.title}</a>
                                         </h4>
                                         <p style="padding: 10px;">
@@ -171,7 +171,7 @@
                                             </td>
                                             <td>
                                                 <a style="color: slategray;padding: 10px"
-                                                   href="detail?pageId=${index.id}">
+                                                   href="<%=request.getContextPath()%>/blog/detail?pageId=${index.id}">
                                                         ${index.title }</a></td>
                                         </tr>
                                     </table>
@@ -196,7 +196,7 @@
                                     <li class="news-item"><span class="badge"
                                                                 style="font-size: 20px;width: 27px;color: lightskyblue;background-color: snow">${i.index+1}</span>
                                         <a style="color: slategray;padding: 10px"
-                                           href="detail?pageId=${index.id}">
+                                           href="<%=request.getContextPath()%>/blog/detail?pageId=${index.id}">
                                                 ${index.title }</a></li>
                                 </c:forEach>
                             </ul>
@@ -218,7 +218,7 @@
                                     <li class="news-item">
                                         <a
                                                 style="font-size: 15px;overflow: hidden;text-overflow:ellipsis;width: 300px;display: block;;padding-left: 10px; padding-top: 10px;padding-bottom: 10px"
-                                                href="detail?pageId=${index.blogId}"><b>${index.username} </b>:  ${index.content}</span></b>
+                                                href="<%=request.getContextPath()%>/blog/detail?pageId=${index.blogId}"><b>${index.username} </b>:  ${index.content}</span></b>
                                         </a>
                                     </li>
                                 </c:forEach>

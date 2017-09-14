@@ -20,134 +20,149 @@
 <body style="background-color: #c2c2c2" onload="getUserTable();findByStatus()">
 <jsp:include page="/MyBlog_top.jsp"></jsp:include>
 
-<fieldset class="layui-elem-field">
-    <legend>个人中心<a href="/login/logout.do" style="color: red">注销</a></legend>
-    <div class="layui-field-box">
-        <div id="right_page" style="float: left">
-            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">个人信息</li>
-                    <li>我的音乐</li>
-                    <li>个人设置</li>
-                    <shiro:hasRole name="admin">
-                        <li>管理员管理</li>
-                    </shiro:hasRole>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <div class="layui-field-box">
-                            <blockquote class="layui-elem-quote">用户名:<shiro:principal></shiro:principal></blockquote>
-                        </div>
-                        <div class="layui-field-box">
-                            <blockquote class="layui-elem-quote">用户组:普通用户</blockquote>
+
+
+
+<div class="col-md-9">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
+            个人中心<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        </div>
+        <div class="panel-body">
+            <fieldset class="layui-elem-field">
+                <legend>个人中心<a href="/login/logout.do" style="color: red;float: right;padding-right: 15px;">注销</a></legend>
+                <div class="layui-field-box">
+                    <div id="right_page" style="float: left">
+                        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">个人信息</li>
+                                <li>我的音乐</li>
+                                <li>个人设置</li>
+                                <shiro:hasRole name="admin">
+                                    <li>管理员管理</li>
+                                </shiro:hasRole>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="layui-field-box">
+                                        <blockquote class="layui-elem-quote">用户名:<shiro:principal></shiro:principal></blockquote>
+                                    </div>
+                                    <div class="layui-field-box">
+                                        <blockquote class="layui-elem-quote">用户组:普通用户</blockquote>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <div class="layui-btn-group" style="margin-left: 3px">
+                                        <button class="layui-btn" onclick="loadMusicInfoWebSite();">搜歌<i
+                                                class="layui-icon">&#xe615;</i></button>
+                                        <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('播放', this);"><i
+                                                class="layui-icon">&#xe652;</i></button>
+                                        <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('暂停', this)" ;><i
+                                                class="layui-icon">&#xe651;</i></button>
+                                        <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"
+                                                onmouseenter="layer.tips('上一首', this)"><i class="layui-icon">&#xe603;</i>
+                                        </button>
+                                        <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex+1)"
+                                                onmouseenter="layer.tips('下一首', this)"><i class="layui-icon">&#xe602;</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item">
+
+                                    <form class="layui-form" action="/userController/updateUser" method="post">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">真实姓名</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" maxlength="4" name="name" required lay-verify="required"
+                                                       placeholder="您的真实姓名"
+                                                       autocomplete="off" class="layui-input" value="${requestScope.user.userName}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">邮箱设置</label>
+                                            <div class="layui-input-block">
+                                                <input type="email" maxlength="25" name="email" required lay-verify="required"
+                                                       placeholder="更改你在本站设置的邮箱地址"
+                                                       autocomplete="off" class="layui-input"
+                                                       value="${requestScope.user.userEmail}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">手机设置</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" minlength="11" maxlength="11" name="phone" required
+                                                       lay-verify="required"
+                                                       placeholder="更改你在本站设置的手机号码"
+                                                       autocomplete="off" class="layui-input"
+                                                       value="${requestScope.user.userPhone}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">更改密码</label>
+                                            <div class="layui-input-block">
+                                                <input type="password" name="password" placeholder="留空表示不更改密码"
+                                                       autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="_method" value="put"/>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <script>
+                                        //Demo
+                                        layui.use('form', function () {
+                                            var form = layui.form;
+
+                                            //监听提交
+                                            form.on('submit(formDemo)', function (data) {
+                                                layer.msg(JSON.stringify(data.field));
+                                                return false;
+                                            });
+                                        });
+                                    </script>
+
+                                </div>
+
+                                <shiro:hasRole name="admin">
+                                    <div class="layui-tab-item">
+                                        需要审核的用户
+                                        <table class="layui-table">
+                                            <colgroup>
+                                                <col width="150">
+                                                <col width="200">
+                                                <col>
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th>昵称</th>
+                                                <th>签名</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="userList">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </shiro:hasRole>
+                            </div>
                         </div>
                     </div>
-                    <div class="layui-tab-item">
-                        <div class="layui-btn-group" style="margin-left: 3px">
-                            <button class="layui-btn" onclick="loadMusicInfoWebSite();">搜歌<i
-                                    class="layui-icon">&#xe615;</i></button>
-                            <button class="layui-btn" onclick="ap5.play()" onmouseenter="layer.tips('播放', this);"><i
-                                    class="layui-icon">&#xe652;</i></button>
-                            <button class="layui-btn" onclick="ap5.pause()" onmouseenter="layer.tips('暂停', this)" ;><i
-                                    class="layui-icon">&#xe651;</i></button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex-1)"
-                                    onmouseenter="layer.tips('上一首', this)"><i class="layui-icon">&#xe603;</i>
-                            </button>
-                            <button class="layui-btn" onclick="ap5.setMusic(ap5.playIndex+1)"
-                                    onmouseenter="layer.tips('下一首', this)"><i class="layui-icon">&#xe602;</i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="layui-tab-item">
-
-                        <form class="layui-form" action="/userController/updateUser" method="post">
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">真实姓名</label>
-                                <div class="layui-input-block">
-                                    <input type="text" maxlength="4" name="name" required lay-verify="required"
-                                           placeholder="您的真实姓名"
-                                           autocomplete="off" class="layui-input" value="${requestScope.user.userName}">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">邮箱设置</label>
-                                <div class="layui-input-block">
-                                    <input type="email" maxlength="25" name="email" required lay-verify="required"
-                                           placeholder="更改你在本站设置的邮箱地址"
-                                           autocomplete="off" class="layui-input"
-                                           value="${requestScope.user.userEmail}">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">手机设置</label>
-                                <div class="layui-input-block">
-                                    <input type="text" minlength="11" maxlength="11" name="phone" required
-                                           lay-verify="required"
-                                           placeholder="更改你在本站设置的手机号码"
-                                           autocomplete="off" class="layui-input"
-                                           value="${requestScope.user.userPhone}">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">更改密码</label>
-                                <div class="layui-input-block">
-                                    <input type="password" name="password" placeholder="留空表示不更改密码"
-                                           autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <input type="hidden" name="_method" value="put"/>
-                            <div class="layui-form-item">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <script>
-                            //Demo
-                            layui.use('form', function () {
-                                var form = layui.form;
-
-                                //监听提交
-                                form.on('submit(formDemo)', function (data) {
-                                    layer.msg(JSON.stringify(data.field));
-                                    return false;
-                                });
-                            });
-                        </script>
-
-                    </div>
-
-                    <shiro:hasRole name="admin">
-                        <div class="layui-tab-item">
-                            需要审核的用户
-                            <table class="layui-table">
-                                <colgroup>
-                                    <col width="150">
-                                    <col width="200">
-                                    <col>
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th>昵称</th>
-                                    <th>签名</th>
-                                </tr>
-                                </thead>
-                                <tbody id="userList">
-                                </tbody>
-                            </table>
-                        </div>
-                    </shiro:hasRole>
                 </div>
-            </div>
+            </fieldset>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>音乐播放器</legend>
+                <div id="player1" class="aplayer"></div>
+            </fieldset>
         </div>
     </div>
-</fieldset>
-<fieldset class="layui-elem-field layui-field-title">
-    <legend>音乐播放器</legend>
-    <div id="player1" class="aplayer"></div>
-</fieldset>
+</div>
+</div>
+<jsp:include page="/recommend.jsp"></jsp:include>
+
 <script>
     $("#advicesButton").click(function () {
         layedit.sync(index);

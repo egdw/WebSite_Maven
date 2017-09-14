@@ -226,7 +226,9 @@ function openSearchWebsite(src) {
             layer.open({
                 type: 1,
                 skin: 'layui-layer-rim', //加上边框
-                area: [document.body.clientWidth - 40 + "px", '600px'], //宽高
+                shadeClose: true,
+                shade: 0.8,
+                title: false,
                 content: "<div class='container'>" + data.webText + "</div>"
             });
             addImageClass();

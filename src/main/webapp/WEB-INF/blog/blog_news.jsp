@@ -15,8 +15,9 @@
         <div class="panel-heading" style="background-color:#594d4d;color: #FFFFFF">
             今日头条 <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="color:#d56464"></span>
             <div class="layui-inline" style="float: right">
+                日期选择:
                 <input class="layui-input" placeholder="laydate.now()"
-                       style="height: 20px;width: 95px;background-color:#d56464;color: #fff "
+                       style="height: 20px;width: 95px;background-color:#d56464;color: #fff;float: right"
                        onclick="layui.laydate({elem: this, min: '2013-05-20', max: laydate.now(),choose: function(datas){changeDate(datas)}})">
             </div>
         </div>

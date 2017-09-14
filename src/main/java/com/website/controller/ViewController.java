@@ -17,7 +17,9 @@ import redis.clients.jedis.JedisPool;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,8 +44,8 @@ public class ViewController {
     private WebSiteBlogService service;
     @Autowired
     private WebSiteCommentService commentService;
-
     @Autowired
+    private WebsiteBannerService bannerService;
 
     /**
      * 进入趣味网站主页
@@ -118,7 +120,7 @@ public class ViewController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(@RequestParam(required = false) Integer pageNum,
-                        Map<String, Object> map) {
+                        Map<String, Object> map, HttpSession session) {
         isAccessAllowed();
         if (pageNum == null) {
             pageNum = 0;
@@ -180,6 +182,10 @@ public class ViewController {
             redisUtils.set(JSON.toJSONString(selectBlogByNumAndReader), true);
         }
 
+        //获取Banner的数据
+        List<WebsiteBanner> all =
+                bannerService.getAll();
+        session.setAttribute("banners", all);
         map.put("list", list);
         map.put("pageCount", pageCount);
         map.put("currentPage", pageNum);
@@ -193,6 +199,7 @@ public class ViewController {
 
     /**
      * 进入首页时判断是否已经是记住密码了.
+     *
      * @return
      */
     public void isAccessAllowed() {

@@ -70,7 +70,7 @@
                             data-trans3d="tr6,tr17,tr22,tr23,tr26,tr27,tr29,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13"
                             data-trans2d="tr3,tr8,tr12,tr19,tr22,tr25,tr27,tr29,tr31,tr34,tr35,tr38,tr39,tr41"><img
                                 src="/${index.bannerImageUrl}" data-src="/${index.bannerImageUrl}"
-                                data-thumb="/${index.bannerImageUrl}"><a data-type="link" href="##" target="_blank"></a>
+                                data-thumb="/${index.bannerImageUrl}"><a data-type="link" href="${index.bannerUrl}" target="_blank"></a>
 
                         </li>
                     </c:forEach>

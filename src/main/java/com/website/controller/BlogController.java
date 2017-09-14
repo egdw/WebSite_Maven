@@ -121,11 +121,6 @@ public class BlogController {
         //获取Banner的数据
         List<WebsiteBanner> all =
                 bannerService.getAll();
-        System.out.println(all);
-//        for (int i = 0; i < all.size(); i++) {
-//            WebsiteBanner banner = all.get(0);
-//            String url = banner.getBannerImageUrl();
-//        }
         session.setAttribute("banners", all);
         map.put("list", list);
         map.put("pageCount", pageCount);
