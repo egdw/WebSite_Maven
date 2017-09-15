@@ -26,7 +26,7 @@
     function getRecommendData() {
         $.ajax({
             type: 'get',
-            url: '/<%=request.getContextPath()%>/friendLink',
+            url: '<%=request.getContextPath()%>/friendLink',
             async: true,
             dataType: 'json',
             success: function (data) {
