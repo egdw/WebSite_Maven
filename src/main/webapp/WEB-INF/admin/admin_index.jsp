@@ -19,6 +19,8 @@
                             href="<%=request.getContextPath()%>/login/manager"> 管理首页</a></li>
                     <li><a
                             href="<%=request.getContextPath()%>/manager/manager_person_setting.do"> 个人设置</a></li>
+                    <li class=""><a
+                            href="<%=request.getContextPath()%>/manager/manager_user.do"> 用户管理</a></li>
                     <li><a
                             href="<%=request.getContextPath()%>/manager/manager_project_manager.do"> 项目管理</a></li>
                     <li><a
